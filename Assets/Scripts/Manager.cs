@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class Manager : MonoBehaviour
 {
     // to determine the mouse position, we need a raycast
     private Ray mouseRay1;
@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     // References to the gameobjects / prefabs
     public GameObject bowString;
     GameObject arrow;
+	public GameObject gameManager;
     public GameObject arrowPrefab;
 
     public GameObject target;
@@ -114,7 +115,7 @@ public class GameManager : MonoBehaviour
             arrow.transform.localRotation = this.transform.localRotation;
             arrow.transform.parent = this.transform;
             // transmit a reference to the arrow script
-            arrow.GetComponent<rotateArrow>().setBow(gameObject);
+            arrow.GetComponent<RotateArrow2>().setBow(gameObject);
             arrowShot = false;
             arrowPrepared = false;
             // subtract one arrow
@@ -225,7 +226,7 @@ public class GameManager : MonoBehaviour
         {
             arrowShot = true;
             arrow.AddComponent<Rigidbody>();
-            // arrow.transform.parent = gameManager.transform;
+            arrow.transform.parent = gameManager.transform;
             arrow.GetComponent<Rigidbody>().AddForce(Quaternion.Euler(new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z)) * new Vector3(25f * length, 0, 0), ForceMode.VelocityChange);
         }
         arrowPrepared = false;
