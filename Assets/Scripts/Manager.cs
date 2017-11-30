@@ -115,7 +115,7 @@ public class Manager : MonoBehaviour
             arrow.transform.localRotation = this.transform.localRotation;
             arrow.transform.parent = this.transform;
             // transmit a reference to the arrow script
-            arrow.GetComponent<RotateArrow2>().setBow(gameObject);
+            arrow.GetComponent<ArrowRotation>().setBow(gameObject);
             arrowShot = false;
             arrowPrepared = false;
             // subtract one arrow
