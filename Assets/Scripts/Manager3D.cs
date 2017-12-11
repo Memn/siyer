@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Manager : MonoBehaviour
+public class Manager3D : MonoBehaviour
 {
     // to determine the mouse position, we need a raycast
     private Ray mouseRay1;
@@ -11,11 +11,12 @@ public class Manager : MonoBehaviour
     // position of the raycast on the screen
     private float posX;
     private float posY;
+    private float posZ;
 
     // References to the gameobjects / prefabs
     public GameObject bowString;
     GameObject arrow;
-	public GameObject gameManager;
+    public GameObject gameManager;
     public GameObject arrowPrefab;
 
     public GameObject target;
@@ -44,7 +45,7 @@ public class Manager : MonoBehaviour
 
     // position of the line renderers middle part 
     Vector3 stringPullout;
-    Vector3 stringRestPosition = new Vector3(-0.44f, -0.06f, 2f);
+    Vector3 stringRestPosition = new Vector3(-0.62f, 0f, 0f);
 
     public int arrows = 20;
 
@@ -52,28 +53,11 @@ public class Manager : MonoBehaviour
     void Start()
     {
 
-        // create an arrow to shoot
-        // use true to set the target
-        createArrow(true);
-
-        // setup the line renderer representing the bowstring
-        bowStringLinerenderer = bowString.AddComponent<LineRenderer>();
-        bowStringLinerenderer.positionCount = 3;
-        //bowStringLinerenderer.SetWidth(0.05F, 0.05F);
-        bowStringLinerenderer.startWidth = 0.05F;
-        bowStringLinerenderer.endWidth = 0.05F;
-        bowStringLinerenderer.useWorldSpace = false;
-        bowStringLinerenderer.material = Resources.Load("bowStringMaterial") as Material;
-        bowStringPosition = new List<Vector3>();
-        bowStringPosition.Add(new Vector3(-0.44f, 1.43f, 2f));
-        bowStringPosition.Add(new Vector3(-0.44f, -0.06f, 2f));
-        bowStringPosition.Add(new Vector3(-0.43f, -1.32f, 2f));
-        bowStringLinerenderer.SetPosition(0, bowStringPosition[0]);
-        bowStringLinerenderer.SetPosition(1, bowStringPosition[1]);
-        bowStringLinerenderer.SetPosition(2, bowStringPosition[2]);
         arrowStartX = 0.7f;
-
         stringPullout = stringRestPosition;
+        // create an arrow to shoot
+        createArrow(); 
+        createBowString();
         drawBowString();
     }
 
@@ -83,9 +67,9 @@ public class Manager : MonoBehaviour
     // this method creates a new arrow based on the prefab
     //
 
-    public void createArrow(bool hitTarget)
+    public void createArrow()
     {
-        Camera.main.GetComponent<camMovement2>().resetCamera();
+        // Camera.main.GetComponent<camMovement2>().resetCamera();
         // when a new arrow is created means that:
         // sounds has been played
         stringPullSoundPlayed = false;
@@ -94,33 +78,42 @@ public class Manager : MonoBehaviour
         // does the player has an arrow left ?
         if (arrows > 0)
         {
-            // may target's position be altered?
-            if (hitTarget)
-            {
-                // if the player hit the target with the last arrow, 
-                // it's set to a new random position
-                float x = Random.Range(-1f, 8f);
-                float y = Random.Range(-3f, 3f);
-                Vector3 position = target.transform.position;
-                position.x = x;
-                position.y = y;
-                target.transform.position = position;
-            }
+
+
             // now instantiate a new arrow
-            this.transform.localRotation = Quaternion.identity;
+            //this.transform.localRotation = Quaternion.identity;
             arrow = Instantiate(arrowPrefab, Vector3.zero, Quaternion.identity) as GameObject;
             arrow.name = "arrow";
             arrow.transform.localScale = this.transform.localScale;
-            arrow.transform.localPosition = this.transform.position + new Vector3(0.7f, 0, 0);
+            arrow.transform.localPosition = this.transform.position;
             arrow.transform.localRotation = this.transform.localRotation;
             arrow.transform.parent = this.transform;
             // transmit a reference to the arrow script
-            arrow.GetComponent<ArrowRotation>().setBow(gameObject);
+            arrow.GetComponent<ArrowRotation3D>().bow = gameObject;
             arrowShot = false;
             arrowPrepared = false;
             // subtract one arrow
             arrows--;
         }
+
+    }
+
+    private void createBowString()
+    {
+        // setup the line renderer representing the bowstring
+        bowStringLinerenderer = bowString.AddComponent<LineRenderer>();
+        bowStringLinerenderer.positionCount = 3;
+        bowStringLinerenderer.startWidth = 0.01F;
+        bowStringLinerenderer.endWidth = 0.01F;
+        bowStringLinerenderer.useWorldSpace = false;
+        bowStringLinerenderer.material = Resources.Load("bowStringMaterial") as Material;
+        bowStringPosition = new List<Vector3>();
+        bowStringPosition.Add(new Vector3(-0.55f, 1.31f, 0f));
+        bowStringPosition.Add(new Vector3(-0.62f, 0f, 0f));
+        bowStringPosition.Add(new Vector3(-0.47f, -1.29f, 0f));
+        bowStringLinerenderer.SetPosition(0, bowStringPosition[0]);
+        bowStringLinerenderer.SetPosition(1, bowStringPosition[1]);
+        bowStringLinerenderer.SetPosition(2, bowStringPosition[2]);
 
     }
 
@@ -196,19 +189,24 @@ public class Manager : MonoBehaviour
             // determine the position on the screen
             posX = this.rayHit.point.x;
             posY = this.rayHit.point.y;
+            posZ = this.rayHit.point.z;
             // set the bows angle to the arrow
-            Vector2 mousePos = new Vector2(transform.position.x - posX, transform.position.y - posY);
+            Vector3 mousePos = new Vector3(transform.position.x - posX,
+                        transform.position.y - posY,
+                        transform.position.z - posZ);
             float angleZ = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
-            transform.eulerAngles = new Vector3(0, 0, angleZ);
+            float angleY = Mathf.Atan2(mousePos.x, mousePos.z) * Mathf.Rad2Deg * 2;
+            transform.eulerAngles = new Vector3(0, angleY, 0);
             // determine the arrow pullout
             length = mousePos.magnitude / 3f;
-            length = Mathf.Clamp(length, 0, 1);
+            length = Mathf.Clamp(length, 1, 1);
             // set the bowstrings line renderer
             stringPullout = new Vector3(-(0.44f + length), -0.06f, 2f);
             // set the arrows position
-            Vector3 arrowPosition = arrow.transform.localPosition;
-            arrowPosition.x = (arrowStartX - length);
-            arrow.transform.localPosition = arrowPosition;
+            // Vector3 arrowPosition = arrow.transform.localPosition;
+            //arrowPosition.x = (arrowStartX - length);
+
+            //arrow.transform.localPosition = arrowPosition;
         }
         arrowPrepared = true;
     }
@@ -226,15 +224,19 @@ public class Manager : MonoBehaviour
         {
             arrowShot = true;
             arrow.AddComponent<Rigidbody>();
-            arrow.transform.parent = gameManager.transform;
-            arrow.GetComponent<Rigidbody>().AddForce(Quaternion.Euler(new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z)) * new Vector3(25f * length, 0, 0), ForceMode.VelocityChange);
+            //arrow.transform.parent = gameManager.transform;
+            arrow.GetComponent<Rigidbody>().AddForce(
+                Quaternion.Euler(new Vector3(transform.rotation.eulerAngles.x,
+                                            transform.rotation.eulerAngles.y,
+                                            transform.rotation.eulerAngles.z)) *
+                                 new Vector3(25f * length, 0, 0), ForceMode.VelocityChange);
         }
         arrowPrepared = false;
         stringPullout = stringRestPosition;
 
         // Cam
-        Camera.main.GetComponent<camMovement2>().resetCamera();
-        Camera.main.GetComponent<camMovement2>().setArrow(arrow);
+        // Camera.main.GetComponent<camMovement2>().resetCamera();
+        // Camera.main.GetComponent<camMovement2>().setArrow(arrow);
 
     }
 
