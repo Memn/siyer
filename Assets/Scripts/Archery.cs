@@ -6,7 +6,7 @@ using UnityEngine.U2D;
 public class Archery : MonoBehaviour
 {
 
-    public enum SpriteType { Landscape, target, Arrow, BowAndHandsPulled, BowAndHandsReady, BowAndHandsReleased };
+    public enum SpriteType { Landscape, target, Arrow, Arrow2, BowAndHandsPulled, BowAndHandsReady, BowAndHandsReleased };
 
     [SerializeField]
     private SpriteAtlas atlas;

@@ -46,10 +46,10 @@ public class ArrowRotation3D : MonoBehaviour
                 // get the actual velocity
                 Vector3 vel = GetComponent<Rigidbody>().velocity;
                 // calc the rotation from x and y velocity via a simple atan2
-				float angleZ = Mathf.Atan2(vel.y,vel.x)*Mathf.Rad2Deg;
-				float angleY = Mathf.Atan2(vel.z,vel.x)*Mathf.Rad2Deg;
-				// rotate the arrow according to the trajectory
-				transform.eulerAngles = new Vector3(0,-angleY,angleZ);
+                float angleZ = Mathf.Atan2(vel.y, vel.x) * Mathf.Rad2Deg;
+                float angleY = Mathf.Atan2(vel.z, vel.x) * Mathf.Rad2Deg;
+                // rotate the arrow according to the trajectory
+                transform.eulerAngles = new Vector3(0, -angleY, angleZ);
             }
         }
 
@@ -64,7 +64,7 @@ public class ArrowRotation3D : MonoBehaviour
             if (alpha <= 0f)
             {
                 // create new arrow
-                bow.GetComponent<Manager3D>().status = Manager3D.ArchingStatus.Ready;
+                bow.GetComponent<Manager3D>().changeStatus(Manager3D.ArchingStatus.Ready);
 
                 // and destroy the current one
                 Destroy(gameObject);
@@ -97,9 +97,9 @@ public class ArrowRotation3D : MonoBehaviour
 
         // I installed cubes as border collider outside the screen
         // If the arrow hits these objects, the player lost an arrow
-        if (other.transform.name == "Cube")
+        if (other.transform.name == "Plane")
         {
-            bow.GetComponent<Manager3D>().status = Manager3D.ArchingStatus.Ready;
+            bow.GetComponent<Manager3D>().changeStatus(Manager3D.ArchingStatus.Ready);
             Destroy(gameObject);
         }
 

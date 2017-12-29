@@ -15,12 +15,8 @@ public class Manager3D : MonoBehaviour
     private float posZ;
 
     // References to the gameobjects / prefabs
-    public GameObject bowString;
     GameObject arrow;
-    public GameObject gameManager;
     public GameObject arrowPrefab;
-
-    public GameObject target;
 
     // Sound effects
     public AudioClip stringPull;
@@ -31,10 +27,6 @@ public class Manager3D : MonoBehaviour
     bool stringPullSoundPlayed;
     bool stringReleaseSoundPlayed;
     bool arrowSwooshSoundPlayed;
-
-    // the bowstring is a line renderer
-    private List<Vector3> bowStringPosition;
-    LineRenderer bowStringLinerenderer;
 
     float length;
 
@@ -49,14 +41,19 @@ public class Manager3D : MonoBehaviour
     public Text arrowValue;
     public Text scoreValue;
 
+    private LineRenderer laser;
+
     public enum ArchingStatus { Ready, Pulled, Released };
 
     public ArchingStatus status;
     // Use this for initialization
     void Start()
     {
+
+        laser = new LineRenderer();
+
         // create an arrow to shoot
-        status = ArchingStatus.Ready;
+        changeStatus(ArchingStatus.Ready);
         showArrows();
         showScore();
 
@@ -86,10 +83,8 @@ public class Manager3D : MonoBehaviour
             arrow = Instantiate(arrowPrefab, Vector3.zero, Quaternion.identity) as GameObject;
             arrow.name = "arrow";
             arrow.transform.localScale = this.transform.localScale;
-            arrow.transform.localRotation = this.transform.localRotation;
+            //            arrow.transform.localRotation = this.transform.localRotation;
             // arrow.transform.localPosition = this.transform.position;
-            arrow.transform.parent = this.transform;
-            arrow.transform.localPosition = new Vector3(this.transform.position.x - 1.3f, this.transform.position.y - 7.0f, 0);
             // transmit a reference to the arrow script
             arrow.GetComponent<ArrowRotation3D>().bow = gameObject;
             arrowShot = false;
@@ -100,7 +95,7 @@ public class Manager3D : MonoBehaviour
         }
         else
         {
-            status = ArchingStatus.Released;
+            changeStatus(ArchingStatus.Released);
         }
 
     }
@@ -114,17 +109,29 @@ public class Manager3D : MonoBehaviour
             case ArchingStatus.Ready:
                 this.GetComponent<Archery>().currentSprite = Archery.SpriteType.BowAndHandsReady;
                 if (!arrowCreated)
+                {
                     createArrow();
+                }
+                arrow.transform.localRotation = new Quaternion(0, 0, 0, 0);
+                arrow.transform.parent = this.transform;
+                arrow.transform.localScale = Vector2.one;
+                arrow.transform.localPosition = new Vector3(-0.2f, -7.0f, 0);
+                arrow.SetActive(true);
                 break;
             case ArchingStatus.Pulled:
                 this.GetComponent<Archery>().currentSprite = Archery.SpriteType.BowAndHandsPulled;
                 // detrmine the pullout and set up the arrow
-                prepareArrow();
+                arrow.transform.localPosition = new Vector3(this.transform.position.x - 0.8f, this.transform.position.y - 9.0f, 0);
+                // prepareArrow();
+                arrowPrepared = true;
                 break;
             case ArchingStatus.Released:
                 this.GetComponent<Archery>().currentSprite = Archery.SpriteType.BowAndHandsReleased;
                 // shot the arrow (rigid body physics)
+                arrow.SetActive(true);
                 shootArrow();
+                showArrows();
+                showScore();
                 break;
             default:
                 break;
@@ -139,7 +146,7 @@ public class Manager3D : MonoBehaviour
                 // play sound
                 GetComponent<AudioSource>().PlayOneShot(stringPull);
                 stringPullSoundPlayed = true;
-                status = ArchingStatus.Pulled;
+                changeStatus(ArchingStatus.Pulled);
             }
         }
 
@@ -147,7 +154,7 @@ public class Manager3D : MonoBehaviour
         // (player released the touch on android)
         if (Input.GetMouseButtonUp(0) && arrowPrepared)
         {
-            status = ArchingStatus.Released;
+            changeStatus(ArchingStatus.Released);
             // play string released sound
             if (!stringReleaseSoundPlayed)
             {
@@ -225,9 +232,8 @@ public class Manager3D : MonoBehaviour
             arrowShot = true;
             arrow.AddComponent<Rigidbody>();
 
-            arrow.GetComponent<Rigidbody>().AddForce(Quaternion.Euler(
-                -transform.rotation.eulerAngles) *
-                                 new Vector3(0, 3, 25 * length), ForceMode.VelocityChange);
+            arrow.GetComponent<Rigidbody>().AddForce(Quaternion.Euler(transform.rotation.eulerAngles) *
+                                 new Vector3(0, 3, 0), ForceMode.VelocityChange);
         }
         arrowPrepared = false;
         arrowCreated = false;
@@ -250,6 +256,19 @@ public class Manager3D : MonoBehaviour
         // 	// so it's relatively simple to calculate the ring hit (thus the score)
         // 	rt1.GetComponent<TextMesh>().text= "Bonus arrow";
         // }
+    }
+
+    public void changeStatus(ArchingStatus status)
+    {
+        if (arrows == 0)
+        {
+            this.status = ArchingStatus.Released;
+        }
+        else
+        {
+            this.status = status;
+        }
+
     }
 
 }
