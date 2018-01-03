@@ -21,8 +21,6 @@ public class Manager3D : MonoBehaviour
     bool stringReleaseSoundPlayed;
     bool arrowSwooshSoundPlayed;
 
-    float length;
-
     // some status vars
     bool arrowShot;
     bool arrowPrepared;
@@ -172,8 +170,8 @@ public class Manager3D : MonoBehaviour
 
     public void PrepareArrow()
     {
+        float length;
         // get the touch point on the screen
-
         RaycastHit rayHit;
         // to determine the mouse position, we need a raycast
         Ray mouseRay1 = Camera.main.ScreenPointToRay(Input.mousePosition);
