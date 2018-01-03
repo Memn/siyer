@@ -46,10 +46,10 @@ public class ArrowRotation3D : MonoBehaviour
                 // get the actual velocity
                 Vector3 vel = GetComponent<Rigidbody>().velocity;
                 // calc the rotation from x and y velocity via a simple atan2
-                float angleZ = Mathf.Atan2(vel.y, vel.x) * Mathf.Rad2Deg;
-                float angleY = Mathf.Atan2(vel.z, vel.x) * Mathf.Rad2Deg;
+                // float angleZ = Mathf.Atan2(vel.y, vel.x) * Mathf.Rad2Deg;
+                // float angleY = Mathf.Atan2(vel.z, vel.x) * Mathf.Rad2Deg;
                 // rotate the arrow according to the trajectory
-                transform.eulerAngles = new Vector3(0, -angleY, angleZ);
+                transform.eulerAngles = new Vector3(0, 0, 0);
             }
         }
 
@@ -164,6 +164,7 @@ public class ArrowRotation3D : MonoBehaviour
             // inform the master script about the score
             bow.GetComponent<Manager3D>().setPoints(actScore);
         }
+            bow.GetComponent<Manager3D>().UpdateBoard();
     }
 
 }

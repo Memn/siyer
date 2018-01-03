@@ -41,8 +41,6 @@ public class Manager3D : MonoBehaviour
     public Text arrowValue;
     public Text scoreValue;
 
-    private LineRenderer laser;
-
     public enum ArchingStatus { Ready, Pulled, Released };
 
     public ArchingStatus status;
@@ -50,12 +48,9 @@ public class Manager3D : MonoBehaviour
     void Start()
     {
 
-        laser = new LineRenderer();
-
         // create an arrow to shoot
         changeStatus(ArchingStatus.Ready);
-        showArrows();
-        showScore();
+        UpdateBoard();
 
     }
 
@@ -82,7 +77,11 @@ public class Manager3D : MonoBehaviour
             //this.transform.localRotation = Quaternion.identity;
             arrow = Instantiate(arrowPrefab, Vector3.zero, Quaternion.identity) as GameObject;
             arrow.name = "arrow";
-            arrow.transform.localScale = this.transform.localScale;
+            arrow.transform.parent = this.transform;
+            arrow.transform.localScale = Vector3.one;
+            arrow.transform.localPosition = new Vector3(this.transform.position.x, this.transform.position.y - 8.0f, 0);
+            arrow.SetActive(true);
+
             //            arrow.transform.localRotation = this.transform.localRotation;
             // arrow.transform.localPosition = this.transform.position;
             // transmit a reference to the arrow script
@@ -93,10 +92,8 @@ public class Manager3D : MonoBehaviour
             // subtract one arrow
             arrows--;
         }
-        else
-        {
-            changeStatus(ArchingStatus.Released);
-        }
+
+        UpdateBoard();
 
     }
 
@@ -107,31 +104,35 @@ public class Manager3D : MonoBehaviour
         switch (status)
         {
             case ArchingStatus.Ready:
-                this.GetComponent<Archery>().currentSprite = Archery.SpriteType.BowAndHandsReady;
                 if (!arrowCreated)
                 {
-                    createArrow();
+                    if (arrows > 0)
+                    {
+                        this.GetComponent<Archery>().currentSprite = Archery.SpriteType.BowAndHandsReady;
+                        createArrow();
+                    }
+                    else
+                    {
+                        changeStatus(ArchingStatus.Released);
+                    }
                 }
-                arrow.transform.localRotation = new Quaternion(0, 0, 0, 0);
-                arrow.transform.parent = this.transform;
-                arrow.transform.localScale = Vector2.one;
-                arrow.transform.localPosition = new Vector3(-0.2f, -7.0f, 0);
-                arrow.SetActive(true);
                 break;
             case ArchingStatus.Pulled:
                 this.GetComponent<Archery>().currentSprite = Archery.SpriteType.BowAndHandsPulled;
                 // detrmine the pullout and set up the arrow
-                arrow.transform.localPosition = new Vector3(this.transform.position.x - 0.8f, this.transform.position.y - 9.0f, 0);
                 // prepareArrow();
+                // arrow.transform.parent = this.transform;
                 arrowPrepared = true;
                 break;
             case ArchingStatus.Released:
                 this.GetComponent<Archery>().currentSprite = Archery.SpriteType.BowAndHandsReleased;
                 // shot the arrow (rigid body physics)
-                arrow.SetActive(true);
-                shootArrow();
-                showArrows();
-                showScore();
+                if (arrowPrepared)
+                {
+                    arrow.SetActive(true);
+                    shootArrow();
+                }
+
                 break;
             default:
                 break;
@@ -171,6 +172,12 @@ public class Manager3D : MonoBehaviour
 
     }
 
+    public void UpdateBoard()
+    {
+        showArrows();
+        showScore();
+    }
+
     private void showScore()
     {
         scoreValue.text = score.ToString();
@@ -201,7 +208,7 @@ public class Manager3D : MonoBehaviour
             Vector3 mousePos = new Vector3(transform.position.x - posX,
                         transform.position.y - posY,
                         transform.position.z - posZ);
-            float angleZ = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
+            // float angleZ = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
             float angleY = Mathf.Atan2(mousePos.x, mousePos.z) * Mathf.Rad2Deg * 2;
             transform.eulerAngles = new Vector3(0, angleY, 0);
             // determine the arrow pullout
