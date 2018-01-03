@@ -54,49 +54,6 @@ public class Manager3D : MonoBehaviour
 
     }
 
-    //
-    // public void createArrow()
-    //
-    // this method creates a new arrow based on the prefab
-    //
-
-    public void createArrow()
-    {
-        // Camera.main.GetComponent<camMovement2>().resetCamera();
-        // when a new arrow is created means that:
-        // sounds has been played
-        stringPullSoundPlayed = false;
-        stringReleaseSoundPlayed = false;
-        arrowSwooshSoundPlayed = false;
-        // does the player has an arrow left ?
-        if (arrows > 0)
-        {
-
-
-            // now instantiate a new arrow
-            //this.transform.localRotation = Quaternion.identity;
-            arrow = Instantiate(arrowPrefab, Vector3.zero, Quaternion.identity) as GameObject;
-            arrow.name = "arrow";
-            arrow.transform.parent = this.transform;
-            arrow.transform.localScale = Vector3.one;
-            arrow.transform.localPosition = new Vector3(this.transform.position.x, this.transform.position.y - 8.0f, 0);
-            arrow.SetActive(true);
-
-            //            arrow.transform.localRotation = this.transform.localRotation;
-            // arrow.transform.localPosition = this.transform.position;
-            // transmit a reference to the arrow script
-            arrow.GetComponent<ArrowRotation3D>().bow = gameObject;
-            arrowShot = false;
-            arrowPrepared = false;
-            arrowCreated = true;
-            // subtract one arrow
-            arrows--;
-        }
-
-        UpdateBoard();
-
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -109,12 +66,20 @@ public class Manager3D : MonoBehaviour
                     if (arrows > 0)
                     {
                         this.GetComponent<Archery>().currentSprite = Archery.SpriteType.BowAndHandsReady;
-                        createArrow();
+                        createArrow(true);
+                        arrowShot = false;
+                        arrowPrepared = false;
+                        arrowCreated = true;
+                        // subtract one arrow
+                        arrows--;
+                        // transmit a reference to the arrow script
+                        arrow.GetComponent<ArrowRotation3D>().bow = gameObject;
                     }
                     else
                     {
                         changeStatus(ArchingStatus.Released);
                     }
+                    UpdateBoard();
                 }
                 break;
             case ArchingStatus.Pulled:
@@ -137,7 +102,11 @@ public class Manager3D : MonoBehaviour
             default:
                 break;
         }
-        // game is steered via mouse
+       ListenMouseInput();
+
+    }
+    private void ListenMouseInput(){
+ // game is steered via mouse
         // (also works with touch on android)
         if (Input.GetMouseButton(0))
         {
@@ -169,8 +138,31 @@ public class Manager3D : MonoBehaviour
                 arrowSwooshSoundPlayed = true;
             }
         }
-
     }
+
+    //
+    // public void createArrow()
+    //
+    // this method creates a new arrow based on the prefab
+    //
+
+    public void createArrow(bool debug)
+    {
+        // when a new arrow is created means that:
+        // sounds has been played
+        stringPullSoundPlayed = false;
+        stringReleaseSoundPlayed = false;
+        arrowSwooshSoundPlayed = false;
+
+        // now instantiate a new arrow
+        arrow = Instantiate(arrowPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+        arrow.name = "arrow";
+        arrow.transform.parent = this.transform;
+        arrow.transform.localScale = Vector3.one;
+        arrow.transform.localPosition = new Vector3(this.transform.position.x, this.transform.position.y - 8.0f, 0);
+        arrow.SetActive(!debug);
+    }
+
 
     public void UpdateBoard()
     {
