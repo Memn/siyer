@@ -6,13 +6,6 @@ using UnityEngine.UI;
 
 public class Manager3D : MonoBehaviour
 {
-    // to determine the mouse position, we need a raycast
-    private Ray mouseRay1;
-    private RaycastHit rayHit;
-    // position of the raycast on the screen
-    private float posX;
-    private float posY;
-    private float posZ;
 
     // References to the gameobjects / prefabs
     GameObject arrow;
@@ -45,6 +38,7 @@ public class Manager3D : MonoBehaviour
 
     public ArchingStatus status;
     // Use this for initialization
+    bool debug = true;
     void Start()
     {
 
@@ -57,7 +51,6 @@ public class Manager3D : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         switch (status)
         {
             case ArchingStatus.Ready:
@@ -66,7 +59,7 @@ public class Manager3D : MonoBehaviour
                     if (arrows > 0)
                     {
                         this.GetComponent<Archery>().currentSprite = Archery.SpriteType.BowAndHandsReady;
-                        CreateArrow(true);
+                        CreateArrow();
                         arrowShot = false;
                         arrowPrepared = false;
                         arrowCreated = true;
@@ -79,8 +72,8 @@ public class Manager3D : MonoBehaviour
                     {
                         ChangeStatus(ArchingStatus.Released);
                     }
-                    UpdateBoard();
                 }
+                UpdateBoard();
                 break;
             case ArchingStatus.Pulled:
                 this.GetComponent<Archery>().currentSprite = Archery.SpriteType.BowAndHandsPulled;
@@ -102,11 +95,12 @@ public class Manager3D : MonoBehaviour
             default:
                 break;
         }
-       ListenMouseInput();
+        ListenMouseInput();
 
     }
-    private void ListenMouseInput(){
- // game is steered via mouse
+    private void ListenMouseInput()
+    {
+        // game is steered via mouse
         // (also works with touch on android)
         if (Input.GetMouseButton(0))
         {
@@ -146,7 +140,7 @@ public class Manager3D : MonoBehaviour
     // this method creates a new arrow based on the prefab
     //
 
-    public void CreateArrow(bool debug)
+    public void CreateArrow()
     {
         // when a new arrow is created means that:
         // sounds has been played
@@ -160,23 +154,13 @@ public class Manager3D : MonoBehaviour
         arrow.transform.parent = this.transform;
         arrow.transform.localScale = Vector3.one;
         arrow.transform.localPosition = new Vector3(this.transform.position.x, this.transform.position.y - 8.0f, 0);
-        arrow.SetActive(!debug);
+        arrow.SetActive(debug);
     }
 
 
     public void UpdateBoard()
     {
-        ShowArrows();
-        ShowScore();
-    }
-
-    private void ShowScore()
-    {
         scoreValue.text = score.ToString();
-    }
-
-    private void ShowArrows()
-    {
         arrowValue.text = arrows.ToString();
     }
 
@@ -189,13 +173,18 @@ public class Manager3D : MonoBehaviour
     public void PrepareArrow()
     {
         // get the touch point on the screen
-        mouseRay1 = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit rayHit;
+        // to determine the mouse position, we need a raycast
+        Ray mouseRay1 = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(mouseRay1, out rayHit, 1000f) && arrowShot == false)
         {
+
+            // position of the raycast on the screen
             // determine the position on the screen
-            posX = this.rayHit.point.x;
-            posY = this.rayHit.point.y;
-            posZ = this.rayHit.point.z;
+            float posX = rayHit.point.x;
+            float posY = rayHit.point.y;
+            float posZ = rayHit.point.z;
             // set the bows angle to the arrow
             Vector3 mousePos = new Vector3(transform.position.x - posX,
                         transform.position.y - posY,
