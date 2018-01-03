@@ -64,7 +64,7 @@ public class ArrowRotation3D : MonoBehaviour
             if (alpha <= 0f)
             {
                 // create new arrow
-                bow.GetComponent<Manager3D>().changeStatus(Manager3D.ArchingStatus.Ready);
+                bow.GetComponent<Manager3D>().ChangeStatus(Manager3D.ArchingStatus.Ready);
 
                 // and destroy the current one
                 Destroy(gameObject);
@@ -99,7 +99,7 @@ public class ArrowRotation3D : MonoBehaviour
         // If the arrow hits these objects, the player lost an arrow
         if (other.transform.name == "Plane")
         {
-            bow.GetComponent<Manager3D>().changeStatus(Manager3D.ArchingStatus.Ready);
+            bow.GetComponent<Manager3D>().ChangeStatus(Manager3D.ArchingStatus.Ready);
             Destroy(gameObject);
         }
 
@@ -162,7 +162,7 @@ public class ArrowRotation3D : MonoBehaviour
             // rt.transform.name = "rt";
             // rt.GetComponent<TextMesh>().text = "+" + actScore;
             // inform the master script about the score
-            bow.GetComponent<Manager3D>().setPoints(actScore);
+            bow.GetComponent<Manager3D>().SetPoints(actScore);
         }
             bow.GetComponent<Manager3D>().UpdateBoard();
     }

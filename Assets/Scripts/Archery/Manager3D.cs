@@ -49,7 +49,7 @@ public class Manager3D : MonoBehaviour
     {
 
         // create an arrow to shoot
-        changeStatus(ArchingStatus.Ready);
+        ChangeStatus(ArchingStatus.Ready);
         UpdateBoard();
 
     }
@@ -66,7 +66,7 @@ public class Manager3D : MonoBehaviour
                     if (arrows > 0)
                     {
                         this.GetComponent<Archery>().currentSprite = Archery.SpriteType.BowAndHandsReady;
-                        createArrow(true);
+                        CreateArrow(true);
                         arrowShot = false;
                         arrowPrepared = false;
                         arrowCreated = true;
@@ -77,7 +77,7 @@ public class Manager3D : MonoBehaviour
                     }
                     else
                     {
-                        changeStatus(ArchingStatus.Released);
+                        ChangeStatus(ArchingStatus.Released);
                     }
                     UpdateBoard();
                 }
@@ -95,7 +95,7 @@ public class Manager3D : MonoBehaviour
                 if (arrowPrepared)
                 {
                     arrow.SetActive(true);
-                    shootArrow();
+                    ShootArrow();
                 }
 
                 break;
@@ -116,7 +116,7 @@ public class Manager3D : MonoBehaviour
                 // play sound
                 GetComponent<AudioSource>().PlayOneShot(stringPull);
                 stringPullSoundPlayed = true;
-                changeStatus(ArchingStatus.Pulled);
+                ChangeStatus(ArchingStatus.Pulled);
             }
         }
 
@@ -124,7 +124,7 @@ public class Manager3D : MonoBehaviour
         // (player released the touch on android)
         if (Input.GetMouseButtonUp(0) && arrowPrepared)
         {
-            changeStatus(ArchingStatus.Released);
+            ChangeStatus(ArchingStatus.Released);
             // play string released sound
             if (!stringReleaseSoundPlayed)
             {
@@ -146,7 +146,7 @@ public class Manager3D : MonoBehaviour
     // this method creates a new arrow based on the prefab
     //
 
-    public void createArrow(bool debug)
+    public void CreateArrow(bool debug)
     {
         // when a new arrow is created means that:
         // sounds has been played
@@ -166,16 +166,16 @@ public class Manager3D : MonoBehaviour
 
     public void UpdateBoard()
     {
-        showArrows();
-        showScore();
+        ShowArrows();
+        ShowScore();
     }
 
-    private void showScore()
+    private void ShowScore()
     {
         scoreValue.text = score.ToString();
     }
 
-    private void showArrows()
+    private void ShowArrows()
     {
         arrowValue.text = arrows.ToString();
     }
@@ -186,7 +186,7 @@ public class Manager3D : MonoBehaviour
     // Player pulls out the string
     //
 
-    public void prepareArrow()
+    public void PrepareArrow()
     {
         // get the touch point on the screen
         mouseRay1 = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -224,7 +224,7 @@ public class Manager3D : MonoBehaviour
     // get the bows rotationn and accelerate the arrow
     //
 
-    public void shootArrow()
+    public void ShootArrow()
     {
         if (arrow.GetComponent<Rigidbody>() == null)
         {
@@ -243,7 +243,7 @@ public class Manager3D : MonoBehaviour
 
     }
 
-    public void setPoints(int points)
+    public void SetPoints(int points)
     {
         score += points;
         // if (points == 50) {
@@ -257,7 +257,7 @@ public class Manager3D : MonoBehaviour
         // }
     }
 
-    public void changeStatus(ArchingStatus status)
+    public void ChangeStatus(ArchingStatus status)
     {
         if (arrows == 0)
         {
