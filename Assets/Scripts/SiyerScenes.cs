@@ -6,5 +6,5 @@ public enum SiyerScenes  {
 
 
         Main,
-        Archery
+        Arching
 }

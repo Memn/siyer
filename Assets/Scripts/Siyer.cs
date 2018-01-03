@@ -13,7 +13,7 @@ public class Siyer : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            sceneManager.GetComponent<SceneLoader>().LoadScene(SiyerScenes.Archery);
+            sceneManager.GetComponent<SceneLoader>().LoadScene(SiyerScenes.Arching);
         }
     }
 

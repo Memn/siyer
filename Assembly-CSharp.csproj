@@ -58,9 +58,6 @@
      <Compile Include="Assets\Scripts\Archery2D\camMovement2.cs" />
      <Compile Include="Assets\Scripts\Archery2D\Manager.cs" />
      <Compile Include="Assets\Scripts\Laser.cs" />
-     <Compile Include="Assets\Scripts\MoveForward.cs" />
-     <Compile Include="Assets\Scripts\PlaneTexture.cs" />
-     <Compile Include="Assets\Scripts\RisingText.cs" />
      <Compile Include="Assets\Scripts\SceneLoader.cs" />
      <Compile Include="Assets\Scripts\Siyer.cs" />
      <Compile Include="Assets\Scripts\SiyerScenes.cs" />
