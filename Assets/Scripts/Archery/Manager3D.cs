@@ -26,7 +26,7 @@ public class Manager3D : MonoBehaviour
     bool arrowPrepared;
     bool arrowCreated = false;
 
-    public int arrows = 10;
+    public int arrows = 30;
     public int score = 0;
 
     public Text arrowValue;
@@ -34,6 +34,7 @@ public class Manager3D : MonoBehaviour
 
     public enum ArchingStatus { Ready, Pulled, Released };
 
+    float power;
     public ArchingStatus status;
     // Use this for initialization
     bool debug = true;
@@ -76,8 +77,7 @@ public class Manager3D : MonoBehaviour
             case ArchingStatus.Pulled:
                 this.GetComponent<Archery>().currentSprite = Archery.SpriteType.BowAndHandsPulled;
                 // detrmine the pullout and set up the arrow
-                // prepareArrow();
-                // arrow.transform.parent = this.transform;
+                PrepareArrow();
                 arrowPrepared = true;
                 break;
             case ArchingStatus.Released:
@@ -149,9 +149,10 @@ public class Manager3D : MonoBehaviour
         // now instantiate a new arrow
         arrow = Instantiate(arrowPrefab, Vector3.zero, Quaternion.identity) as GameObject;
         arrow.name = "arrow";
-        arrow.transform.parent = this.transform;
-        arrow.transform.localScale = Vector3.one;
-        arrow.transform.localPosition = new Vector3(this.transform.position.x, this.transform.position.y - 8.0f, 0);
+        arrow.transform.parent = transform;
+        arrow.transform.localRotation = new Quaternion(0, 0, 0, 0);
+        arrow.transform.localPosition = new Vector3(transform.position.x, transform.position.y - 8.0f, 0);
+        arrow.transform.localScale = new Vector3(3, 3, 0.1f);
         arrow.SetActive(debug);
     }
 
@@ -167,14 +168,14 @@ public class Manager3D : MonoBehaviour
     //
     // Player pulls out the string
     //
-
     public void PrepareArrow()
     {
-        float length;
         // get the touch point on the screen
         RaycastHit rayHit;
         // to determine the mouse position, we need a raycast
         Ray mouseRay1 = Camera.main.ScreenPointToRay(Input.mousePosition);
+        // if (Physics.Raycast(transform.position, transform.forward, out hit))
+
         if (Physics.Raycast(mouseRay1, out rayHit, 1000f) && arrowShot == false)
         {
 
@@ -184,22 +185,13 @@ public class Manager3D : MonoBehaviour
             float posY = rayHit.point.y;
             float posZ = rayHit.point.z;
             // set the bows angle to the arrow
-            Vector3 mousePos = new Vector3(transform.position.x - posX,
+            Vector3 mousePulledDifference = new Vector3(transform.position.x - posX,
                         transform.position.y - posY,
                         transform.position.z - posZ);
             // float angleZ = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
-            float angleY = Mathf.Atan2(mousePos.x, mousePos.z) * Mathf.Rad2Deg * 2;
-            transform.eulerAngles = new Vector3(0, angleY, 0);
             // determine the arrow pullout
-            length = mousePos.magnitude / 3f;
-            length = Mathf.Clamp(length, 1, 1);
-            arrow.transform.localPosition = new Vector3(this.transform.position.x - 1.9f, this.transform.position.y - 7.0f, 0);
-
-            // set the arrows position
-            // Vector3 arrowPosition = arrow.transform.localPosition;
-            //arrowPosition.x = (arrowStartX - length);
-
-            //arrow.transform.localPosition = arrowPosition;
+            power = mousePulledDifference.magnitude / 3f;
+            power = Mathf.Clamp(power, 20, 100);
         }
         arrowPrepared = true;
     }
@@ -217,9 +209,13 @@ public class Manager3D : MonoBehaviour
         {
             arrowShot = true;
             arrow.AddComponent<Rigidbody>();
+            // arrow.GetComponent<Rigidbody>().AddForce(Quaternion.Euler(transform.rotation.eulerAngles) *
+            //                      new Vector3(3, 0, 0), ForceMode.VelocityChange);
+            // arrow.GetComponent<Camera>().enabled = true;
 
-            arrow.GetComponent<Rigidbody>().AddForce(Quaternion.Euler(transform.rotation.eulerAngles) *
-                                 new Vector3(0, 3, 0), ForceMode.VelocityChange);
+            //arrow.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * 30);
+            arrow.GetComponent<Rigidbody>().velocity = Camera.main.transform.forward * 30;
+
         }
         arrowPrepared = false;
         arrowCreated = false;
