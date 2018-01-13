@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D;
 
-public class Archery : MonoBehaviour
+public class SiyerSpriteAtlasHelper : MonoBehaviour
 {
 
     public enum SpriteType { Landscape, target, Arrow, Arrow2, BowAndHandsPulled, BowAndHandsReady, BowAndHandsReleased };
