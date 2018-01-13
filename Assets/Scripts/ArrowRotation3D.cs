@@ -12,6 +12,7 @@ public class ArrowRotation3D : MonoBehaviour
 
     // public GameObject risingText;
     private SiyerBow bow;
+    
 
     // the vars realize the fading out of the arrow when target is hit
     float alpha;

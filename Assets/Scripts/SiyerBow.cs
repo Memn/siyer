@@ -12,7 +12,7 @@ public class SiyerBow : MonoBehaviour
     GameObject arrow;
     public GameObject arrowPrefab;
 
-    public GameObject laserPrefab;
+    // public GameObject laserPrefab;
 
     private ArcheryMusicPlayer musicPlayer;
 
@@ -37,8 +37,8 @@ public class SiyerBow : MonoBehaviour
 
     void Start()
     {
-        GameObject laser = Instantiate(laserPrefab, this.transform) as GameObject;
-        laser.name = "laser";
+        // GameObject laser = Instantiate(laserPrefab, this.transform) as GameObject;
+        // laser.name = "laser";
 
         // create an arrow to shoot
         ChangeStatus(ArcheryStatus.Ready);
