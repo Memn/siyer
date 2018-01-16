@@ -53,6 +53,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\ArcheryMusicPlayer.cs" />
      <Compile Include="Assets\Scripts\ArrowRotation3D.cs" />
+     <Compile Include="Assets\Scripts\DistanceCalculator.cs" />
      <Compile Include="Assets\Scripts\Laser.cs" />
      <Compile Include="Assets\Scripts\SiyerBow.cs" />
      <Compile Include="Assets\Scripts\SiyerSceneManager.cs" />
