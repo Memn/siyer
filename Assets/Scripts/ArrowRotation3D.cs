@@ -12,7 +12,7 @@ public class ArrowRotation3D : MonoBehaviour
 
     // public GameObject risingText;
     private SiyerBow bow;
-    
+
 
     // the vars realize the fading out of the arrow when target is hit
     float alpha;
@@ -75,13 +75,32 @@ public class ArrowRotation3D : MonoBehaviour
         {
             Die();
         }
+
     }
 
     private void Die()
     {
-        bow.ShootCompleted(0);
+        Die(0);
+    }
+
+    private void Die(int score)
+    {
+
+        if (score > 0)
+        {
+            // wait for a while 
+            StartCoroutine(Wait());
+            FindObjectOfType<Target>().setPostion();
+
+        }
+        FindObjectOfType<CameraController>().toggleCameras();
+        bow.ShootCompleted(score);
         // and destroy the current one
         Destroy(gameObject);
+    }
+    IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(3);
     }
 
 
@@ -122,10 +141,12 @@ public class ArrowRotation3D : MonoBehaviour
             // and a collision occurred
             collisionOccurred = true;
 
-            Destroy(gameObject);
-            bow.ShootCompleted(10);
+
+            Die(10);
+
 
         }
+
     }
 
 }

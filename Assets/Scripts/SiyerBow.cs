@@ -89,8 +89,28 @@ public class SiyerBow : MonoBehaviour
                 break;
         }
         ListenMouseInput();
-
     }
+
+    // void LateUpdate()
+    // {
+    //      switch (status)
+    //     {
+
+    //         case ArcheryStatus.Released:
+    //             if (!stringReleased)
+    //             {
+    //                 atlasHelper.currentSprite = SiyerSpriteAtlasHelper.SpriteType.BowAndHandsReleased;
+    //                 musicPlayer.Play(ArcheryMusicPlayer.AudioClips.StringRelease);
+    //                 // play arrow sound
+    //                 musicPlayer.Play(ArcheryMusicPlayer.AudioClips.ArrowSwoosh);
+    //                 stringReleased = true;
+    //                 Shoot();
+    //             }
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    // }
 
 
     private void ListenMouseInput()
@@ -139,6 +159,10 @@ public class SiyerBow : MonoBehaviour
         arrow.transform.localPosition = new Vector3(0, -8.0f, 0);
         arrow.transform.localScale = new Vector3(3, 3, 0.1f);
         arrow.SetActive(debug);
+
+        FollowingCamera following = FindObjectOfType<FollowingCamera>();
+        following.setTarget(arrow.transform);
+        following.enabled = true;
     }
 
 
@@ -190,6 +214,7 @@ public class SiyerBow : MonoBehaviour
 
     public void ShootArrow()
     {
+
         if (arrow.GetComponent<Rigidbody>() == null)
         {
             arrow.AddComponent<Rigidbody>();
@@ -200,6 +225,8 @@ public class SiyerBow : MonoBehaviour
 
             arrow.GetComponent<Rigidbody>().velocity = Camera.main.transform.forward * 100;
         }
+
+        FindObjectOfType<CameraController>().toggleCameras();
 
     }
 
