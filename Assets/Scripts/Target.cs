@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Target : MonoBehaviour
 {
-    float xMin = -45.0f;
-    float xMax = 45.0f;
+    float xMin = -20.0f;
+    float xMax = 20.0f;
     float zMin = -270.0f; // -300-270 = 30 meters far
     float zMax = -50.0f; //  -300-50  = 250 meters far
 
