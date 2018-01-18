@@ -5,7 +5,7 @@ using UnityEngine;
 public class Target : MonoBehaviour
 {
 
-    public void setPostion()
+    public void SetPostion()
     {
         print("we will set position");
     }

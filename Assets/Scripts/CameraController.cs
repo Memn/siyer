@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,8 +17,9 @@ public class CameraController : MonoBehaviour
         following.enabled = false;
     }
 
-   public void toggleCameras()
+   public void ToggleCameras(string source)
     {
+        print("Toggled by "+ source);
         fpc.enabled = !fpc.enabled;
         following.enabled = !following.enabled;
     }

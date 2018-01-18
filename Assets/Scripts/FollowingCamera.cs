@@ -14,11 +14,14 @@ public class FollowingCamera : MonoBehaviour
 
 
     // Update is called once per frame
-    void LateUpdate()
+    void FixedUpdate()
     {
         if (target != null)
         {
+            // Vector3 smoothPos = Vector3.Lerp(transform.position, target.position + offset, smoothSpeed);
+            // transform.position = smoothPos;
             transform.position = target.position + offset;
+            transform.LookAt(target);
         }
     }
 

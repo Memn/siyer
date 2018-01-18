@@ -31,15 +31,11 @@ public class SiyerBow : MonoBehaviour
     float power;
     public ArcheryStatus status;
     // Use this for initialization
-    bool debug = true;
 
     private SiyerSpriteAtlasHelper atlasHelper;
 
     void Start()
     {
-        // GameObject laser = Instantiate(laserPrefab, this.transform) as GameObject;
-        // laser.name = "laser";
-
         // create an arrow to shoot
         ChangeStatus(ArcheryStatus.Ready);
         UpdateBoard();
@@ -91,28 +87,6 @@ public class SiyerBow : MonoBehaviour
         ListenMouseInput();
     }
 
-    // void LateUpdate()
-    // {
-    //      switch (status)
-    //     {
-
-    //         case ArcheryStatus.Released:
-    //             if (!stringReleased)
-    //             {
-    //                 atlasHelper.currentSprite = SiyerSpriteAtlasHelper.SpriteType.BowAndHandsReleased;
-    //                 musicPlayer.Play(ArcheryMusicPlayer.AudioClips.StringRelease);
-    //                 // play arrow sound
-    //                 musicPlayer.Play(ArcheryMusicPlayer.AudioClips.ArrowSwoosh);
-    //                 stringReleased = true;
-    //                 Shoot();
-    //             }
-    //             break;
-    //         default:
-    //             break;
-    //     }
-    // }
-
-
     private void ListenMouseInput()
     {
         // game is steered via mouse
@@ -120,9 +94,7 @@ public class SiyerBow : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             // the player pulls the string
-
             ChangeStatus(ArcheryStatus.Pulled);
-
         }
 
         // ok, player released the mouse
@@ -158,11 +130,9 @@ public class SiyerBow : MonoBehaviour
         arrow.transform.localRotation = new Quaternion(0, 0, 0, 0);
         arrow.transform.localPosition = new Vector3(0, -8.0f, 0);
         arrow.transform.localScale = new Vector3(3, 3, 0.1f);
-        arrow.SetActive(debug);
 
         FollowingCamera following = FindObjectOfType<FollowingCamera>();
         following.setTarget(arrow.transform);
-        following.enabled = true;
     }
 
 
@@ -187,7 +157,6 @@ public class SiyerBow : MonoBehaviour
 
         if (Physics.Raycast(mouseRay1, out rayHit, 1000f))
         {
-
             // position of the raycast on the screen
             // determine the position on the screen
             float posX = rayHit.point.x;
@@ -211,33 +180,21 @@ public class SiyerBow : MonoBehaviour
     // Player released the arrow
     // get the bows rotationn and accelerate the arrow
     //
-
     public void ShootArrow()
     {
-
-        if (arrow.GetComponent<Rigidbody>() == null)
-        {
-            arrow.AddComponent<Rigidbody>();
-            arrow.GetComponent<Rigidbody>().velocity = Camera.main.transform.forward * 30;
-        }
-        else
-        {
-
-            arrow.GetComponent<Rigidbody>().velocity = Camera.main.transform.forward * 100;
-        }
-
-        FindObjectOfType<CameraController>().toggleCameras();
-
+        arrow.GetComponent<Rigidbody>().velocity = arrow.transform.forward * 100;
+        FindObjectOfType<CameraController>().ToggleCameras("shoot");
     }
 
-    public void ShootCompleted(int points)
+    public void ShootCompleted()
     {
-        if (points != 0)
-        {
-            musicPlayer.Play(ArcheryMusicPlayer.AudioClips.ArrowImpact);
-            score += points;
-        }
         ChangeStatus(ArcheryStatus.Ready);
+    }
+
+    public void ArrowHit()
+    {
+        musicPlayer.Play(ArcheryMusicPlayer.AudioClips.ArrowImpact);
+        score += 10;
     }
 
     private void ChangeStatus(ArcheryStatus status)
