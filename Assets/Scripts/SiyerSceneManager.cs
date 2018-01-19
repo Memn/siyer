@@ -13,6 +13,6 @@ public class SiyerSceneManager : MonoBehaviour
 
     public void QuitRequest()
     {
-
+        Application.Quit();
     }
 }

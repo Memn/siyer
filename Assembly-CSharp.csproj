@@ -51,17 +51,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\ArcheryMusicPlayer.cs" />
-     <Compile Include="Assets\Scripts\ArrowRotation3D.cs" />
-     <Compile Include="Assets\Scripts\CameraController.cs" />
-     <Compile Include="Assets\Scripts\DistanceCalculator.cs" />
-     <Compile Include="Assets\Scripts\FollowingCamera.cs" />
-     <Compile Include="Assets\Scripts\FPSRotationLimit.cs" />
-     <Compile Include="Assets\Scripts\Laser.cs" />
-     <Compile Include="Assets\Scripts\SiyerBow.cs" />
+     <Compile Include="Assets\Scripts\archery\ArcheryMusicPlayer.cs" />
+     <Compile Include="Assets\Scripts\archery\ArrowRotation3D.cs" />
+     <Compile Include="Assets\Scripts\archery\BackButtonController.cs" />
+     <Compile Include="Assets\Scripts\archery\CameraController.cs" />
+     <Compile Include="Assets\Scripts\archery\FollowingCamera.cs" />
+     <Compile Include="Assets\Scripts\archery\SiyerBow.cs" />
+     <Compile Include="Assets\Scripts\archery\SiyerSpriteAtlasHelper.cs" />
+     <Compile Include="Assets\Scripts\archery\Target.cs" />
      <Compile Include="Assets\Scripts\SiyerSceneManager.cs" />
-     <Compile Include="Assets\Scripts\SiyerSpriteAtlasHelper.cs" />
-     <Compile Include="Assets\Scripts\Target.cs" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
      <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
      <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />

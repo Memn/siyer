@@ -25,6 +25,7 @@ public class SiyerBow : MonoBehaviour
 
     public Text arrowValue;
     public Text scoreValue;
+    public Text distanceValue;
 
     public enum ArcheryStatus { Ready, Pulled, Released, OutOfArrows };
 
@@ -140,6 +141,22 @@ public class SiyerBow : MonoBehaviour
     {
         scoreValue.text = score.ToString();
         arrowValue.text = arrows.ToString();
+        distanceValue.text = CalculateDistance();
+    }
+
+    private string CalculateDistance()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit))
+        {
+            if (hit.collider)
+            {
+                float distance = Vector3.Distance(transform.position, hit.transform.position);
+                return distance.ToString("F2") + "m";
+            }
+
+        }
+        return " >1000m";
     }
 
     // 
