@@ -53,7 +53,6 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\archery\ArcheryMusicPlayer.cs" />
      <Compile Include="Assets\Scripts\archery\ArrowRotation3D.cs" />
-     <Compile Include="Assets\Scripts\archery\BackButtonController.cs" />
      <Compile Include="Assets\Scripts\archery\CameraController.cs" />
      <Compile Include="Assets\Scripts\archery\FollowingCamera.cs" />
      <Compile Include="Assets\Scripts\archery\SiyerBow.cs" />
