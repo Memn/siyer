@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class ChoiceDecorator
+public class ChoiceDecorator : MonoBehaviour
 {
 
     public static void decorate(QuestionTypes type, GameObject choice)

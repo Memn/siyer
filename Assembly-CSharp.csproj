@@ -59,9 +59,12 @@
      <Compile Include="Assets\Scripts\archery\SiyerSpriteAtlasHelper.cs" />
      <Compile Include="Assets\Scripts\archery\Target.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
+     <Compile Include="Assets\Scripts\questionanswer\Choice.cs" />
      <Compile Include="Assets\Scripts\questionanswer\decorators\ChoiceDecorator.cs" />
      <Compile Include="Assets\Scripts\questionanswer\decorators\QuestionDecorator.cs" />
+     <Compile Include="Assets\Scripts\questionanswer\QAGameManager.cs" />
      <Compile Include="Assets\Scripts\questionanswer\Question.cs" />
+     <Compile Include="Assets\Scripts\questionanswer\QuestionBody.cs" />
      <Compile Include="Assets\Scripts\questionanswer\QuestionHandler.cs" />
      <Compile Include="Assets\Scripts\questionanswer\repository\DefaultQuestions.cs" />
      <Compile Include="Assets\Scripts\questionanswer\repository\QuestionRepository.cs" />

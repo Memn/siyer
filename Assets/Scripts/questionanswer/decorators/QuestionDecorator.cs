@@ -2,21 +2,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestionDecorator
 {
 
 
-    public static void decorate(QuestionTypes type, GameObject questionBody)
+    public static QuestionBody decorate(Question question, GameObject questionBody)
     {
-        switch (type)
+        switch (question.type)
         {
             case QuestionTypes.FILL_IN_THE_BLANKS:
-                questionBody.AddComponent<FillInTheBlanksQuestionBody>();
-                break;
+                return CreateComponent<FillInTheBlanksQuestionBody>(questionBody, question);
+
             default:
                 throw new NotImplementedException();
         }
+
+    }
+    public static T CreateComponent<T>(GameObject where, Question question) where T : QuestionBody
+    {
+        T myC = where.AddComponent<T>();
+        myC.question = question;
+        return myC;
 
     }
 }

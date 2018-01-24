@@ -20,17 +20,24 @@ public class QuestionHandler : MonoBehaviour
         updateQuestion();
     }
 
+    internal void Restore()
+    {
+        questionBody.GetComponent<Text>().text = questionBody.GetComponent<QuestionBody>().questionBodyText;
+    }
+
     private void updateQuestion()
     {
-        questionBody.GetComponent<Text>().text = question.questionBody;
-        foreach (string choiceText in question.choices)
+        QuestionBody decorated = QuestionDecorator.decorate(question, questionBody);
+        questionBody.GetComponent<Text>().text = decorated.questionBodyText;
+
+        foreach (string rawChoiceText in question.choicesRaw)
         {
             GameObject choice = Instantiate(choicePrefab, Vector3.zero, Quaternion.identity);
-            choice.GetComponent<Text>().text = choiceText;
+            choice.GetComponent<Choice>().raw = rawChoiceText;
+            choice.GetComponent<Text>().text = choice.GetComponent<Choice>().text;
             choice.GetComponent<RectTransform>().SetParent(choices.transform);
             ChoiceDecorator.decorate(question.type, choice);
-
         }
-        QuestionDecorator.decorate(question.type, questionBody);
     }
+
 }

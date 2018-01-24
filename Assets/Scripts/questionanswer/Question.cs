@@ -1,29 +1,28 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Question
 {
 
-
-    public Question(string questionBodyText, string[] choiceTexts)
+    public Question(string questionBody, string[] choices, QuestionTypes type)
     {
-        questionBody = questionBodyText;
-        choices = choiceTexts;
+        this.questionBodyRaw = questionBody;
+        this.choicesRaw = choices;
+        this.type = type;
     }
 
     public QuestionTypes type
     {
-        get
-        {
-            return QuestionTypes.FILL_IN_THE_BLANKS;
-        }
+        get;
     }
-    public string questionBody
+    public string questionBodyRaw
     {
         get;
     }
-    public string[] choices
+    public string[] choicesRaw
+
     {
         get;
     }
