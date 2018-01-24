@@ -4,12 +4,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class QuestionBody : MonoBehaviour, IDropHandler
+public class FillInTheBlanksQuestionBody : MonoBehaviour, IDropHandler
 {
+
+
     void IDropHandler.OnDrop(PointerEventData eventData)
     {
-        print("change the text with: ");
-		GetComponent<Text>().text = Choice.itemBeingDragged.GetComponent<Text>().text;
+        GetComponent<Text>().text = FillInTheBlanksChoice.itemBeingDragged.GetComponent<Text>().text;
 
     }
 }

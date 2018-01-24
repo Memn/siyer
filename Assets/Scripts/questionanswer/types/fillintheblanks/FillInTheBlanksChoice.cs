@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Choice : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class FillInTheBlanksChoice : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
 
     public static GameObject itemBeingDragged;
