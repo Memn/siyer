@@ -8,23 +8,23 @@ public class QuestionDecorator
 {
 
 
-    public static QuestionBody decorate(Question question, GameObject questionBody)
+    internal static QuestionBody decorate(QuestionHandler questionHandler)
     {
-        switch (question.type)
+        switch (questionHandler.question.type)
         {
             case QuestionTypes.FILL_IN_THE_BLANKS:
-                return CreateComponent<FillInTheBlanksQuestionBody>(questionBody, question);
+                return CreateComponent<FillInTheBlanksQuestionBody>(questionHandler.questionBody, questionHandler);
 
             default:
                 throw new NotImplementedException();
         }
-
     }
-    public static T CreateComponent<T>(GameObject where, Question question) where T : QuestionBody
+    public static T CreateComponent<T>(GameObject where, QuestionHandler handler) where T : QuestionBody
     {
         T myC = where.AddComponent<T>();
-        myC.question = question;
+        myC.handler = handler;
         return myC;
 
     }
+
 }

@@ -5,11 +5,15 @@ using UnityEngine;
 
 public class Question
 {
+    internal readonly string answer;
+    internal readonly int points;
 
-    public Question(string questionBody, string[] choices, QuestionTypes type)
+    public Question(string questionBody, string[] choices, string answer, int points, QuestionTypes type)
     {
         this.questionBodyRaw = questionBody;
         this.choicesRaw = choices;
+        this.answer = answer;
+        this.points = points;
         this.type = type;
     }
 

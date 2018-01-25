@@ -12,11 +12,6 @@ public class FillInTheBlanksQuestionBody : QuestionBody, IDropHandler
 
     private string questionText;
 
-    void Start()
-    {
-        questionText = question.questionBodyRaw.Replace(blankEscape, blankLiteral);
-    }
-
     public override string questionBodyText
     {
         get
@@ -27,14 +22,15 @@ public class FillInTheBlanksQuestionBody : QuestionBody, IDropHandler
 
     void IDropHandler.OnDrop(PointerEventData eventData)
     {
-        string choiceText = FillInTheBlanksChoice.itemBeingDragged.GetComponent<Text>().text;
-        questionText = ReplaceFirst(questionText, blankLiteral, choiceText);
+        GameObject choice = FillInTheBlanksChoice.itemBeingDragged;
+        // support for single blanks
+        questionText = question.questionBodyRaw.Replace(blankEscape, choice.GetComponent<Text>().text);
+        handler.UpdateChoice(choice.GetComponent<Text>().text);
         GetComponent<Text>().text = questionText;
     }
 
-    private string ReplaceFirst(string text, string search, string replace)
+    internal override void Restore()
     {
-        int index = text.IndexOf(search);
-        return index >= 0 ? text.Insert(index, @replace) : text;
+        questionText = question.questionBodyRaw.Replace(blankEscape, blankLiteral);
     }
 }
