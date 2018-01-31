@@ -142,6 +142,7 @@
      <Compile Include="Assets\Scripts\archery\SiyerBow.cs" />
      <Compile Include="Assets\Scripts\archery\SiyerSpriteAtlasHelper.cs" />
      <Compile Include="Assets\Scripts\archery\Target.cs" />
+     <Compile Include="Assets\Scripts\FacebookScript.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\questionanswer\decorators\ChoiceDecorator.cs" />
      <Compile Include="Assets\Scripts\questionanswer\decorators\QuestionDecorator.cs" />
