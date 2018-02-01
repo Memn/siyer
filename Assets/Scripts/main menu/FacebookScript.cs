@@ -9,7 +9,9 @@ using Facebook.Unity;
 public class FacebookScript : MonoBehaviour
 {
 
-    public Text FriendsText;
+    public Text loginLogoutButton;
+    public Button profileButton;
+
     private void Awake()
     {
         if (!FB.IsInitialized)
@@ -35,15 +37,33 @@ public class FacebookScript : MonoBehaviour
             FB.ActivateApp();
     }
 
-    #region Login / Logout
-    public void FacebookLogin()
+    void Update()
     {
-        var permissions = new List<string>() { "public_profile", "email", "user_friends" };
-        FB.LogInWithReadPermissions(permissions);
+        if (FB.IsLoggedIn)
+        {
+            loginLogoutButton.text = "Logout";
+            profileButton.interactable = true;
+        }
+        else
+        {
+            loginLogoutButton.text = "Login";
+            profileButton.interactable = false;
+        }
+
     }
-    public void FacebookLogout()
+    #region Login / Logout
+
+    public void FacebookLogInOut()
     {
-        FB.LogOut();
+        if (FB.IsLoggedIn)
+        {
+            FB.LogOut();
+        }
+        else
+        {
+            var permissions = new List<string>() { "public_profile", "email", "user_friends" };
+            FB.LogInWithReadPermissions(permissions);
+        }
     }
     public void FacebookShare()
     {
@@ -75,11 +95,11 @@ public class FacebookScript : MonoBehaviour
         {
             var dictionary = (Dictionary<string, object>)Facebook.MiniJSON.Json.Deserialize(result.RawResult);
             var friendsList = (List<object>)dictionary["data"];
-            FriendsText.text = string.Empty;
-            foreach (var dict in friendsList)
-            {
-                FriendsText.text += ((Dictionary<string, object>)dict)["name"];
-            }
+            // FriendsText.text = string.Empty;
+            // foreach (var dict in friendsList)
+            // {
+            //     FriendsText.text += ((Dictionary<string, object>)dict)["name"];
+            // }
 
         });
 

@@ -142,8 +142,10 @@
      <Compile Include="Assets\Scripts\archery\SiyerBow.cs" />
      <Compile Include="Assets\Scripts\archery\SiyerSpriteAtlasHelper.cs" />
      <Compile Include="Assets\Scripts\archery\Target.cs" />
-     <Compile Include="Assets\Scripts\FacebookScript.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
+     <Compile Include="Assets\Scripts\main menu\FacebookScript.cs" />
+     <Compile Include="Assets\Scripts\main menu\SiyerSceneManager.cs" />
+     <Compile Include="Assets\Scripts\profile\Profile.cs" />
      <Compile Include="Assets\Scripts\questionanswer\decorators\ChoiceDecorator.cs" />
      <Compile Include="Assets\Scripts\questionanswer\decorators\QuestionDecorator.cs" />
      <Compile Include="Assets\Scripts\questionanswer\model\Choice.cs" />
@@ -156,7 +158,6 @@
      <Compile Include="Assets\Scripts\questionanswer\repository\QuestionRepository.cs" />
      <Compile Include="Assets\Scripts\questionanswer\viewmodel\QAGameManager.cs" />
      <Compile Include="Assets\Scripts\questionanswer\viewmodel\QuestionHandler.cs" />
-     <Compile Include="Assets\Scripts\SiyerSceneManager.cs" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
