@@ -33,7 +33,7 @@ namespace Facebook.Unity
 
             // The WWW object will throw an exception if accessing the texture field and
             // an error has occured.
-            if (result.error == null)
+            if (string.IsNullOrEmpty(result.error))
             {
                 // The Graph API does not return textures directly, but a few endpoints can
                 // redirect to images when no 'redirect=false' parameter is specified. Ex: '/me/picture'
