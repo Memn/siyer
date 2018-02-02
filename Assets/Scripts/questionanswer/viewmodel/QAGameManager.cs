@@ -23,7 +23,7 @@ public class QAGameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            FindObjectOfType<SiyerSceneManager>().LoadScene("MainMenu");
+            FindObjectOfType<MenuManager>().LoadScene("MainMenu");
         }
     }
     public void Restore()

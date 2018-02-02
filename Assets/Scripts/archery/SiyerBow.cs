@@ -104,10 +104,7 @@ public class SiyerBow : MonoBehaviour
         {
             ChangeStatus(ArcheryStatus.Released);
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            FindObjectOfType<SiyerSceneManager>().LoadScene("siyer");
-        }
+        
     }
 
     private void Shoot()

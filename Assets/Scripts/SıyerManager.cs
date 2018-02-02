@@ -1,18 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using Facebook.Unity;
+using UnityEngine.SceneManagement;
 
-public class GameController : MonoBehaviour
+public class SıyerManager : MonoBehaviour
 {
+
+
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            FindObjectOfType<SiyerSceneManager>().LoadScene("MainMenu");
+            SceneManager.LoadScene("MainMenu");
         }
     }
 
+	public void LoadScene(string name)
+    {
+        SceneManager.LoadScene(name);
+    }
 }
