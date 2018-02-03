@@ -22,7 +22,7 @@ public class Profile : MonoBehaviour
 
     void Awake()
     {
-        
+
         if (FB.IsLoggedIn)
         {
             FacebookManager.Instance.GetProfile();
@@ -101,26 +101,27 @@ public class Profile : MonoBehaviour
 
     void DisplayScore(IResult result)
     {
+        string score = "0";
         if (string.IsNullOrEmpty(result.Error))
         {
-            Debug.Log("My score: " + result.RawResult);
-            Score.text = result.ResultDictionary["data"].ToString();
+            List<object> deserializedScore = Util.DeserializeScores(result.RawResult);
+            if (deserializedScore.Count == 1)
+            {
+                var entry = (Dictionary<string, object>)deserializedScore[0];
+                score = entry["score"].ToString();
+            }
         }
-        else
-        {
-            Dictionary<string, string> score = new Dictionary<string, string>();
-            score.Add("score", "0");
-            FB.API("/me/scores", HttpMethod.POST, CreateScores, score);
-            Debug.LogError("Cannot load score");
-            Debug.LogError(result.Error);
-        }
+        Score.text = score;
     }
 
-
-
-    void CreateScores(IResult result)
+    public void SetScore()
     {
-
+        var scoreData = new Dictionary<string, string>();
+        scoreData["score"] = Random.Range(10, 200).ToString();
+        FB.API("/me/scores", HttpMethod.POST, result =>
+        {
+            Debug.Log("Score submit result: " + result.RawResult);
+        }, scoreData);
     }
 
 }
