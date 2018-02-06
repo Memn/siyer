@@ -7,7 +7,8 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
     public Text loginLogoutButton;
-    public Button profileButton; private void Awake()
+    public Button profileButton; 
+    void Awake()
     {
         FacebookManager.Instance.InitFB();
         DealWithMenu();
