@@ -23,12 +23,12 @@ public class FacebookManager : MonoBehaviour
         }
     }
 
-    public bool IsLoggedIn { get; set; }
+    public bool IsLoggedIn { get{return FB.IsLoggedIn;} }
     public string ProfileName { get; set; }
     public Sprite ProfilePic { get; set; }
 
     public List<User> Leaderboard { get; set; }
-    public string AppLink { get; }
+   
 
     void Awake()
     {
@@ -44,7 +44,6 @@ public class FacebookManager : MonoBehaviour
         else
         {
             FB.ActivateApp();
-            IsLoggedIn = FB.IsLoggedIn;
         }
     }
 
@@ -101,14 +100,12 @@ public class FacebookManager : MonoBehaviour
 
     public void LogIn()
     {
-        var permissions = new List<string>() { "public_profile", "email", "user_friends", "publish_actions" };
+        var permissions = new List<string>() { "public_profile", "email", "user_friends" };
         FB.LogInWithReadPermissions(permissions);
-        FacebookManager.Instance.IsLoggedIn = true;
     }
     public void LogOut()
     {
         FB.LogOut();
-        FacebookManager.Instance.IsLoggedIn = false;
     }
 
     public void Share()
@@ -166,13 +163,13 @@ public class FacebookManager : MonoBehaviour
 
     public void SetScore()
     {
-        var scoreData = new Dictionary<string, string>();
-        scoreData["score"] = 20.ToString();
-        FB.API("/me/scores", HttpMethod.POST, delegate (IGraphResult result)
-            {
-                Debug.Log(result.RawResult);
-            },
-            scoreData);
+        // var scoreData = new Dictionary<string, string>();
+        // scoreData["score"] = 20.ToString();
+        // FB.API("/me/scores", HttpMethod.POST, delegate (IGraphResult result)
+        //     {
+        //         Debug.Log(result.RawResult);
+        //     },
+        //     scoreData);
 
     }
 
