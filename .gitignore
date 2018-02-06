@@ -12,6 +12,7 @@
 /.vs/
 ExportedObj/
 .consulo/
+.idea
 *.csproj
 *.unityproj
 *.sln
