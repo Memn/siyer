@@ -40,13 +40,4 @@ public class MenuManager : MonoBehaviour
         }
         DealWithMenu();
     }
-    public void LoadScene(string name)
-    {
-        SceneManager.LoadScene(name);
-    }
-
-    public void QuitRequest()
-    {
-        Application.Quit();
-    }
 }

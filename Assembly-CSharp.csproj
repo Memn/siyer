@@ -153,6 +153,7 @@
      <Compile Include="Assets\Scripts\util\User.cs" />
      <Compile Include="Assets\Scripts\util\Util.cs" />
      <Compile Include="Assets\SiyerManager.cs" />
+     <Compile Include="Assets\SplashScreenManager.cs" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
