@@ -17,18 +17,21 @@ public class Question
         this.type = type;
     }
 
-    public QuestionTypes type
-    {
-        get;
+    public QuestionTypes type {
+		get;
+		set;
     }
     public string questionBodyRaw
     {
-        get;
-    }
+		get;
+		set;
+
+	}
     public string[] choicesRaw
 
     {
-        get;
+		get;
+		set;
     }
 
 }
