@@ -51,18 +51,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Examples\Scripts\ConsoleBase.cs" />
-     <Compile Include="Assets\Examples\Scripts\LogView.cs" />
-     <Compile Include="Assets\Examples\Scripts\MenuBase.cs" />
-     <Compile Include="Assets\Examples\Scripts\SubMenus\AppEvents.cs" />
-     <Compile Include="Assets\Examples\Scripts\SubMenus\AppInvites.cs" />
-     <Compile Include="Assets\Examples\Scripts\SubMenus\AppLinks.cs" />
-     <Compile Include="Assets\Examples\Scripts\SubMenus\AppRequests.cs" />
-     <Compile Include="Assets\Examples\Scripts\SubMenus\DialogShare.cs" />
-     <Compile Include="Assets\Examples\Scripts\SubMenus\GameGroups.cs" />
-     <Compile Include="Assets\Examples\Scripts\SubMenus\GraphRequest.cs" />
-     <Compile Include="Assets\Examples\Scripts\SubMenus\MainMenu.cs" />
-     <Compile Include="Assets\Examples\Scripts\SubMenus\Pay.cs" />
      <Compile Include="Assets\Facebook\Scripts\AccessToken.cs" />
      <Compile Include="Assets\Facebook\Scripts\AppEventName.cs" />
      <Compile Include="Assets\Facebook\Scripts\AppEventParameterName.cs" />
@@ -144,6 +132,8 @@
      <Compile Include="Assets\Scripts\archery\SiyerSpriteAtlasHelper.cs" />
      <Compile Include="Assets\Scripts\archery\Target.cs" />
      <Compile Include="Assets\Scripts\FacebookManager.cs" />
+     <Compile Include="Assets\Scripts\Fadein.cs" />
+     <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\main menu\MenuManager.cs" />
      <Compile Include="Assets\Scripts\profile\Profile.cs" />
      <Compile Include="Assets\Scripts\profile\ScoreboardHelper.cs" />
@@ -159,9 +149,10 @@
      <Compile Include="Assets\Scripts\questionanswer\repository\QuestionRepository.cs" />
      <Compile Include="Assets\Scripts\questionanswer\viewmodel\QAGameManager.cs" />
      <Compile Include="Assets\Scripts\questionanswer\viewmodel\QuestionHandler.cs" />
-     <Compile Include="Assets\Scripts\SıyerManager.cs" />
+     <Compile Include="Assets\Scripts\splash\MusicManager.cs" />
      <Compile Include="Assets\Scripts\util\User.cs" />
      <Compile Include="Assets\Scripts\util\Util.cs" />
+     <Compile Include="Assets\SiyerManager.cs" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
