@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class QAGameManager : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class QAGameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            FindObjectOfType<MenuManager>().LoadScene("MainMenu");
+            SceneManager.LoadScene("02 Siyer");
         }
     }
     public void Restore()
