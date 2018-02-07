@@ -37,7 +37,7 @@ public class Profile : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManager.LoadScene("01 MainMenu");
+            SceneManager.LoadScene("01a MainMenu");
         }
     }
 
