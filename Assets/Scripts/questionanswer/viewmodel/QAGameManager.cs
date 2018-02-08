@@ -43,6 +43,7 @@ public class QAGameManager : MonoBehaviour
     }
     public void Approve()
     {
+        //TODO: Win-Lose cases 
         if (QuestionHandler.Instance.Approve())
         {
             score += QuestionHandler.Instance.Points;
