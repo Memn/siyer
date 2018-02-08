@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum QuestionTypes {
-		FILL_IN_THE_BLANKS,
-		MULTIPLE_CHOICES
+public enum Choices
+{
+    None, A, B, C, D
 }

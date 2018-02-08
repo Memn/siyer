@@ -14,6 +14,9 @@ public class ChoiceDecorator : MonoBehaviour
             case QuestionTypes.FILL_IN_THE_BLANKS:
                 choice.AddComponent<FillInTheBlanksChoice>();
                 break;
+            case QuestionTypes.MULTIPLE_CHOICES:
+                choice.AddComponent<MultipleChoicesChoice>();
+                break;
             default:
                 throw new NotImplementedException();
         }

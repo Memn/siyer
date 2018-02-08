@@ -133,6 +133,8 @@
      <Compile Include="Assets\Scripts\archery\SiyerSpriteAtlasHelper.cs" />
      <Compile Include="Assets\Scripts\archery\Target.cs" />
      <Compile Include="Assets\Scripts\main menu\MenuManager.cs" />
+     <Compile Include="Assets\Scripts\multiple choice\Choices.cs" />
+     <Compile Include="Assets\Scripts\multiple choice\MultipleChoiceManager.cs" />
      <Compile Include="Assets\Scripts\profile\Profile.cs" />
      <Compile Include="Assets\Scripts\profile\ScoreboardHelper.cs" />
      <Compile Include="Assets\Scripts\questionanswer\decorators\ChoiceDecorator.cs" />
@@ -142,6 +144,8 @@
      <Compile Include="Assets\Scripts\questionanswer\model\QuestionBody.cs" />
      <Compile Include="Assets\Scripts\questionanswer\model\types\fillintheblanks\FillInTheBlanksChoice.cs" />
      <Compile Include="Assets\Scripts\questionanswer\model\types\fillintheblanks\FillInTheBlanksQuestionBody.cs" />
+     <Compile Include="Assets\Scripts\questionanswer\model\types\multiple choices\MultipleChoicesChoice.cs" />
+     <Compile Include="Assets\Scripts\questionanswer\model\types\multiple choices\MultipleChoicesQuestionBody.cs" />
      <Compile Include="Assets\Scripts\questionanswer\model\types\QuestionTypes.cs" />
      <Compile Include="Assets\Scripts\questionanswer\repository\DefaultQuestions.cs" />
      <Compile Include="Assets\Scripts\questionanswer\repository\QuestionRepository.cs" />

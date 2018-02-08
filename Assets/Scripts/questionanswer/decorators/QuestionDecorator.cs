@@ -14,7 +14,8 @@ public class QuestionDecorator
         {
             case QuestionTypes.FILL_IN_THE_BLANKS:
                 return CreateComponent<FillInTheBlanksQuestionBody>(questionHandler.manager.questionBody, questionHandler);
-
+            case QuestionTypes.MULTIPLE_CHOICES:
+                return CreateComponent<MultipleChoicesQuestionBody>(questionHandler.manager.questionBody, questionHandler);
             default:
                 throw new NotImplementedException();
         }
