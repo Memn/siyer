@@ -2,12 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class QuestionRepository
+public class QuestionRepository : MonoBehaviour
 {
+
+    private static QuestionRepository _instance;
+
+    public static QuestionRepository Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                GameObject handler = new GameObject("QuestionRepository");
+                _instance = handler.AddComponent<QuestionRepository>();
+            }
+            return _instance;
+        }
+    }
 
     private static int number = 0;
     private static int max = 3;
-    public static Question next
+    public Question next
     {
         get
         {

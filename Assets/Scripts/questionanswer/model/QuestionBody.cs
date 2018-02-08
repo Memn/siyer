@@ -6,6 +6,8 @@ public abstract class QuestionBody : MonoBehaviour
 {
 
     public QuestionHandler handler;
+
+    public List<GameObject> choices;
     public Question question
     {
         get

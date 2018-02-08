@@ -13,7 +13,7 @@ public class QuestionDecorator
         switch (questionHandler.question.type)
         {
             case QuestionTypes.FILL_IN_THE_BLANKS:
-                return CreateComponent<FillInTheBlanksQuestionBody>(questionHandler.questionBody, questionHandler);
+                return CreateComponent<FillInTheBlanksQuestionBody>(questionHandler.manager.questionBody, questionHandler);
 
             default:
                 throw new NotImplementedException();

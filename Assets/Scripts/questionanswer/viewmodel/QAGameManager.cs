@@ -14,13 +14,18 @@ public class QAGameManager : MonoBehaviour
     public Text scoreValue;
     public Text questionPointValue;
 
-    private QuestionHandler questionHandler;
-    void Start()
+    public GameObject questionBody;
+    public GameObject choices;
+    public GameObject choicePrefab;
+
+    public Button ApproveButton;
+
+    void Awake()
     {
-        questionHandler = questionObject.GetComponent<QuestionHandler>();
-        questionHandler.manager = this;
+        QuestionHandler.Instance.Init(this);
     }
-     void Update()
+
+    void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -29,27 +34,54 @@ public class QAGameManager : MonoBehaviour
     }
     public void Restore()
     {
-        questionHandler.Restore();
+        QuestionHandler.Instance.Restore();
     }
     public void Skip()
     {
-        questionHandler.Skip();
+        QuestionHandler.Instance.Skip();
 
     }
     public void Approve()
     {
-        score += questionHandler.Approve();
+        if (QuestionHandler.Instance.Approve())
+        {
+            score += QuestionHandler.Instance.Points;
+        }
+        else
+        {
+            score -= QuestionHandler.Instance.Points;
+        }
         UpdateBoard();
     }
 
     private void UpdateBoard()
     {
         scoreValue.text = score.ToString();
-        questionPointValue.text = questionHandler.question.points.ToString();
+        questionPointValue.text = QuestionHandler.Instance.Points.ToString();
     }
 
     internal void ModelUpdated()
     {
+        questionBody.GetComponent<Text>().text = QuestionHandler.Instance.QuestionBodyText;
+        foreach (var choice in QuestionHandler.Instance.Choices)
+        {
+            choice.GetComponent<RectTransform>().SetParent(choices.transform);
+            choice.GetComponent<RectTransform>().localScale = Vector3.one;
+        }
+        ApproveButton.interactable = false;
         UpdateBoard();
+    }
+
+    internal void ClearChoices()
+    {
+        foreach (Transform child in choices.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+    internal void ChoiceChanged()
+    {
+        ApproveButton.interactable = true;
     }
 }
