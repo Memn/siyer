@@ -2,16 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
     public Text loginLogoutButton;
-    public Button profileButton; 
+    public Button profileButton;
     void Awake()
     {
         FacebookManager.Instance.InitFB();
         DealWithMenu();
+    }
+
+    /// <summary>
+    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     void DealWithMenu()
