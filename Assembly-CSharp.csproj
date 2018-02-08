@@ -123,6 +123,7 @@
      <Compile Include="Assets\Facebook\Scripts\Utils\IFacebookLogger.cs" />
      <Compile Include="Assets\Facebook\Scripts\Utils\MiniJson.cs" />
      <Compile Include="Assets\Facebook\Scripts\Utils\Utilities.cs" />
+     <Compile Include="Assets\Scripts\05 Fil Vakasi\FilVakasiManager.cs" />
      <Compile Include="Assets\Scripts\archery\ArcheryManager.cs" />
      <Compile Include="Assets\Scripts\archery\ArcheryMusicPlayer.cs" />
      <Compile Include="Assets\Scripts\archery\ArrowRotation3D.cs" />
@@ -131,9 +132,6 @@
      <Compile Include="Assets\Scripts\archery\SiyerBow.cs" />
      <Compile Include="Assets\Scripts\archery\SiyerSpriteAtlasHelper.cs" />
      <Compile Include="Assets\Scripts\archery\Target.cs" />
-     <Compile Include="Assets\Scripts\FacebookManager.cs" />
-     <Compile Include="Assets\Scripts\Fadein.cs" />
-     <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\main menu\MenuManager.cs" />
      <Compile Include="Assets\Scripts\profile\Profile.cs" />
      <Compile Include="Assets\Scripts\profile\ScoreboardHelper.cs" />
@@ -150,6 +148,9 @@
      <Compile Include="Assets\Scripts\questionanswer\viewmodel\QAGameManager.cs" />
      <Compile Include="Assets\Scripts\questionanswer\viewmodel\QuestionHandler.cs" />
      <Compile Include="Assets\Scripts\splash\MusicManager.cs" />
+     <Compile Include="Assets\Scripts\util\FacebookManager.cs" />
+     <Compile Include="Assets\Scripts\util\Fadein.cs" />
+     <Compile Include="Assets\Scripts\util\GameManager.cs" />
      <Compile Include="Assets\Scripts\util\User.cs" />
      <Compile Include="Assets\Scripts\util\Util.cs" />
      <Compile Include="Assets\SiyerManager.cs" />
