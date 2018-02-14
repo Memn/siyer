@@ -51,6 +51,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Animations\characters\dede\Dede.cs" />
+     <Compile Include="Assets\Animations\characters\ebrehe\Ebrehe.cs" />
      <Compile Include="Assets\Facebook\Scripts\AccessToken.cs" />
      <Compile Include="Assets\Facebook\Scripts\AppEventName.cs" />
      <Compile Include="Assets\Facebook\Scripts\AppEventParameterName.cs" />
