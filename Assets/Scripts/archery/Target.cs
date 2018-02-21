@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,12 +7,32 @@ public class Target : MonoBehaviour
 {
     float xMin = -12.0f;
     float xMax = 12.0f;
-    float zMin = -270.0f; // -300-270 = 30 meters far
-    float zMax = -150.0f; //  -300-150  = 150 meters far
+    float zMin = -350.0f; // -400-350 = 50 meters far
+    float zMax = -250.0f; //  -400-250  = 150 meters far
+
+    public Terrain terrain;
+
+    void Start()
+    {
+        PutGround();
+    }
+
+    private void PutGround()
+    {
+        transform.position = new Vector3(transform.position.x, HeightAtTerrain(transform.position), transform.position.z);
+    }
+
+    float HeightAtTerrain(Vector3 pos)
+    {
+        return terrain.SampleHeight(pos) + 1.05f;
+    }
 
     public void SetPostion()
     {
-        transform.position = new Vector3(Random.Range(xMin, xMax), transform.position.y, Random.Range(zMin, zMax));
+        float x = Random.Range(xMin, xMax);
+        float z = Random.Range(zMin, zMax);
+        float y = HeightAtTerrain(new Vector3(x, transform.position.y, z));
+        transform.position = new Vector3(x, y, z);
     }
 
 }

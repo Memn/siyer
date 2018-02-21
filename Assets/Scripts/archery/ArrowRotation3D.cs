@@ -32,10 +32,12 @@ public class ArrowRotation3D : MonoBehaviour
         {
             // get the actual velocity
             Vector3 vel = GetComponent<Rigidbody>().velocity;
-            transform.rotation = Quaternion.LookRotation(vel);
+            // transform.rotation = Quaternion.LookRotation(vel);
+            transform.forward = Vector3.Slerp(transform.forward,vel.normalized, Time.deltaTime);
+            
         }
 
-        if (transform.position.y < 0)
+        if (transform.position.y < -100)
         {
             Die("negative y");
         }
@@ -65,7 +67,7 @@ public class ArrowRotation3D : MonoBehaviour
             if (!collided)
             {
                 collided = true;
-                Die("plane");
+                StartCoroutine(HitPlane());
             }
         }
 
@@ -80,7 +82,18 @@ public class ArrowRotation3D : MonoBehaviour
             }
         }
     }
+    IEnumerator HitPlane()
+    {
+        // set velocity to zero
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
+        // disable the rigidbody
+        GetComponent<Rigidbody>().isKinematic = true;
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
+        yield return new WaitForSecondsRealtime(2);
+        // wait for a while 
+        Die("plane");
+    }
     IEnumerator HitTarget()
     {
         // set velocity to zero

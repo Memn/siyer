@@ -17,7 +17,7 @@ public class ArcheryManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManager.LoadScene("02 Siyer");
+            //SceneManager.LoadScene("02 Siyer");
         }
     }
 }

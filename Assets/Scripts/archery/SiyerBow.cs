@@ -10,6 +10,7 @@ public class SiyerBow : MonoBehaviour
 
     // References to the gameobjects / prefabs
     GameObject arrow;
+    public GameObject aim;
     public GameObject arrowPrefab;
 
     // public GameObject laserPrefab;
@@ -131,7 +132,7 @@ public class SiyerBow : MonoBehaviour
         arrow.transform.parent = transform;
         arrow.transform.localRotation = new Quaternion(0, 0, 0, 0);
         arrow.transform.localPosition = new Vector3(0, -8.0f, 0);
-        arrow.transform.localScale = new Vector3(3, 3, 0.1f);
+        arrow.transform.localScale = new Vector3(10, 3, 0.1f);
 
         FollowingCamera following = FindObjectOfType<FollowingCamera>();
         following.setTarget(arrow.transform);
@@ -148,7 +149,7 @@ public class SiyerBow : MonoBehaviour
     private string CalculateDistance()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit))
+        if (Physics.Raycast(aim.transform.position, aim.transform.forward, out hit))
         {
             if (hit.collider)
             {
