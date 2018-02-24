@@ -1,27 +1,23 @@
 fileFormatVersion: 2
-guid: 6b583d11179fb8048b2e15286d935242
-timeCreated: 1518528146
+guid: 3295c67833a15df45b3203fc6ef144f1
+timeCreated: 1518682362
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: ebrehe-goz-kapali
-    21300002: ebrehe-konusma
-    21300004: ebrehe-tek-kas-kalkik
-    21300006: ebrehe-normal
-    21300008: ebrehe-kafalar_4
-    21300010: ebrehe-kahkaha
-    21300012: ebrehe-kizgin
-    21300014: ebrehe-yan-gulumseme
-    21300016: ebrehe-gulumseme
-    21300018: goz-kapali
-    21300020: konusma
-    21300022: gulumseme
-    21300024: yandan-gulumseme
-    21300026: tek-kas-kalkik
-    21300028: kahkaha
-    21300030: kizma
-    21300032: normal
-    21300034: ebrehe-kafalar_9
+    21300000: sag-goz
+    21300002: sol-goz
+    21300004: ebrehe-tum_2
+    21300006: sinirli
+    21300008: konusma
+    21300010: siritma
+    21300012: gulumseme
+    21300014: kahkaha
+    21300016: normal
+    21300018: body
+    21300020: sag-kol-acik
+    21300022: sag-kol-isaret
+    21300024: sag-kol-ileri
+    21300026: sol-kol
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -109,15 +105,57 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: goz-kapali
+      name: sag-goz
       rect:
         serializedVersion: 2
-        x: 305
-        y: 1692
-        width: 151
-        height: 344
+        x: 283
+        y: 1933
+        width: 13
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sol-goz
+      rect:
+        serializedVersion: 2
+        x: 307
+        y: 1934
+        width: 21
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ebrehe-tum_2
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 1920
+        width: 63
+        height: 43
       alignment: 9
-      pivot: {x: 0.62, y: 0.24}
+      pivot: {x: 0.44477966, y: 0.6618056}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sinirli
+      rect:
+        serializedVersion: 2
+        x: 515
+        y: 1930
+        width: 49
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -126,12 +164,26 @@ TextureImporter:
       name: konusma
       rect:
         serializedVersion: 2
-        x: 525
-        y: 1688
-        width: 151
-        height: 344
-      alignment: 9
-      pivot: {x: 0.62, y: 0.24}
+        x: 281
+        y: 1715
+        width: 40
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: siritma
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 1712
+        width: 40
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -140,40 +192,12 @@ TextureImporter:
       name: gulumseme
       rect:
         serializedVersion: 2
-        x: 724
-        y: 1688
-        width: 156
-        height: 344
+        x: 638
+        y: 1481
+        width: 158
+        height: 343
       alignment: 9
-      pivot: {x: 0.62, y: 0.24}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: yandan-gulumseme
-      rect:
-        serializedVersion: 2
-        x: 920
-        y: 1680
-        width: 151
-        height: 344
-      alignment: 9
-      pivot: {x: 0.62, y: 0.24}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: tek-kas-kalkik
-      rect:
-        serializedVersion: 2
-        x: 296
-        y: 1296
-        width: 152
-        height: 340
-      alignment: 9
-      pivot: {x: 0.62, y: 0.24}
+      pivot: {x: 0.56, y: 0.15}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -182,26 +206,12 @@ TextureImporter:
       name: kahkaha
       rect:
         serializedVersion: 2
-        x: 504
-        y: 1304
-        width: 155
-        height: 332
+        x: 872
+        y: 1480
+        width: 158
+        height: 343
       alignment: 9
-      pivot: {x: 0.62, y: 0.24}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: kizma
-      rect:
-        serializedVersion: 2
-        x: 724
-        y: 1260
-        width: 156
-        height: 344
-      alignment: 9
-      pivot: {x: 0.62, y: 0.24}
+      pivot: {x: 0.56, y: 0.15}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -210,12 +220,82 @@ TextureImporter:
       name: normal
       rect:
         serializedVersion: 2
-        x: 937
-        y: 1260
-        width: 151
-        height: 344
+        x: 1112
+        y: 1476
+        width: 158
+        height: 343
       alignment: 9
-      pivot: {x: 0.62, y: 0.24}
+      pivot: {x: 0.56, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: body
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 272
+        width: 477
+        height: 1143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sag-kol-acik
+      rect:
+        serializedVersion: 2
+        x: 744
+        y: 996
+        width: 278
+        height: 388
+      alignment: 9
+      pivot: {x: 0.88505125, y: 0.8203855}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sag-kol-isaret
+      rect:
+        serializedVersion: 2
+        x: 1110
+        y: 1032
+        width: 208
+        height: 285
+      alignment: 9
+      pivot: {x: 0.8984281, y: 0.92405814}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sag-kol-ileri
+      rect:
+        serializedVersion: 2
+        x: 1028
+        y: 585
+        width: 380
+        height: 198
+      alignment: 9
+      pivot: {x: 0.8800042, y: 0.5662999}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sol-kol
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 343
+        width: 166
+        height: 504
+      alignment: 9
+      pivot: {x: 0.43849275, y: 0.902273}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
