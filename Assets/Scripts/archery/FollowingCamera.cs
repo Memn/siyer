@@ -6,7 +6,7 @@ using UnityEngine;
 public class FollowingCamera : MonoBehaviour
 {
 
-    private Transform target;
+    public Transform target;
 
     public Vector3 offset;
 
