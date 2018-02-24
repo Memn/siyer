@@ -7,26 +7,27 @@ using UnityEngine.UI;
 public class Fadein : MonoBehaviour
 {
 
-    public float fadeInTime;
+    public float FadeInTime;
 
 
-    private Image fadePanel;
-    private Color currentColor = Color.black;
+    private Image _fadePanel;
+    private Color _currentColor;
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
-        fadePanel = GetComponent<Image>();
+        _fadePanel = GetComponent<Image>();
+        _currentColor = _fadePanel.color;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (Time.timeSinceLevelLoad < fadeInTime)
+        if (Time.timeSinceLevelLoad < FadeInTime)
         {
-            float alpha = Time.deltaTime / fadeInTime;
-            currentColor.a -= alpha;
-            fadePanel.color = currentColor;
+            var alpha = Time.deltaTime / FadeInTime;
+            _currentColor.a -= alpha;
+            _fadePanel.color = _currentColor;
         }
         else
         {
