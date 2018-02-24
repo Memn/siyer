@@ -1,13 +1,12 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "siyer", "Assembly-CSharp.csproj", "{04A2FDB8-8FB3-1186-E9EA-2016C763BA99}"
+Project("{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{04A2FDB8-8FB3-1186-E9EA-2016C763BA99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "siyer", "Assembly-CSharp-firstpass.csproj", "{21C2234F-B1BD-BB32-EDCE-01476D40B541}"
+Project("{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1}") = "Assembly-CSharp-firstpass", "Assembly-CSharp-firstpass.csproj", "{21C2234F-B1BD-BB32-EDCE-01476D40B541}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "siyer", "Assembly-CSharp-Editor-firstpass.csproj", "{C8DF8A5C-E69D-90DE-D4F5-F719381ABB4C}"
+Project("{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1}") = "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor-firstpass.csproj", "{C8DF8A5C-E69D-90DE-D4F5-F719381ABB4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "siyer", "Assembly-CSharp-Editor.csproj", "{B5E68825-4BC9-48A9-DC52-21B3C62463BA}"
+Project("{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{B5E68825-4BC9-48A9-DC52-21B3C62463BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
