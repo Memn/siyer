@@ -3,29 +3,35 @@ using System.Linq;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
-public class MazeCharacterController : MonoBehaviour
+public class MazeDirectCharacterController : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 2;
-    [SerializeField] private float _turnSpeed = 200;
+
+//    [SerializeField] private float _turnSpeed = 200;
     [SerializeField] private float _jumpForce = 4;
-    [SerializeField] private Animator _animator;
-    [SerializeField] private Rigidbody _rigidBody;
+    [SerializeField] private Transform _camera;
+
+    private Animator _animator;
+    private Rigidbody _rigidBody;
+
 
     private float _currentV;
     private float _currentH;
 
     private const float Interpolation = 10;
     private const float WalkScale = 0.33f;
-    private const float BackwardsWalkScale = 0.16f;
-    private const float BackwardRunScale = 0.66f;
+    private readonly float _backwardsWalkScale = 0.16f;
+    private readonly float _backwardRunScale = 0.66f;
 
     private bool _wasGrounded;
+    private Vector3 _currentDirection = Vector3.zero;
 
     private float _jumpTimeStamp;
     private const float MinJumpInterval = 0.25f;
 
     private bool _isGrounded;
     private readonly List<Collider> _collisions = new List<Collider>();
+
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -37,6 +43,7 @@ public class MazeCharacterController : MonoBehaviour
             {
                 _collisions.Add(collision.collider);
             }
+
             _isGrounded = true;
         }
     }
@@ -81,50 +88,45 @@ public class MazeCharacterController : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Start()
+    {
+        _animator = GetComponent<Animator>();
+        _rigidBody = GetComponent<Rigidbody>();
+    }
+
+    private void Update()
     {
         _animator.SetBool("Grounded", _isGrounded);
 
-
-        TankUpdate();
-
+        DirectUpdate();
 
         _wasGrounded = _isGrounded;
     }
 
-    private void TankUpdate()
+    private void DirectUpdate()
     {
-        float v = CrossPlatformInputManager.GetAxis("Vertical");
-        float h = CrossPlatformInputManager.GetAxis("Horizontal");
-
-        bool walk = Input.GetKey(KeyCode.LeftShift);
-
-        if (v < 0)
-        {
-            if (walk)
-            {
-                v *= BackwardsWalkScale;
-            }
-            else
-            {
-                v *= BackwardRunScale;
-            }
-        }
-        else if (walk)
-        {
-            v *= WalkScale;
-        }
-
-        Debug.Log("v: " + v.ToString("F2"));
-        Debug.Log("h: " + h.ToString("F2"));
+        var v = CrossPlatformInputManager.GetAxis("Vertical");
+        var h = CrossPlatformInputManager.GetAxis("Horizontal");
 
         _currentV = Mathf.Lerp(_currentV, v, Time.deltaTime * Interpolation);
         _currentH = Mathf.Lerp(_currentH, h, Time.deltaTime * Interpolation);
 
-        transform.position += transform.forward * _currentV * _moveSpeed * Time.deltaTime;
-        transform.Rotate(0, _currentH * _turnSpeed * Time.deltaTime, 0);
 
-        _animator.SetFloat("MoveSpeed", _currentV);
+        var direction = _camera.forward * _currentV + _camera.right * _currentH;
+
+        var directionLength = direction.magnitude;
+        direction.y = 0;
+        direction = direction.normalized * directionLength;
+
+        if (direction != Vector3.zero)
+        {
+            _currentDirection = Vector3.Slerp(_currentDirection, direction, Time.deltaTime * Interpolation);
+
+            transform.rotation = Quaternion.LookRotation(_currentDirection);
+            transform.position += _currentDirection * _moveSpeed * Time.deltaTime;
+
+            _animator.SetFloat("MoveSpeed", direction.magnitude);
+        }
 
         JumpingAndLanding();
     }
@@ -133,7 +135,8 @@ public class MazeCharacterController : MonoBehaviour
     {
         var jumpCooldownOver = (Time.time - _jumpTimeStamp) >= MinJumpInterval;
 
-        if (jumpCooldownOver && _isGrounded && Input.GetKey(KeyCode.Space))
+        if (jumpCooldownOver && _isGrounded &&
+            (Input.GetKey(KeyCode.Space) || CrossPlatformInputManager.GetButton("Jump")))
         {
             _jumpTimeStamp = Time.time;
             _rigidBody.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
