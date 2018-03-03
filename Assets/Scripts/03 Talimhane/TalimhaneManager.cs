@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TalimhaneManager : MonoBehaviour
@@ -40,7 +39,7 @@ public class TalimhaneManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManager.LoadScene("02 Siyer");
+            SceneManagementUtil.Load(SceneManagementUtil.Scenes.AnaEkran);
         }
     }
 

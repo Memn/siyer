@@ -1,10 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Facebook.Unity;
 using UnityEngine;
 using UnityEngine.UI;
-using Facebook.Unity;
-using UnityEngine.SceneManagement;
-
 
 public class Profile : MonoBehaviour
 {
@@ -37,7 +35,7 @@ public class Profile : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManager.LoadScene("01a MainMenu");
+            SceneManagementUtil.Load(SceneManagementUtil.Scenes.MainMenu);
         }
     }
 

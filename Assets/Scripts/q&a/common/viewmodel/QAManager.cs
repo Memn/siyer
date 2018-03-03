@@ -59,7 +59,7 @@ public class QAManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManager.LoadScene("02 Siyer");
+            SceneManagementUtil.Load(SceneManagementUtil.Scenes.AnaEkran);
         }
     }
 

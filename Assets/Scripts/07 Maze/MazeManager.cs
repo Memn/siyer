@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MazeManager : MonoBehaviour
@@ -13,7 +12,7 @@ public class MazeManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManager.LoadScene("02 Siyer");
+            SceneManagementUtil.Load(SceneManagementUtil.Scenes.AnaEkran);
         }
     }
 
