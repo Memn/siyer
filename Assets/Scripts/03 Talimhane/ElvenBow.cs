@@ -36,6 +36,7 @@ public class ElvenBow : MonoBehaviour
         // (also works with touch on android)
         if (Input.GetMouseButtonDown(0))
         {
+            _musicPlayer.Play(TalimhaneMusicPlayer.AudioClips.ArrowNock);
             _animator.SetTrigger("ready");
         }
 

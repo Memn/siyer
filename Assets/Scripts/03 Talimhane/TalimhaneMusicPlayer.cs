@@ -8,11 +8,13 @@ public class TalimhaneMusicPlayer : MonoBehaviour
     public AudioClip StringRelease;
     public AudioClip ArrowSwoosh;
     public AudioClip ArrowImpact;
+    public AudioClip ArrowNock;
 
     private AudioSource _audioSource;
 
     public enum AudioClips
     {
+        ArrowNock,
         StringPull,
         StringRelease,
         ArrowSwoosh,
@@ -30,6 +32,9 @@ public class TalimhaneMusicPlayer : MonoBehaviour
     {
         switch (audio)
         {
+            case AudioClips.ArrowNock:
+                _audioSource.PlayOneShot(ArrowNock);
+                break;
             case AudioClips.StringPull:
                 _audioSource.PlayOneShot(StringPull);
                 break;
