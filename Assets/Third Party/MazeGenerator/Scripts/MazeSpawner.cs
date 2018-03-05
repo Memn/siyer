@@ -13,8 +13,6 @@ public class MazeSpawner : MonoBehaviour {
 		RecursiveDivision,
 	}
 
-	public MazeManager manager;
-
 	public MazeGenerationAlgorithm Algorithm = MazeGenerationAlgorithm.PureRecursive;
 	public bool FullRandom = false;
 	public int RandomSeed = 12345;
@@ -31,7 +29,6 @@ public class MazeSpawner : MonoBehaviour {
 	private BasicMazeGenerator mMazeGenerator = null;
 
 	void Start () {
-		int goals=0;
 		if (!FullRandom) {
 			Random.seed = RandomSeed;
 		}
@@ -80,7 +77,6 @@ public class MazeSpawner : MonoBehaviour {
 				if(cell.IsGoal && GoalPrefab != null){
 					tmp = Instantiate(GoalPrefab,new Vector3(x,1,z), Quaternion.Euler(0,0,0)) as GameObject;
 					tmp.transform.parent = transform;
-					goals++;
 				}
 			}
 		}
@@ -94,6 +90,5 @@ public class MazeSpawner : MonoBehaviour {
 				}
 			}
 		}
-		manager.SetRemaining(goals);
 	}
 }

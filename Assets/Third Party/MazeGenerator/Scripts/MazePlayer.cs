@@ -39,7 +39,7 @@ public class MazePlayer : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other) {
-		if (other.gameObject.tag.Equals ("Coin")) {
+		if (other.gameObject.tag.Equals ("Goal")) {
 			if(mAudioSource != null && CoinSound != null){
 				mAudioSource.PlayOneShot(CoinSound);
 			}
