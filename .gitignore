@@ -28,6 +28,4 @@ ExportedObj/
 sysinfo.txt
 *.apk
 *.unitypackage
-Assets/bowandarrow/*
-Assets/bowandarrow/bowandarrow.unity
-Assets/bowandarrow/Prefabs/arrow.prefab
+*.log
