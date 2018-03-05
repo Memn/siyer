@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class SiyerMainScreenManager : MonoBehaviour
@@ -14,6 +15,12 @@ public class SiyerMainScreenManager : MonoBehaviour
     private void Start()
     {
         _animator = GetComponent<Animator>();
+        Invoke("InitAnimation", 1.0f);
+    }
+
+    private void InitAnimation()
+    {
+        _animator.SetTrigger("Bulutlar");
     }
 
     // Update is called once per frame
@@ -40,24 +47,34 @@ public class SiyerMainScreenManager : MonoBehaviour
         var index = _triggers.IndexOf(transformGameObject.name);
         if (index >= 0)
         {
-            GetComponent<AudioSource>().PlayOneShot(_audioClips[index]);
             _animator.SetTrigger(transformGameObject.name);
         }
-        else if (transformGameObject.name == "Talimhane-Bina")
-        {
-            SceneManagementUtil.Load(SceneManagementUtil.Scenes.Talimhane);
-        }
-        else if (transformGameObject.name == "Labirent-Bina")
-        {
-            SceneManagementUtil.Load(SceneManagementUtil.Scenes.Labirent);
-        }
-        else if (transformGameObject.name == "SoruCevap-Bina")
-        {
-            SceneManagementUtil.Load(SceneManagementUtil.Scenes.SoruCevap);
-        }
-        else if (transformGameObject.name == "Kabe-Bina")
-        {
-            SceneManagementUtil.Load(SceneManagementUtil.Scenes.FilVakasi);
-        }
+        else
+            switch (transformGameObject.name)
+            {
+                case "Talimhane-Bina":
+                    SceneManagementUtil.Load(SceneManagementUtil.Scenes.Talimhane);
+                    break;
+                case "Labirent-Bina":
+                    SceneManagementUtil.Load(SceneManagementUtil.Scenes.Labirent);
+                    break;
+                case "SoruCevap-Bina":
+                    SceneManagementUtil.Load(SceneManagementUtil.Scenes.SoruCevap);
+                    break;
+                case "Kabe-Bina":
+                    SceneManagementUtil.Load(SceneManagementUtil.Scenes.FilVakasi);
+                    break;
+                case "Mountain":
+                    _animator.SetTrigger("Bulutlar");
+                    break;
+            }
+    }
+
+    // used by animations
+    [UsedImplicitly]
+    private void Sound(string name)
+    {
+        var index = _triggers.IndexOf(name);
+        GetComponent<AudioSource>().PlayOneShot(_audioClips[index]);
     }
 }
