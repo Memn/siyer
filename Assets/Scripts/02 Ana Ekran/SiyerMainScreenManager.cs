@@ -12,16 +12,17 @@ public class SiyerMainScreenManager : MonoBehaviour
 
     private Animator _animator;
 
+
     private void Start()
     {
         _animator = GetComponent<Animator>();
-        Invoke("InitAnimation", 1.0f);
+        //Invoke("InitAnimation", 1.0f);
     }
-
-    private void InitAnimation()
-    {
-        _animator.SetTrigger("Bulutlar");
-    }
+//
+//    private void InitAnimation()
+//    {
+//        _animator.SetTrigger("Bulutlar");
+//    }
 
     // Update is called once per frame
     private void Update()
@@ -52,21 +53,24 @@ public class SiyerMainScreenManager : MonoBehaviour
         else
             switch (transformGameObject.name)
             {
-                case "Talimhane-Bina":
-                    SceneManagementUtil.Load(SceneManagementUtil.Scenes.Talimhane);
-                    break;
-                case "Labirent-Bina":
-                    SceneManagementUtil.Load(SceneManagementUtil.Scenes.Labirent);
-                    break;
-                case "SoruCevap-Bina":
-                    SceneManagementUtil.Load(SceneManagementUtil.Scenes.SoruCevap);
-                    break;
-                case "Kabe-Bina":
-                    SceneManagementUtil.Load(SceneManagementUtil.Scenes.FilVakasi);
-                    break;
                 case "Mountain":
                     _animator.SetTrigger("Bulutlar");
                     break;
+                default:
+                    GetComponent<BuildingManager>().Select(transformGameObject);
+                    break;
+//                case "Talimhane-Bina":
+//                    SceneManagementUtil.Load(SceneManagementUtil.Scenes.Talimhane);
+//                    break;
+//                case "Labirent-Bina":
+//                    SceneManagementUtil.Load(SceneManagementUtil.Scenes.Labirent);
+//                    break;
+//                case "SoruCevap-Bina":
+//                    SceneManagementUtil.Load(SceneManagementUtil.Scenes.SoruCevap);
+//                    break;
+//                case "Kabe-Bina":
+//                    SceneManagementUtil.Load(SceneManagementUtil.Scenes.FilVakasi);
+//                    break;
             }
     }
 
