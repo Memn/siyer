@@ -1,90 +1,64 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using UnityEditor;
+﻿using System.IO;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class Map : MonoBehaviour {
+public class Map : MonoBehaviour
+{
+    private const string ImgDir = "Assets/Third Party/Word Game/Assets/Resources/Letters/";
+    private const string Empty = ImgDir + "Empty.png";
+
     public GameObject hexPrefab;
-    
-    int width = 5, height=5;
-    public static string word = "Kainatboşlukkabuletmezabii";
-    public static string imgDir = "Assets/Resources/Letters/";
-    public static string Empty = imgDir + "Empty.png";
-    void Start () {
 
-        Puzzle puzzle = PuzzleMaker.MakePuzzle(word);
-        int index = 0;
-        Vector2 pos=new Vector2(0,0);
-        Vector2 start = new Vector2(-1*puzzle.width/2, -1*puzzle.height/2);
-        for (int x = 0; x < puzzle.width; x++)
+    int width = 5, height = 5;
+
+    private const string Word2 = "Kainatboşlukkabuletmezabii";
+
+    private void Start()
+    {
+        CreatePuzzle(Word2);
+    }
+
+    private void CreatePuzzle(string word)
+    {
+        var puzzle = PuzzleMaker.MakePuzzle(word);
+        var startY = -1 * puzzle.height / 2;
+        var startX = -1 * puzzle.width / 2;
+        var start = new Vector2(startX, y: startY);
+        for (var x = 0; x < puzzle.width; x++)
         {
-            for (int y = 0; y < puzzle.height; y++)
+            for (var y = 0; y < puzzle.height; y++)
             {
-             
+                var fy = start.y + y;
+                var fx = start.x + x;
+
                 if (y % 2 == 0)
                 {
-                    pos = new Vector2(start.x+ x + 0.5f, start.y+ y);
-                }
-                else
-                {
-                    pos = new Vector2(start.x + x , start.y + y);
+                    fx += 0.5f;
                 }
 
-                string img2 = imgDir + puzzle.puzzleData[x,y]+".png";
-                GameObject go = Instantiate(hexPrefab, pos, Quaternion.identity) ;
+                var pos = new Vector2(fx, fy);
+                var img2 = ImgDir + puzzle.puzzleData[x, y] + ".png";
+                var go = Instantiate(hexPrefab, pos, Quaternion.identity);
                 go.GetComponent<SpriteRenderer>().sprite = LoadNewSprite(img2);
                 go.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-                index++;
             }
         }
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
-    public Sprite LoadNewSprite(string FilePath, float PixelsPerUnit = 100.0f)
+    private static Sprite LoadNewSprite(string filePath, float pixelsPerUnit = 100.0f)
     {
-
-        // Load a PNG or JPG image from disk to a Texture2D, assign this texture to a new sprite and return its reference
-
-        Sprite NewSprite = new Sprite();
-        Texture2D SpriteTexture = LoadTexture(FilePath);
-        NewSprite = Sprite.Create(SpriteTexture, new Rect(0, 0, SpriteTexture.width, SpriteTexture.height), new Vector2(0, 0), PixelsPerUnit);
-
-        return NewSprite;
+        // Load a PNG or JPG image from disk to a Texture2D,
+        // assign this texture to a new sprite and return its reference
+        var spriteTexture = LoadTexture(filePath);
+        return Sprite.Create(spriteTexture, new Rect(0, 0, spriteTexture.width, spriteTexture.height),
+            new Vector2(0, 0), pixelsPerUnit);
     }
 
-    public Texture2D LoadTexture(string FilePath)
+    private static Texture2D LoadTexture(string filePath)
     {
-
         // Load a PNG or JPG file from disk to a Texture2D
         // Returns null if load fails
-
-        Texture2D Tex2D=null;
-        byte[] FileData;
-
-        if (File.Exists(FilePath))
-        {
-            FileData = File.ReadAllBytes(FilePath);
-            
-             // If data = readable -> return texture
-        }
-        else
-        {
-            FileData = File.ReadAllBytes(Empty);
-        }
-        Tex2D = new Texture2D(2, 2);           // Create new "empty" texture
-        if (Tex2D.LoadImage(FileData))
-        {
-            //Tex2D.Resize(Tex2D.width / 2, Tex2D.height / 2);
-            return Tex2D;
-        }// Load the imagedata into the texture (size is set automatically)
-        return null;                     // Return null if load failed
+        var fileData = File.ReadAllBytes(File.Exists(filePath) ? filePath : Empty);
+        var tex2D = new Texture2D(2, 2);
+        return tex2D.LoadImage(fileData) ? tex2D : null;
     }
 }

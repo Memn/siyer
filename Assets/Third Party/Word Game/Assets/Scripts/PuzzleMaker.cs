@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
 public struct Position
 {
     public int x;
@@ -22,53 +22,48 @@ public struct Puzzle
     public Puzzle(string word)
     {
         this.word = word;
-        int size = (int)(Math.Round(Math.Sqrt(word.Length)));
+        var size = (int)(Math.Round(Math.Sqrt(word.Length)));
         if (size * size < word.Length)
         {
-            this.height = size + 1;
+            height = size + 1;
         }
         else
         {
-            this.height = size;
+            height = size;
         }
         
-        this.width = size;
+        width = size;
         puzzleData = new char[ width, height];
         Array.Clear(puzzleData, 0, height * width);
     }
 }
 public class PuzzleMaker : MonoBehaviour {
+    private static readonly Position Up = new Position(-1, 0);
+    private static readonly Position Right = new Position(0, 1);
+    private static readonly Position Down = new Position(1, 0);
 
-    static Position UP = new Position(-1, 0);
-    static Position UPL = new Position(-1, -1);
-    static Position RIGHT = new Position(0, 1);
-    static Position DOWNL = new Position(1, -1);
-    static Position DOWN = new Position(1, 0);
-    static Position LEFT = new Position(0, -1);
-    //static Position[] SIDES = { UP, UPL,  RIGHT, DOWNL, DOWN, LEFT };
-    static Position[] SIDES = { UP, RIGHT, DOWN, LEFT };
+    private static readonly Position Left = new Position(0, -1);
+    private static readonly Position[] Sides = { Up, Right, Down, Left };
 
     //public static string word = "Siyer, İslam dini literatüründe peygamberlerin, din büyüklerinin ve halifelerin hayat hikâyesidir.";
 
     public static Puzzle MakePuzzle(string word)
     {
         
-        Puzzle puzzle = new Puzzle(word);
+        var puzzle = new Puzzle(word);
 
         //Position position = new Position(randomNumber.Next(size-1), randomNumber.Next(size-1) );
-        Position position = new Position(0, 0);
+        var position = new Position(0, 0);
         
-        addNewCharToPuzzle(0, position, puzzle);
-        printPuzzle(puzzle);
+        AddNewCharToPuzzle(0, position, puzzle);
+        PrintPuzzle(puzzle);
         return puzzle;
     }
 
-    public static bool addNewCharToPuzzle(int charIndex, Position position, Puzzle puzzle)
+    private static bool AddNewCharToPuzzle(int charIndex, Position position, Puzzle puzzle)
     {
-
-        short sideNumber;
-        int tryNumber = 0;
-        bool added = false;
+        var tryNumber = 0;
+        var added = false;
         if (puzzle.word.Length <= charIndex)
         {
             added = true;
@@ -77,14 +72,14 @@ public class PuzzleMaker : MonoBehaviour {
         {
             puzzle.puzzleData[position.x, position.y] = puzzle.word.ElementAt(charIndex);
 
-            sideNumber = (short)UnityEngine.Random.Range(1,SIDES.Length);
+            var sideNumber = (short)Random.Range(1,Sides.Length);
             // sideNumber = 0;
-            while (!added && tryNumber < SIDES.Length)
+            while (!added && tryNumber < Sides.Length)
             {
                 tryNumber++;
-                Position nextPosition = new Position((SIDES[sideNumber].x + position.x), (SIDES[sideNumber].y + position.y));
-                sideNumber = (short)((sideNumber + 1) % SIDES.Length);
-                added = addNewCharToPuzzle(charIndex + 1, nextPosition, puzzle);
+                var nextPosition = new Position((Sides[sideNumber].x + position.x), (Sides[sideNumber].y + position.y));
+                sideNumber = (short)((sideNumber + 1) % Sides.Length);
+                added = AddNewCharToPuzzle(charIndex + 1, nextPosition, puzzle);
             }
             if (!added)
             {
@@ -98,11 +93,11 @@ public class PuzzleMaker : MonoBehaviour {
         return added;
     }
 
-    public static void printPuzzle(Puzzle puzzle)
+    private static void PrintPuzzle(Puzzle puzzle)
     {
-        for (int i = 0; i < puzzle.width; i++)
+        for (var i = 0; i < puzzle.width; i++)
         {
-            for (int j = 0; j < puzzle.height; j++)
+            for (var j = 0; j < puzzle.height; j++)
             {
                 Console.Write(puzzle.puzzleData[i, j] + " ");
             }
