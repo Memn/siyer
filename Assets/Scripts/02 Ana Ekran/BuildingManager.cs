@@ -1,9 +1,16 @@
 ﻿using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BuildingManager : MonoBehaviour
 {
     public Building[] Buildings;
+    public Text SelectedBuildingNameText;
+
+    private void Start()
+    {
+        SelectedBuildingNameText.text = "";
+    }
 
     public void Select(GameObject b)
     {
@@ -22,6 +29,7 @@ public class BuildingManager : MonoBehaviour
         {
             UnselectAll();
             building.Select();
+            SelectedBuildingNameText.text = building.BuildingName;
         }
     }
 
@@ -31,6 +39,8 @@ public class BuildingManager : MonoBehaviour
         {
             building1.Unselect();
         }
+
+        SelectedBuildingNameText.text = "";
     }
 
     private Building FindInBuildings(GameObject b)

@@ -8,6 +8,7 @@ public class Building : MonoBehaviour
 
     public SceneManagementUtil.Scenes Scene;
     public bool Selected;
+    public string BuildingName;
 
     private void Start()
     {
