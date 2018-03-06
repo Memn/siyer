@@ -7,7 +7,6 @@ public class MazeDirectCharacterController : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 2;
 
-//    [SerializeField] private float _turnSpeed = 200;
     [SerializeField] private float _jumpForce = 4;
     [SerializeField] private Transform _camera;
 
@@ -19,7 +18,6 @@ public class MazeDirectCharacterController : MonoBehaviour
     private float _currentH;
 
     private const float Interpolation = 10;
-    private const float WalkScale = 0.33f;
     private readonly float _backwardsWalkScale = 0.16f;
     private readonly float _backwardRunScale = 0.66f;
 
@@ -31,6 +29,13 @@ public class MazeDirectCharacterController : MonoBehaviour
 
     private bool _isGrounded;
     private readonly List<Collider> _collisions = new List<Collider>();
+
+    private const float MaxZ = 26;
+    private const float MinZ = -2;
+    private const float MaxX = 26;
+    private const float MinX = -2;
+    private const float MaxY = 1;
+    private const float MinY = 0.05f;
 
 
     private void OnCollisionEnter(Collision collision)
@@ -123,7 +128,11 @@ public class MazeDirectCharacterController : MonoBehaviour
             _currentDirection = Vector3.Slerp(_currentDirection, direction, Time.deltaTime * Interpolation);
 
             transform.rotation = Quaternion.LookRotation(_currentDirection);
-            transform.position += _currentDirection * _moveSpeed * Time.deltaTime;
+            var clamped = transform.position + _currentDirection * _moveSpeed * Time.deltaTime;
+            clamped.x = Mathf.Clamp(clamped.x, MinX, MaxX);
+            clamped.y = Mathf.Clamp(clamped.y, MinY, MaxY);
+            clamped.z = Mathf.Clamp(clamped.z, MinZ, MaxZ);
+            transform.position = clamped;
 
             _animator.SetFloat("MoveSpeed", direction.magnitude);
         }
