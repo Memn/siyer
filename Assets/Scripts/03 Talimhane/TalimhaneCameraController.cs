@@ -21,4 +21,14 @@ public class TalimhaneCameraController : MonoBehaviour
         following.enabled = !following.enabled;
         Aim.GetComponent<SpriteRenderer>().enabled = !Aim.GetComponent<SpriteRenderer>().enabled;
     }
+
+    public bool IsFpc()
+    {
+        return fpc.enabled;
+    }
+
+    public bool IsFollowingCam()
+    {
+        return following.enabled;
+    }
 }

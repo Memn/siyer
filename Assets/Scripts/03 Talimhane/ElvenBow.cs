@@ -11,19 +11,21 @@ public class ElvenBow : MonoBehaviour
     private Animator _animator;
 
     private bool _gameEnded;
-
+    private bool _shootStarted;
 
     private void Start()
     {
         // create an arrow to shoot
         _animator = GetComponent<Animator>();
         _musicPlayer = FindObjectOfType<TalimhaneMusicPlayer>();
+        _shootStarted = false;
     }
 
     // Update is called once per frame
     private void Update()
     {
         if (_gameEnded) return;
+        if (FindObjectOfType<TalimhaneCameraController>().IsFollowingCam()) return;
 
         if (!Manager.HasArrows())
         {
@@ -36,15 +38,22 @@ public class ElvenBow : MonoBehaviour
         // (also works with touch on android)
         if (Input.GetMouseButtonDown(0))
         {
-            _musicPlayer.Play(TalimhaneMusicPlayer.AudioClips.ArrowNock);
-            _animator.SetTrigger("ready");
+            if (!_animator.GetBool("hazir"))
+            {
+                _musicPlayer.Play(TalimhaneMusicPlayer.AudioClips.ArrowNock);
+                _animator.SetBool("hazir", true);
+            }
+
+            //            _animator.SetTrigger("ready");
         }
 
         // ok, player released the mouse
         // (player released the touch on android)
         if (!Input.GetMouseButtonUp(0)) return;
-        _animator.SetTrigger("pull");
-        _musicPlayer.Play(TalimhaneMusicPlayer.AudioClips.StringPull);
+        if (_animator.GetBool("hazir"))
+        {
+            _animator.SetBool("cek", true);
+        }
     }
 
     [UsedImplicitly]
@@ -52,7 +61,8 @@ public class ElvenBow : MonoBehaviour
     {
 //        Debug.Log("Arrow Released");
         _musicPlayer.Play(TalimhaneMusicPlayer.AudioClips.ArrowSwoosh);
-
+        _animator.SetBool("hazir", false);
+        _animator.SetBool("cek", false);
         CreateArrow();
         ShootArrow();
     }
@@ -78,6 +88,7 @@ public class ElvenBow : MonoBehaviour
         rigid.velocity = _arrow.transform.forward * 100;
 
         FindObjectOfType<TalimhaneCameraController>().ToggleCameras("shoot");
+        _shootStarted = false;
     }
 
 
@@ -86,5 +97,11 @@ public class ElvenBow : MonoBehaviour
     {
 //        Debug.Log("String Released");
         _musicPlayer.Play(TalimhaneMusicPlayer.AudioClips.StringRelease);
+    }
+
+    [UsedImplicitly]
+    private void StringPulled()
+    {
+        _musicPlayer.Play(TalimhaneMusicPlayer.AudioClips.StringPull);
     }
 }
