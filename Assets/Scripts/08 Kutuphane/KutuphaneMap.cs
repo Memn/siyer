@@ -1,21 +1,29 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text.RegularExpressions;
+using UnityEngine;
 
 public class KutuphaneMap : MonoBehaviour
 {
-    [SerializeField] private string _word = "HaciNaptin";
-
     public GameObject PuzzleObject;
     public Transform PuzzleParentTransform;
     private int _width = 5;
     private int _height = 5;
     private const float ScalingFactor = 0.8f;
 
-    private void Start()
-    {
-        CreatePuzzle(_word.ToUpper());
-    }
+    private List<string> _words;
 
-   
+    public void StartPuzzle(string word)
+    {
+        _words = word.ToUpper(CultureInfo.CurrentCulture).Split(' ').ToList();
+        foreach (Transform child in PuzzleParentTransform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        CreatePuzzle(Regex.Replace(word.ToUpper(CultureInfo.CurrentCulture), @"\s+", ""));
+    }
 
     private void CreatePuzzle(string word)
     {
@@ -43,5 +51,23 @@ public class KutuphaneMap : MonoBehaviour
                 go.transform.localScale = Vector3.one * ScalingFactor;
             }
         }
+    }
+
+
+    public bool CheckAnswer(string word)
+    {
+        if (!_words.Contains(word)) return false;
+        _words.Remove(word);
+        return true;
+    }
+
+    public bool AnyWordsLeft()
+    {
+        return _words.Count > 0;
+    }
+
+    public void Done()
+    {
+        GetComponent<KutuphaneManager>().Congrats();
     }
 }
