@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
 public struct Position
@@ -38,7 +38,7 @@ public struct Puzzle
 
         if (height * width < word.Length) width++;
 
-        Assert.True(height * width >= word.Length);
+        Assert.IsTrue(height * width >= word.Length);
 
         puzzleData = new char[width, height];
         Array.Clear(puzzleData, 0, height * width);
