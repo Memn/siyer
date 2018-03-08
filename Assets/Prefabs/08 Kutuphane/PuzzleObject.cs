@@ -38,4 +38,16 @@ public class PuzzleObject : MonoBehaviour
         GetComponent<SpriteRenderer>().color = Color.green;
         GetComponent<CircleCollider2D>().enabled = false;
     }
+
+    public void Explode()
+    {
+        transform.Find("Explosion").gameObject.SetActive(true);
+        Destroy(gameObject, 0.5f);
+    }
+
+    public void Wrong()
+    {
+        Assert.IsTrue(_selected);
+        GetComponent<SpriteRenderer>().color = Color.red;
+    }
 }

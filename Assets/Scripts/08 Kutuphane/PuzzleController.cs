@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PuzzleController : MonoBehaviour
 {
+    private const int MinWordLength = 2;
     [SerializeField] private Camera _camera;
 
     public GameObject AnswerObject;
@@ -40,34 +41,63 @@ public class PuzzleController : MonoBehaviour
 
     private void ControlState()
     {
-        if (Map.CheckAnswer(_answer))
-        {
-            Debug.Log("Success");
-            while (_selectedPuzzleObjects.Count > 0)
-            {
-                _selectedPuzzleObjects.Pop().Correctify();
-                Pop();
-            }
-
-            if (!Map.AnyWordsLeft())
-            {
-                Map.Done();
-            }
-        }
+        if (_answer.Length < MinWordLength) ClearSelectedLetters();
         else
         {
-            Debug.Log("Fail");
-            while (_selectedPuzzleObjects.Count > 0)
-            {
-                _selectedPuzzleObjects.Pop().Unselect();
-                Pop();
-            }
+            if (Map.CheckAnswer(_answer)) SuccessCase();
+            else FailCase();
         }
 
+        ClearAnswerLine();
+    }
+
+    private void ClearAnswerLine()
+    {
         _answer = "";
+        AnswerParentTransform.position += Vector3.right * 0.4f * AnswerParentTransform.childCount;
         foreach (Transform child in AnswerParentTransform)
         {
             Destroy(child.gameObject);
+        }
+    }
+
+    private void FailCase()
+    {
+        Debug.Log("Fail");
+        foreach (var puzzleObject in _selectedPuzzleObjects)
+        {
+            puzzleObject.Wrong();
+        }
+
+        Invoke("ClearSelectedLetters", 0.5f);
+    }
+
+    private void SuccessCase()
+    {
+        Debug.Log("Success");
+        while (_selectedPuzzleObjects.Count > 0)
+        {
+            var puzzleObject = _selectedPuzzleObjects.Pop();
+            puzzleObject.Correctify();
+            puzzleObject.Explode();
+        }
+
+        Invoke("AnyWordsLeft", 0.8f);
+    }
+
+    private void ClearSelectedLetters()
+    {
+        while (_selectedPuzzleObjects.Count > 0)
+        {
+            _selectedPuzzleObjects.Pop().Unselect();
+        }
+    }
+
+    private void AnyWordsLeft()
+    {
+        if (!Map.AnyWordsLeft())
+        {
+            Map.Done();
         }
     }
 
@@ -111,11 +141,6 @@ public class PuzzleController : MonoBehaviour
         _answer = _answer.Remove(_answer.Length - 1);
     }
 
-    private bool AreNeighbours(PuzzleObject puzzleComponent, PuzzleObject last)
-    {
-        return puzzleComponent != last;
-    }
-
     private void Push(PuzzleObject puzzleObject)
     {
         puzzleObject.Select();
@@ -129,5 +154,10 @@ public class PuzzleController : MonoBehaviour
         go.transform.localPosition = Vector2.right * 0.8f * _selectedPuzzleObjects.Count;
         go.transform.localScale = Vector3.one;
         AnswerParentTransform.position += Vector3.left * 0.4f;
+    }
+
+    private bool AreNeighbours(PuzzleObject puzzleComponent, PuzzleObject last)
+    {
+        return puzzleComponent != last;
     }
 }
