@@ -8,9 +8,11 @@ public class KutuphaneMap : MonoBehaviour
 {
     public GameObject PuzzleObject;
     public Transform PuzzleParentTransform;
-    private int _width = 5;
+    private int _width = 7;
     private int _height = 5;
-    private const float ScalingFactor = 0.8f;
+    private const float ScalingFactor = 1f;
+    private const float XSpacing = 1.15f;
+    private const float YSpacing = 0.9f;
 
     private List<string> _words;
 
@@ -35,12 +37,12 @@ public class KutuphaneMap : MonoBehaviour
         {
             for (var y = 0; y < puzzle.height; y++)
             {
-                var fy = start.y + y;
-                var fx = start.x + x;
+                var fy = start.y + y * YSpacing;
+                var fx = start.x + x * XSpacing;
 
                 if (y % 2 == 0)
                 {
-                    fx += 0.5f;
+                    fx += 0.3f;
                 }
 
                 var pos = new Vector2(fx, fy);
