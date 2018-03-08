@@ -11,14 +11,12 @@ public class ElvenBow : MonoBehaviour
     private Animator _animator;
 
     private bool _gameEnded;
-    private bool _shootStarted;
 
     private void Start()
     {
         // create an arrow to shoot
         _animator = GetComponent<Animator>();
         _musicPlayer = FindObjectOfType<TalimhaneMusicPlayer>();
-        _shootStarted = false;
     }
 
     // Update is called once per frame
@@ -69,7 +67,7 @@ public class ElvenBow : MonoBehaviour
 
     private void CreateArrow()
     {
-        _arrow = Instantiate(ArrowPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+        _arrow = Instantiate(ArrowPrefab, Vector3.zero, Quaternion.identity);
         _arrow.name = "arrow";
 
         _arrow.transform.position = Arrow.transform.position;
@@ -88,7 +86,6 @@ public class ElvenBow : MonoBehaviour
         rigid.velocity = _arrow.transform.forward * 100;
 
         FindObjectOfType<TalimhaneCameraController>().ToggleCameras("shoot");
-        _shootStarted = false;
     }
 
 

@@ -28,9 +28,9 @@ public class TalimhaneMusicPlayer : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
     }
 
-    public void Play(AudioClips audio)
+    public void Play(AudioClips audioClip)
     {
-        switch (audio)
+        switch (audioClip)
         {
             case AudioClips.ArrowNock:
                 _audioSource.PlayOneShot(ArrowNock);
@@ -48,7 +48,7 @@ public class TalimhaneMusicPlayer : MonoBehaviour
                 _audioSource.PlayOneShot(ArrowImpact);
                 break;
             default:
-                throw new ArgumentOutOfRangeException("audio", audio, null);
+                throw new ArgumentOutOfRangeException("audioClip", audioClip, null);
         }
     }
 }

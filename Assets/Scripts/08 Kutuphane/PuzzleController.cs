@@ -113,7 +113,7 @@ public class PuzzleController : MonoBehaviour
         else
         {
             if (!AreNeighbours(puzzleComponent, _selectedPuzzleObjects.Peek())) return;
-            if (!puzzleComponent.isSelected())
+            if (!puzzleComponent.Selected())
             {
                 Push(puzzleComponent);
             }

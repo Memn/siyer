@@ -13,7 +13,7 @@ public class PuzzleObject : MonoBehaviour
         textMesh.text = c.ToString();
     }
 
-    public bool isSelected()
+    public bool Selected()
     {
         return _selected;
     }

@@ -6,14 +6,12 @@ public class ElvenArrow : MonoBehaviour
     // public GameObject risingText;
 //    private ElvenBow bow;
 
-    private bool _collided;
     private TalimhaneManager _manager;
 
     // Use this for initialization
     private void Start()
     {
         _manager = FindObjectOfType<TalimhaneManager>();
-        _collided = false;
 //        bow = FindObjectOfType<ElvenBow>();
     }
 

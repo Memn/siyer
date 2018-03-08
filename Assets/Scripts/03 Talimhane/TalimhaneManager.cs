@@ -8,7 +8,7 @@ public class TalimhaneManager : MonoBehaviour
     [SerializeField] private Text _distance;
 
     public int Arrows = 30;
-    private int _points = 0;
+    private int _points;
 
     [SerializeField] private GameObject _player;
     [SerializeField] private GameObject _target;
@@ -31,7 +31,6 @@ public class TalimhaneManager : MonoBehaviour
         var distance = Vector3.Distance(_player.transform.position, _target.transform.position);
         return distance.ToString("F2") + "m";
 
-        return " >1000m";
     }
 
     // Update is called once per frame

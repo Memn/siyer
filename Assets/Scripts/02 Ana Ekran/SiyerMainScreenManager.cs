@@ -76,9 +76,9 @@ public class SiyerMainScreenManager : MonoBehaviour
 
     // used by animations
     [UsedImplicitly]
-    private void Sound(string name)
+    private void Sound(string triggerName)
     {
-        var index = _triggers.IndexOf(name);
+        var index = _triggers.IndexOf(triggerName);
         GetComponent<AudioSource>().PlayOneShot(_audioClips[index]);
     }
 }
