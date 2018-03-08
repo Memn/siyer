@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NUnit.Framework;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -7,54 +8,61 @@ public struct Position
 {
     public int x;
     public int y;
+
     public Position(int x, int y)
     {
         this.x = x;
         this.y = y;
     }
 }
+
 public struct Puzzle
 {
+    private static int MaxHeight = 6;
     public int width;
     public int height;
     public char[,] puzzleData;
     public string word;
+
     public Puzzle(string word)
     {
         this.word = word;
-        var size = (int)(Math.Round(Math.Sqrt(word.Length)));
-        if (size * size < word.Length)
-        {
-            height = size + 1;
-        }
-        else
-        {
-            height = size;
-        }
-        
+        var size = (int) (Math.Round(Math.Sqrt(word.Length)));
+        height = size;
         width = size;
-        puzzleData = new char[ width, height];
+        if (size > MaxHeight)
+        {
+            height = MaxHeight;
+            width = word.Length / height;
+        }
+
+        if (height * width < word.Length) width++;
+
+        Assert.True(height * width >= word.Length);
+
+        puzzleData = new char[width, height];
         Array.Clear(puzzleData, 0, height * width);
     }
 }
-public class PuzzleMaker : MonoBehaviour {
+
+public class PuzzleMaker : MonoBehaviour
+{
     private static readonly Position Up = new Position(-1, 0);
     private static readonly Position Right = new Position(0, 1);
     private static readonly Position Down = new Position(1, 0);
 
     private static readonly Position Left = new Position(0, -1);
-    private static readonly Position[] Sides = { Up, Right, Down, Left };
+    private static readonly Position[] Sides = {Up, Right, Down, Left};
 
     //public static string word = "Siyer, İslam dini literatüründe peygamberlerin, din büyüklerinin ve halifelerin hayat hikâyesidir.";
 
     public static Puzzle MakePuzzle(string word)
     {
-        
         var puzzle = new Puzzle(word);
 
         //Position position = new Position(randomNumber.Next(size-1), randomNumber.Next(size-1) );
         var position = new Position(0, 0);
-        
+
         AddNewCharToPuzzle(0, position, puzzle);
         PrintPuzzle(puzzle);
         return puzzle;
@@ -68,25 +76,25 @@ public class PuzzleMaker : MonoBehaviour {
         {
             added = true;
         }
-        else if (position.x >= 0 && position.x < puzzle.width && position.y >= 0 && position.y < puzzle.height && puzzle.puzzleData[position.x, position.y] == 0)
+        else if (position.x >= 0 && position.x < puzzle.width && position.y >= 0 && position.y < puzzle.height &&
+                 puzzle.puzzleData[position.x, position.y] == 0)
         {
             puzzle.puzzleData[position.x, position.y] = puzzle.word.ElementAt(charIndex);
 
-            var sideNumber = (short)Random.Range(1,Sides.Length);
+            var sideNumber = (short) Random.Range(1, Sides.Length);
             // sideNumber = 0;
             while (!added && tryNumber < Sides.Length)
             {
                 tryNumber++;
                 var nextPosition = new Position((Sides[sideNumber].x + position.x), (Sides[sideNumber].y + position.y));
-                sideNumber = (short)((sideNumber + 1) % Sides.Length);
+                sideNumber = (short) ((sideNumber + 1) % Sides.Length);
                 added = AddNewCharToPuzzle(charIndex + 1, nextPosition, puzzle);
             }
+
             if (!added)
             {
-                puzzle.puzzleData[position.x, position.y] = (char)0;
+                puzzle.puzzleData[position.x, position.y] = (char) 0;
             }
-
-
         }
 
 
@@ -101,6 +109,7 @@ public class PuzzleMaker : MonoBehaviour {
             {
                 Console.Write(puzzle.puzzleData[i, j] + " ");
             }
+
             Console.WriteLine();
         }
     }

@@ -19,9 +19,13 @@ public class KutuphaneManager : MonoBehaviour
         _map = GetComponent<KutuphaneMap>();
         _topicWords = new Dictionary<string, string>
         {
-            {"Sebze", "Hıyar Domates Biber Soğan"},
-            {"Meyve", "Üzüm Elma Armut Şeftali"},
-            {"Savaş", "Dandanakan Ridaniye Mercidabık"}
+            {"Sebze", "Hıyar Domates DolmaBiber Soğan Patlıcan"},
+            {"Ülke", "Türkiye Almanya Fransa SuudiArabistan Lübnan Cezayir Finlandiya"},
+            {"Meyve", "Üzüm Elma Armut Şeftali Erik"},
+            {"Oyun", "GTA Siyer CallOfDuty"},
+            {"Şehir", "İstanbul Ankara Moskova Berlin Tokyo Oslo Helsinki Kudüs"},
+            {"Spor", "Tenis Futbol Top Beşiktaş Galatasaray Fenerbahçe"},
+            {"Savaş", "Dandanakan Ridaniye Mercidabık Preveze"}
         };
 
         LoadNextTopic();
