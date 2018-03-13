@@ -18,21 +18,22 @@ public struct Position
 
 public struct Puzzle
 {
-    private static int MaxHeight = 6;
+    private const int MaxHeight = 6;
     public int width;
     public int height;
     public char[,] puzzleData;
     public string word;
 
-    public Puzzle(string word)
+
+    public Puzzle(string word, int maxHeight = MaxHeight)
     {
         this.word = word;
         var size = (int) (Math.Round(Math.Sqrt(word.Length)));
         height = size;
         width = size;
-        if (size > MaxHeight)
+        if (size > maxHeight)
         {
-            height = MaxHeight;
+            height = maxHeight;
             width = word.Length / height;
         }
 
