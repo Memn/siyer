@@ -14,7 +14,7 @@ public class SplashScreenManager : MonoBehaviour
             Invoke("LoadMainMenu", loadMainMenuAfter);
     }
     public void LoadMainMenu()
-    {
-        SceneManager.LoadScene("01a MainMenu");
+    {   
+        SceneManagementUtil.Load(SceneManagementUtil.Scenes.MainMenu);
     }
 }

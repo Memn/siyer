@@ -13,7 +13,8 @@ public class SceneManagementUtil : MonoBehaviour
         SoruCevap = 5,
         FilVakasi = 6,
         Labirent = 7,
-        Kutuphane = 8
+        Kutuphane = 8,
+        Izometrik = 9
     };
 
     public static void Load(Scenes scene)

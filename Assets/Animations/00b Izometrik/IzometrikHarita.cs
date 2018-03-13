@@ -2,34 +2,34 @@
 using JetBrains.Annotations;
 using UnityEngine;
 
-public class SiyerMainScreenManager : MonoBehaviour
+public class IzometrikHarita : MonoBehaviour
 {
+    [SerializeField] private TextMesh _textMesh;
     [SerializeField] private Camera _camera;
 
 
-    [SerializeField] private List<string> _triggers;
-    [SerializeField] private List<AudioClip> _audioClips;
+    private enum Places
+    {
+        Medine,
+        Kudus
+    }
 
-    private Animator _animator;
-
+    private Dictionary<Places, string> _textDict;
 
     private void Start()
     {
-        _animator = GetComponent<Animator>();
-        //Invoke("InitAnimation", 1.0f);
+        _textDict = new Dictionary<Places, string>
+        {
+            {Places.Medine, "Medineye varamadımö gül kokusu alamadım."},
+            {Places.Kudus, "Kudus İslam Uygarlığı için önemli bir merkezdir.\n Miraç hadisesi burada meydana gelmiştir"}
+        };
     }
-//
-//    private void InitAnimation()
-//    {
-//        _animator.SetTrigger("Bulutlar");
-//    }
 
-    // Update is called once per frame
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManagementUtil.Load(SceneManagementUtil.Scenes.Izometrik);
+            SceneManagementUtil.Load(SceneManagementUtil.Scenes.MainMenu);
         }
 
         if (!Input.GetMouseButtonDown(0)) return;
@@ -45,20 +45,17 @@ public class SiyerMainScreenManager : MonoBehaviour
 
     private void HandleTouchOn(GameObject transformGameObject)
     {
-        var index = _triggers.IndexOf(transformGameObject.name);
-        if (index >= 0)
+        switch (transformGameObject.name)
         {
-            _animator.SetTrigger(transformGameObject.name);
-        }
-        else
-            switch (transformGameObject.name)
-            {
-                case "Mountain":
-                    _animator.SetTrigger("Bulutlar");
-                    break;
-                default:
-                    GetComponent<BuildingManager>().Select(transformGameObject);
-                    break;
+            case "kudus":
+                GetComponent<Animator>().SetTrigger("kudus");
+                break;
+            case "medine":
+                GetComponent<Animator>().SetTrigger("medine");
+                break;
+            default:
+                SceneManagementUtil.Load(SceneManagementUtil.Scenes.AnaEkran);
+                break;
 //                case "Talimhane-Bina":
 //                    SceneManagementUtil.Load(SceneManagementUtil.Scenes.Talimhane);
 //                    break;
@@ -71,14 +68,16 @@ public class SiyerMainScreenManager : MonoBehaviour
 //                case "Kabe-Bina":
 //                    SceneManagementUtil.Load(SceneManagementUtil.Scenes.FilVakasi);
 //                    break;
-            }
+        }
     }
 
-    // used by animations
     [UsedImplicitly]
-    private void Sound(string triggerName)
+    private void UpdateBoard(Places place)
     {
-        var index = _triggers.IndexOf(triggerName);
-        GetComponent<AudioSource>().PlayOneShot(_audioClips[index]);
+        string text;
+        if (_textDict.TryGetValue(place, out text))
+        {
+            _textMesh.text = text;
+        }
     }
 }
