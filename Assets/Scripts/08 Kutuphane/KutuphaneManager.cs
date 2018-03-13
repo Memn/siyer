@@ -5,7 +5,24 @@ using UnityEngine;
 public class KutuphaneManager : MonoBehaviour
 {
     public TextMesh topicHead;
-    private Dictionary<string, string> _topicWords;
+
+    private static readonly Dictionary<string, string> TopicWords = new Dictionary<string, string>
+    {
+        {"Sebze", "Hıyar Domates DolmaBiber Soğan Patlıcan"},
+        {"Ülke", "Türkiye Almanya SuudiArabistan Lübnan Cezayir Finlandiya"},
+        {"Meyve", "Üzüm Elma Armut Şeftali Erik Hurma"},
+        {"Gavur Şehirler", "Moskova Berlin Tokyo Oslo Helsinki"},
+        {"Şehir", "Bakü Trabzon Bursa Aşkabat"},
+        {"Sahabe 1", "OsmanbinAffan EbuUbeydebinCerrah"},
+        {"Sahabe 2", "Abdurrahmanbinavf AlibinEbuTalib"},
+        {"Sahabe 3", "Sa'dbinEbûVakkās SaidbinZeyd"},
+        {"Mübarek Beldeler", "Mekke Medine Kudüs İstanbul Niğde"},
+        {"Sünnet", "Okçuluk Yüzme"},
+        {"Mübarek Hayvan", "Deve Koyun Keçi Kedi"},
+        {"Savaş 1", "Dandanakan Ridaniye Mercidabık Preveze"},
+        {"Savaş 2", "Bedir Uhud Hendek Hayber"},
+        {"Savaş 3", "Şehit Gazi Gaza"},
+    };
 
     [SerializeField] private Camera _camera;
     private KutuphaneMap _map;
@@ -17,30 +34,11 @@ public class KutuphaneManager : MonoBehaviour
     private void Start()
     {
         _map = GetComponent<KutuphaneMap>();
-        _topicWords = new Dictionary<string, string>
-        {
-            {"Sebze", "Hıyar Domates DolmaBiber Soğan Patlıcan"},
-            {"Ülke", "Türkiye Almanya Fransa SuudiArabistan Lübnan Cezayir Finlandiya"},
-            {"Meyve", "Üzüm Elma Armut Şeftali Erik"},
-            {"Oyun", "GTA Siyer CallOfDuty"},
-            {"Şehir", "İstanbul Ankara Moskova Berlin Tokyo Oslo Helsinki Kudüs"},
-            {"Spor", "Tenis Futbol Top Beşiktaş Galatasaray Fenerbahçe"},
-            {"Savaş", "Dandanakan Ridaniye Mercidabık Preveze"}
-        };
-
+        _topicIndex = Random.Range(0, TopicWords.Count);
         LoadNextTopic();
+        StartPuzzle();
     }
 
-    private void StartPuzzle()
-    {
-        string words;
-        var topic = _topicWords.Keys.ElementAt(_topicIndex % _topicWords.Count);
-        topicHead.text = topic;
-        if (_topicWords.TryGetValue(topic, out words))
-        {
-            _map.StartPuzzle(words);
-        }
-    }
 
     private void Update()
     {
@@ -58,7 +56,7 @@ public class KutuphaneManager : MonoBehaviour
         if (!hitInfo) return;
         if (hitInfo.transform.name == "Next")
         {
-            LoadNextTopic();
+            StartPuzzle();
         }
 
         // Here you can check hitInfo to see which collider has been hit, and act appropriately.
@@ -66,10 +64,20 @@ public class KutuphaneManager : MonoBehaviour
 
     private void LoadNextTopic()
     {
+        _topicIndex = ++_topicIndex % TopicWords.Count;
+        string words;
+        if (TopicWords.TryGetValue(TopicWords.Keys.ElementAt(_topicIndex), out words))
+        {
+            _map.LoadPuzzle(words);
+        }
+    }
+
+    private void StartPuzzle()
+    {
         _puzzleScreen.SetActive(true);
         _winScreen.SetActive(false);
-        _topicIndex++;
-        StartPuzzle();
+        topicHead.text = TopicWords.Keys.ElementAt(_topicIndex);
+        _map.StartPuzzle();
     }
 
     public void Congrats()
@@ -79,5 +87,6 @@ public class KutuphaneManager : MonoBehaviour
         _winScreen.transform.Find("Text").GetComponent<TextMesh>().text = messages[r];
         _winScreen.SetActive(true);
         _puzzleScreen.SetActive(false);
+        LoadNextTopic();
     }
 }
