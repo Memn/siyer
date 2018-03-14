@@ -12,6 +12,7 @@ public class TalimhaneManager : MonoBehaviour
 
     [SerializeField] private GameObject _player;
     [SerializeField] private GameObject _target;
+    [SerializeField] private GameObject _aim;
 
     private TalimhaneMusicPlayer _musicPlayer;
 
@@ -24,13 +25,14 @@ public class TalimhaneManager : MonoBehaviour
     public void RecalculateDistance()
     {
         _distance.text = CalculateDistance();
+        _aim.GetComponent<AimDrawer>()
+            .AdjustAccordingToDistance(Vector3.Distance(_player.transform.position, _target.transform.position));
     }
 
     private string CalculateDistance()
     {
         var distance = Vector3.Distance(_player.transform.position, _target.transform.position);
         return distance.ToString("F2") + "m";
-
     }
 
     // Update is called once per frame

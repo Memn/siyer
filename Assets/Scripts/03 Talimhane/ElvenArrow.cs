@@ -11,6 +11,7 @@ public class ElvenArrow : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
+        Physics.gravity = Vector3.down * 6f;
         _manager = FindObjectOfType<TalimhaneManager>();
 //        bow = FindObjectOfType<ElvenBow>();
     }

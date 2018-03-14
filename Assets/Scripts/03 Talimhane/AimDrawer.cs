@@ -2,13 +2,10 @@
 
 public class AimDrawer : MonoBehaviour
 {
-    public GameObject Aim;
-
-    private void Update()
+    public void AdjustAccordingToDistance(float distance)
     {
-//        var transformDirection = transform.TransformDirection(Vector3.forward) * 300;
-        var transformPoint = transform.TransformPoint(Vector3.forward * 600);
-        Aim.transform.localScale = Vector3.one * 0.5f;
-        Aim.transform.position = transformPoint;
+        var factor = Mathf.Clamp(distance / 50.0f, 1f, 1.5f);
+        transform.localPosition *= factor;
+        transform.localScale *= factor;
     }
 }
