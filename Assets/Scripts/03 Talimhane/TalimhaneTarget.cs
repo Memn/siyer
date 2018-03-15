@@ -5,7 +5,7 @@ public class TalimhaneTarget : MonoBehaviour
     float xMin = -12.0f;
     float xMax = 12.0f;
     float zMin = -350.0f; // -400-350 = 50 meters far
-    float zMax = -250.0f; //  -400-250  = 150 meters far
+    float zMax = -310.0f; //  -400-310  = 90 meters far
 
     public Terrain terrain;
     private TalimhaneManager _manager;
