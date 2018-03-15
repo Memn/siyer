@@ -38,7 +38,6 @@ public class ElvenBow : MonoBehaviour
         {
             if (!_animator.GetBool("hazir"))
             {
-                _musicPlayer.Play(TalimhaneMusicPlayer.AudioClips.ArrowNock);
                 _animator.SetBool("hazir", true);
             }
 
@@ -50,8 +49,17 @@ public class ElvenBow : MonoBehaviour
         if (!Input.GetMouseButtonUp(0)) return;
         if (_animator.GetBool("hazir"))
         {
-            _animator.SetBool("cek", true);
+//            _animator.SetBool("cek", true);
+            _animator.SetBool("release", true);
         }
+    }
+
+    
+    [UsedImplicitly]
+    public void ArrowReady()
+    {
+        _musicPlayer.Play(TalimhaneMusicPlayer.AudioClips.ArrowNock);
+        
     }
 
     [UsedImplicitly]
@@ -60,7 +68,8 @@ public class ElvenBow : MonoBehaviour
 //        Debug.Log("Arrow Released");
         _musicPlayer.Play(TalimhaneMusicPlayer.AudioClips.ArrowSwoosh);
         _animator.SetBool("hazir", false);
-        _animator.SetBool("cek", false);
+//        _animator.SetBool("cek", false);
+        _animator.SetBool("release", false);
         CreateArrow();
         ShootArrow();
     }
