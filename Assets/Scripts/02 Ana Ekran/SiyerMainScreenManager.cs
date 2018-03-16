@@ -16,13 +16,7 @@ public class SiyerMainScreenManager : MonoBehaviour
     private void Start()
     {
         _animator = GetComponent<Animator>();
-        //Invoke("InitAnimation", 1.0f);
     }
-//
-//    private void InitAnimation()
-//    {
-//        _animator.SetTrigger("Bulutlar");
-//    }
 
     // Update is called once per frame
     private void Update()
@@ -35,11 +29,9 @@ public class SiyerMainScreenManager : MonoBehaviour
         if (!Input.GetMouseButtonDown(0)) return;
         var pos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
         var hitInfo = Physics2D.Raycast(_camera.ScreenToWorldPoint(pos), Vector2.zero);
-        // RaycastHit2D can be either true or null, but has an implicit conversion to bool, so we can use it like this
         if (hitInfo)
         {
             HandleTouchOn(hitInfo.transform.gameObject);
-            // Here you can check hitInfo to see which collider has been hit, and act appropriately.
         }
     }
 
@@ -57,20 +49,8 @@ public class SiyerMainScreenManager : MonoBehaviour
                     _animator.SetTrigger("Bulutlar");
                     break;
                 default:
-                    GetComponent<BuildingManager>().Select(transformGameObject);
+                    GetComponent<BuildingManager>().Selection(transformGameObject);
                     break;
-//                case "Talimhane-Bina":
-//                    SceneManagementUtil.Load(SceneManagementUtil.Scenes.Talimhane);
-//                    break;
-//                case "Labirent-Bina":
-//                    SceneManagementUtil.Load(SceneManagementUtil.Scenes.Labirent);
-//                    break;
-//                case "SoruCevap-Bina":
-//                    SceneManagementUtil.Load(SceneManagementUtil.Scenes.SoruCevap);
-//                    break;
-//                case "Kabe-Bina":
-//                    SceneManagementUtil.Load(SceneManagementUtil.Scenes.FilVakasi);
-//                    break;
             }
     }
 

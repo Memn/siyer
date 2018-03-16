@@ -31,4 +31,37 @@ public class Building : MonoBehaviour
         _sprite.color = Color.yellow;
         Selected = true;
     }
+
+    public void Selection()
+    {
+        _sprite.color = Color.white;
+        foreach (Transform child in transform)
+        {
+            child.GetComponent<SpriteRenderer>().color = Color.white;
+        }
+
+        Selected = true;
+    }
+
+    public void Darken()
+    {
+        _sprite.color = Color.gray;
+        foreach (Transform child in transform)
+        {
+            child.GetComponent<SpriteRenderer>().color = Color.gray;
+        }
+
+        Selected = false;
+    }
+
+    public void Enlight()
+    {
+        _sprite.color = Color.white;
+        foreach (Transform child in transform)
+        {
+            child.GetComponent<SpriteRenderer>().color = Color.white;
+        }
+
+        Selected = false;
+    }
 }

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class BuildingManager : MonoBehaviour
 {
     public Building[] Buildings;
+    public SpriteRenderer Background;
     public Text SelectedBuildingNameText;
 
     private void Start()
@@ -12,12 +13,19 @@ public class BuildingManager : MonoBehaviour
         SelectedBuildingNameText.text = "";
     }
 
-    public void Select(GameObject b)
+    private Building FindInBuildings(GameObject b)
+    {
+        if (!b.GetComponent<Building>()) return null;
+        var buildingName = b.name;
+        return Buildings.FirstOrDefault(building => building.name == buildingName);
+    }
+
+    public void Selection(GameObject b)
     {
         var building = FindInBuildings(b);
         if (!building)
         {
-            UnselectAll();
+            EnlightAll();
             return;
         }
 
@@ -27,26 +35,31 @@ public class BuildingManager : MonoBehaviour
         }
         else
         {
-            UnselectAll();
-            building.Select();
+            DarkenAll();
+            building.Selection();
             SelectedBuildingNameText.text = building.BuildingName;
         }
     }
 
-    private void UnselectAll()
+    private void EnlightAll()
     {
         foreach (var building1 in Buildings)
         {
-            building1.Unselect();
+            building1.Enlight();
         }
 
+        Background.color = Color.white;
         SelectedBuildingNameText.text = "";
     }
 
-    private Building FindInBuildings(GameObject b)
+    private void DarkenAll()
     {
-        if (!b.GetComponent<Building>()) return null;
-        var buildingName = b.name;
-        return Buildings.FirstOrDefault(building => building.name == buildingName);
+        foreach (var building1 in Buildings)
+        {
+            building1.Darken();
+        }
+
+        Background.color = Color.gray;
+        SelectedBuildingNameText.text = "";
     }
 }
