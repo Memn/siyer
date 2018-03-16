@@ -7,7 +7,7 @@ public class MazeDirectCharacterController : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 2;
 
-    [SerializeField] private float _jumpForce = 4;
+    [SerializeField] private float _jumpForce = 3;
     [SerializeField] private Transform _camera;
 
     private Animator _animator;
@@ -30,14 +30,16 @@ public class MazeDirectCharacterController : MonoBehaviour
     private bool _isGrounded;
     private readonly List<Collider> _collisions = new List<Collider>();
 
-    private const float MaxZ = 26;
-    private const float MinZ = -2;
-    private const float MaxX = 26;
-    private const float MinX = -2;
+    private const float MaxZ = 25.5f;
+    private const float MinZ = -1.7f;
+    private const float MaxX = 25.5f;
+    private const float MinX = -1.7f;
     private const float MaxY = 1;
     private const float MinY = 0.05f;
 
 
+    
+    
     private void OnCollisionEnter(Collision collision)
     {
         var contactPoints = collision.contacts;

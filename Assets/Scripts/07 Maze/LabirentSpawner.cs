@@ -6,7 +6,7 @@ public class LabirentSpawner : MonoBehaviour
 
     public GameObject Floor;
     public GameObject[] WallFabs;
-    public GameObject GoalPrefab;
+    public GameObject[] GoalPrefabs;
 
     private const int Rows = 7;
     private const int Columns = 7;
@@ -59,8 +59,9 @@ public class LabirentSpawner : MonoBehaviour
                     tmp.transform.parent = back;
                 }
 
-                if (!cell.IsGoal || GoalPrefab == null) continue;
-                tmp = Instantiate(GoalPrefab, new Vector3(x, 0, z), Quaternion.Euler(0, 0, 0));
+                if (!cell.IsGoal || GoalPrefabs == null || GoalPrefabs.Length < 1) continue;
+                var goalPrefab = GoalPrefabs[Random.Range(0, GoalPrefabs.Length)];
+                tmp = Instantiate(goalPrefab, new Vector3(x, 0, z), Quaternion.Euler(0, 0, 0));
                 tmp.transform.parent = transform;
                 goals++;
             }

@@ -28,20 +28,18 @@ public class LabirentPlayer : MonoBehaviour
         {
             if (_audioSource != null && HitSound != null && coll.relativeVelocity.magnitude > 2f)
             {
-                _audioSource.PlayOneShot(HitSound, coll.relativeVelocity.magnitude);
+//                _audioSource.PlayOneShot(HitSound, coll.relativeVelocity.magnitude);
             }
         }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!other.gameObject.tag.Equals("Goal")) return;
+        
+        if (!coll.gameObject.tag.Equals("Goal")) return;
         if (_audioSource != null && CoinSound != null)
         {
             _audioSource.PlayOneShot(CoinSound);
         }
 
-        Destroy(other.gameObject);
+        Destroy(coll.gameObject);
         Manager.CoinCollected();
     }
+
 }
