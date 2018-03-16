@@ -76,13 +76,14 @@ public class KutuphaneManager : MonoBehaviour
     {
         _puzzleScreen.SetActive(true);
         _winScreen.SetActive(false);
-        topicHead.text = TopicWords.Keys.ElementAt(_topicIndex);
+        var topicWords = TopicWords.Keys.ElementAt(_topicIndex).Split();
+        topicHead.text = string.Join("\n", topicWords);
         _map.StartPuzzle();
     }
 
     public void Congrats()
     {
-        string[] messages = {"Aferin", "Tebrikler", "Bravo", "Helal", "Mükemmel", "Başarılı"};
+        string[] messages = {"Aferin", "Tebrikler", "Fantastik", "Bravo", "Helal", "Mükemmel", "Başarılı"};
         var r = Random.Range(0, messages.Length);
         _winScreen.transform.Find("Text").GetComponent<TextMesh>().text = messages[r];
         _winScreen.SetActive(true);
