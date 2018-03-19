@@ -18,7 +18,7 @@ public struct Position
 
 public struct Puzzle
 {
-    private const int MaxHeight = 6;
+    private const int MaxHeight = 5;
     public int width;
     public int height;
     public char[,] puzzleData;
