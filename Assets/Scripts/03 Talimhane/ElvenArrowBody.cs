@@ -42,7 +42,7 @@ public class ElvenArrowBody : MonoBehaviour
 
         if (!other.transform.CompareTag("Goal")) return;
         if (_collided) return;
-        Debug.Log("Hit : " + other.transform.name);
+//        Debug.Log("Hit : " + other.transform.name);
         _collided = true;
         if (other.name.Equals("bind_r_bag01"))
         {
