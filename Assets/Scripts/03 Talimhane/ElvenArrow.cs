@@ -49,10 +49,10 @@ public class ElvenArrow : MonoBehaviour
 
     public void Hit(bool target)
     {
-        StartCoroutine(HitSmth(target));
+        StartCoroutine(HitSmth(target, false));
     }
 
-    private IEnumerator HitSmth(bool target)
+    private IEnumerator HitSmth(bool target, bool straw)
     {
         // set velocity to zero
         GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -68,7 +68,8 @@ public class ElvenArrow : MonoBehaviour
         // wait for a while 
         if (target)
         {
-            FindObjectOfType<TalimhaneTarget>().SetPostion();
+//            FindObjectOfType<TalimhaneTarget>().SetPostion();
+            _manager.MoveTarget(straw);
             Die("target");
         }
         else
@@ -81,13 +82,18 @@ public class ElvenArrow : MonoBehaviour
     public void RightHit()
     {
         _manager.SetTrigger("right-hit");
-        StartCoroutine(HitSmth(true));
+        Hit(true);
     }
 
     public void LeftHit()
     {
         _manager.SetTrigger("left-hit");
-        
-        StartCoroutine(HitSmth(true));
+        Hit(true);
+    }
+
+    public void HitStraw()
+    {
+        _manager.SetTrigger("hit");
+        StartCoroutine(HitSmth(true, true));
     }
 }

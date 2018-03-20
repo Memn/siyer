@@ -12,9 +12,9 @@ public class TalimhaneManager : MonoBehaviour
 
     [SerializeField] private GameObject _player;
     [SerializeField] private GameObject _target;
-    [SerializeField] private GameObject _aim;
 
     [SerializeField] private Animator _targetAnimator;
+    [SerializeField] private Animator _strawAnimator;
 
     private TalimhaneMusicPlayer _musicPlayer;
 
@@ -70,7 +70,15 @@ public class TalimhaneManager : MonoBehaviour
 
     public void SetTrigger(string triggerName)
     {
-        _targetAnimator.SetTrigger(triggerName);
+        if (triggerName == "hit")
+            _strawAnimator.SetTrigger(triggerName);
+        else
+            _targetAnimator.SetTrigger(triggerName);
     }
-    
+
+    public void MoveTarget(bool straw)
+    {
+        var hitTargetAnimator = straw ? _strawAnimator : _targetAnimator;
+        hitTargetAnimator.transform.parent.GetComponent<TalimhaneTarget>().SetPostion();
+    }
 }
