@@ -14,6 +14,8 @@ public class TalimhaneManager : MonoBehaviour
     [SerializeField] private GameObject _target;
     [SerializeField] private GameObject _aim;
 
+    [SerializeField] private Animator _targetAnimator;
+
     private TalimhaneMusicPlayer _musicPlayer;
 
     private void Start()
@@ -25,8 +27,8 @@ public class TalimhaneManager : MonoBehaviour
     public void RecalculateDistance()
     {
         _distance.text = CalculateDistance();
-        _aim.GetComponent<AimDrawer>()
-            .AdjustAccordingToDistance(Vector3.Distance(_player.transform.position, _target.transform.position));
+//        _aim.GetComponent<AimDrawer>()
+//            .AdjustAccordingToDistance(Vector3.Distance(_player.transform.position, _target.transform.position));
     }
 
     private string CalculateDistance()
@@ -65,4 +67,10 @@ public class TalimhaneManager : MonoBehaviour
         _points += 0;
         _score.text = _points.ToString();
     }
+
+    public void SetTrigger(string triggerName)
+    {
+        _targetAnimator.SetTrigger(triggerName);
+    }
+    
 }

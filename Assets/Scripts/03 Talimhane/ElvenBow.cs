@@ -6,6 +6,7 @@ public class ElvenBow : MonoBehaviour
     public TalimhaneManager Manager;
     public GameObject Arrow;
     public GameObject ArrowPrefab;
+    public GameObject Aim;
     private GameObject _arrow;
     private TalimhaneMusicPlayer _musicPlayer;
     private Animator _animator;
@@ -79,9 +80,10 @@ public class ElvenBow : MonoBehaviour
         _arrow = Instantiate(ArrowPrefab, Vector3.zero, Quaternion.identity);
         _arrow.name = "arrow";
 
-        _arrow.transform.position = Arrow.transform.position;
-        _arrow.transform.rotation = Arrow.transform.rotation;
-        _arrow.transform.localScale = Vector3.one * 0.3f;
+        _arrow.transform.position = Aim.transform.position;
+        _arrow.transform.rotation = Aim.transform.rotation;
+        _arrow.transform.parent = Aim.transform.parent;
+        _arrow.transform.localScale = Aim.transform.localScale*5;
 
         FindObjectOfType<FollowingCamera>().setTarget(_arrow.transform);
     }

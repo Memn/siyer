@@ -39,6 +39,25 @@ public class ElvenArrowBody : MonoBehaviour
                 transform.parent.GetComponent<ElvenArrow>().Hit(true);
             }
         }
+
+        if (!other.transform.CompareTag("Goal")) return;
+        if (_collided) return;
+        Debug.Log("Hit : " + other.transform.name);
+        _collided = true;
+        if (other.name.Equals("bind_r_bag01"))
+        {
+            transform.parent.transform.parent = other.transform;
+            transform.parent.GetComponent<ElvenArrow>().RightHit();
+        }
+
+        if (other.name.Equals("bind_l_bag01"))
+        {
+            transform.parent.transform.parent = other.transform;
+            transform.parent.GetComponent<ElvenArrow>().LeftHit();
+        }
+
+        if (other.name.Equals("bind_perekladina01"))
+            transform.parent.GetComponent<ElvenArrow>().Hit(true);
     }
 
 

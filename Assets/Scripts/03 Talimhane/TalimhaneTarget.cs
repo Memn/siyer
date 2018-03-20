@@ -25,7 +25,7 @@ public class TalimhaneTarget : MonoBehaviour
 
     float HeightAtTerrain(Vector3 pos)
     {
-        return terrain.SampleHeight(pos) + 1.05f;
+        return terrain.SampleHeight(pos);
     }
 
     public void SetPostion()

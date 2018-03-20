@@ -77,4 +77,17 @@ public class ElvenArrow : MonoBehaviour
             Die("plane");
         }
     }
+
+    public void RightHit()
+    {
+        _manager.SetTrigger("right-hit");
+        StartCoroutine(HitSmth(true));
+    }
+
+    public void LeftHit()
+    {
+        _manager.SetTrigger("left-hit");
+        
+        StartCoroutine(HitSmth(true));
+    }
 }
