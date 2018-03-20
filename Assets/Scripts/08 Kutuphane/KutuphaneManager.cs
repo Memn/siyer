@@ -83,7 +83,7 @@ public class KutuphaneManager : MonoBehaviour
 
     public void Congrats()
     {
-        string[] messages = {"Aferin", "Tebrikler", "Fantastik", "Bravo", "Helal", "Mükemmel", "Başarılı"};
+        string[] messages = {"Aferin", "Tebrikler", "Canavar", "Helal", "Mükemmel", "Başarılı"};
         var r = Random.Range(0, messages.Length);
         _winScreen.transform.Find("Text").GetComponent<TextMesh>().text = messages[r];
         _winScreen.SetActive(true);
