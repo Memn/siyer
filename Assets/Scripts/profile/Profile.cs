@@ -35,7 +35,7 @@ public class Profile : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManagementUtil.Load(SceneManagementUtil.Scenes.MainMenu);
+            SceneManagementUtil.Load(SceneManagementUtil.Scenes.Izometrik);
         }
     }
 

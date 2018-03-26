@@ -20,7 +20,7 @@ public class IzometrikHarita : MonoBehaviour
     {
         _textDict = new Dictionary<Places, string>
         {
-            {Places.Medine, "Medineye varamadımö gül kokusu alamadım."},
+            {Places.Medine, "Medineye varamadım gül kokusu alamadım."},
             {Places.Kudus, "Kudus İslam Uygarlığı için önemli bir merkezdir.\n Miraç hadisesi burada meydana gelmiştir"}
         };
     }
@@ -29,7 +29,7 @@ public class IzometrikHarita : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManagementUtil.Load(SceneManagementUtil.Scenes.MainMenu);
+            SceneManagementUtil.Quit();
         }
 
         if (!Input.GetMouseButtonDown(0)) return;

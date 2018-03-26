@@ -15,6 +15,6 @@ public class SplashScreenManager : MonoBehaviour
     }
     public void LoadMainMenu()
     {   
-        SceneManagementUtil.Load(SceneManagementUtil.Scenes.MainMenu);
+        SceneManagementUtil.Load(SceneManagementUtil.Scenes.Izometrik);
     }
 }
