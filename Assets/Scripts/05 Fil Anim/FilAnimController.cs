@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -45,6 +46,7 @@ public class FilAnimController : MonoBehaviour
         _quest.SetActive(true);
     }
 
+    [UsedImplicitly]
     public void PlayPause()
     {
         if (_videoPlayer.isPlaying)
@@ -59,6 +61,7 @@ public class FilAnimController : MonoBehaviour
         }
     }
 
+    [UsedImplicitly]
     public void Skip()
     {
         if (_videoPlayer.isPlaying)
@@ -69,6 +72,7 @@ public class FilAnimController : MonoBehaviour
         StartQuest();
     }
 
+    [UsedImplicitly]
     public void Back()
     {
         SceneManagementUtil.Load(SceneManagementUtil.Scenes.AnaEkran);
