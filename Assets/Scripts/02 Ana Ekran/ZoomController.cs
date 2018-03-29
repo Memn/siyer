@@ -8,6 +8,8 @@ public class ZoomController : MonoBehaviour
     [SerializeField] private float _orthoMaxSize = 4.5f;
     [SerializeField] private SpriteRenderer _map;
 
+    [SerializeField] private Animator _cloudsAnimator;
+
     private Camera _camera;
 
 
@@ -54,16 +56,17 @@ public class ZoomController : MonoBehaviour
                 if (!_camera.orthographic) return;
                 // ... change the orthographic size based on the change in distance between the touches.
                 _camera.orthographicSize += deltaMagnitudeDiff * _orthoZoomSpeed;
-                _camera.orthographicSize = Mathf.Max(_camera.orthographicSize, _orthoMinSize);
+                Debug.Log("Ortho changed to:" + _camera.orthographicSize);
+//                _camera.orthographicSize = Mathf.Max(_camera.orthographicSize, _orthoMinSize);
                 _camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize, _orthoMinSize, _orthoMaxSize);
 
                 // Make sure the camera position is in bounds.
                 UpdateCameraBounds();
                 UpdateCameraPosition(Vector3.zero);
+                _cloudsAnimator.SetBool("Disabled", _camera.orthographicSize < 2.6f);
                 break;
             }
         }
-
     }
 
     private void UpdateCameraPosition(Vector3 add)

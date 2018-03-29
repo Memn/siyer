@@ -7,6 +7,7 @@ public class BuildingManager : MonoBehaviour
     public Building[] Buildings;
     public SpriteRenderer Background;
     public Text SelectedBuildingNameText;
+    public GameObject Board;
 
     private void Start()
     {
@@ -26,6 +27,7 @@ public class BuildingManager : MonoBehaviour
         if (!building)
         {
             EnlightAll();
+            Board.SetActive(false);
             return;
         }
 
@@ -37,6 +39,7 @@ public class BuildingManager : MonoBehaviour
         {
             DarkenAll();
             building.Selection();
+            Board.SetActive(true);
             SelectedBuildingNameText.text = building.BuildingName;
         }
     }

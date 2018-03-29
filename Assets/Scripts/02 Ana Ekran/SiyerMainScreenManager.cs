@@ -23,7 +23,7 @@ public class SiyerMainScreenManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManagementUtil.Load(SceneManagementUtil.Scenes.Izometrik);
+            Back();
         }
 
         if (!Input.GetMouseButtonDown(0)) return;
@@ -35,6 +35,12 @@ public class SiyerMainScreenManager : MonoBehaviour
         }
     }
 
+    [UsedImplicitly]
+    public void Back()
+    {
+        SceneManagementUtil.Load(SceneManagementUtil.Scenes.Izometrik);
+    }
+
     private void HandleTouchOn(GameObject transformGameObject)
     {
         var index = _triggers.IndexOf(transformGameObject.name);
@@ -43,15 +49,7 @@ public class SiyerMainScreenManager : MonoBehaviour
             _animator.SetTrigger(transformGameObject.name);
         }
         else
-            switch (transformGameObject.name)
-            {
-                case "Mountain":
-                    _animator.SetTrigger("Bulutlar");
-                    break;
-                default:
-                    GetComponent<BuildingManager>().Selection(transformGameObject);
-                    break;
-            }
+            GetComponent<BuildingManager>().Selection(transformGameObject);
     }
 
     // used by animations
@@ -60,5 +58,11 @@ public class SiyerMainScreenManager : MonoBehaviour
     {
         var index = _triggers.IndexOf(triggerName);
         GetComponent<AudioSource>().PlayOneShot(_audioClips[index]);
+    }
+
+
+    private void MainCameraTransformUpdate()
+    {
+        _camera.transform.parent = null;
     }
 }
