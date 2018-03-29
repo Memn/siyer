@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class MazeManager : MonoBehaviour
@@ -12,8 +13,14 @@ public class MazeManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManagementUtil.Load(SceneManagementUtil.Scenes.AnaEkran);
+            Back();
         }
+    }
+
+    [UsedImplicitly]
+    public void Back()
+    {
+        SceneManagementUtil.Load(SceneManagementUtil.Scenes.AnaEkran);
     }
 
     internal void CoinCollected()

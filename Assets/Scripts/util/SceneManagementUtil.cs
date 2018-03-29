@@ -7,13 +7,12 @@ public class SceneManagementUtil : MonoBehaviour
     public enum Scenes
     {
         Izometrik = 1,
-        Profile = 2,
-        AnaEkran = 3,
-        Talimhane = 4,
-        SoruCevap = 5,
-        FilVakasi = 6,
-        Labirent = 7,
-        Kutuphane = 8
+        AnaEkran = 2,
+        Talimhane = 3,
+        SoruCevap = 4,
+        FilVakasi = 5,
+        Labirent = 6,
+        Kutuphane = 7
     };
 
     public static void Load(Scenes scene)

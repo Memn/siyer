@@ -38,7 +38,7 @@ public class KutuphaneMap : MonoBehaviour
     {
         var startY = -1 * makePuzzle.height / 2;
         var startX = -1 * makePuzzle.width / 2;
-        var start = new Vector2(startX, startY);
+        var start  = new Vector2(startX, startY);
         for (var x = 0; x < makePuzzle.width; x++)
         {
             for (var y = 0; y < makePuzzle.height; y++)
@@ -52,11 +52,11 @@ public class KutuphaneMap : MonoBehaviour
                 }
 
                 var pos = new Vector2(fx, fy);
-                var go = Instantiate(PuzzleObject, Vector3.zero, Quaternion.identity);
+                var go  = Instantiate(PuzzleObject, Vector3.zero, Quaternion.identity);
                 go.GetComponent<PuzzleObject>().SetCharacter(makePuzzle.puzzleData[x, y]);
-                go.transform.parent = PuzzleParentTransform;
+                go.transform.parent        = PuzzleParentTransform;
                 go.transform.localPosition = pos;
-                go.transform.localScale = Vector3.one * ScalingFactor;
+                go.transform.localScale    = Vector3.one * ScalingFactor;
             }
         }
     }
@@ -77,5 +77,10 @@ public class KutuphaneMap : MonoBehaviour
     public void Done()
     {
         GetComponent<KutuphaneManager>().Congrats();
+    }
+
+    public void Help()
+    {
+        Debug.Log(_words.First());
     }
 }

@@ -1,27 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class KutuphaneManager : MonoBehaviour
 {
-    public TextMesh topicHead;
+    public Text topicHead;
+
 
     private static readonly Dictionary<string, string> TopicWords = new Dictionary<string, string>
     {
-        {"Sebze", "Hıyar Domates DolmaBiber Soğan Patlıcan"},
-        {"Ülke", "Türkiye Almanya SuudiArabistan Lübnan Cezayir Finlandiya"},
-        {"Meyve", "Üzüm Elma Armut Şeftali Erik Hurma"},
-        {"Gavur Şehirler", "Moskova Berlin Tokyo Oslo Helsinki"},
-        {"Şehir", "Bakü Trabzon Bursa Aşkabat"},
-        {"Sahabe 1", "OsmanbinAffan EbuUbeydebinCerrah"},
-        {"Sahabe 2", "Abdurrahmanbinavf AlibinEbuTalib"},
-        {"Sahabe 3", "Sa'dbinEbûVakkās SaidbinZeyd"},
-        {"Mübarek Beldeler", "Mekke Medine Kudüs İstanbul Niğde"},
-        {"Sünnet", "Okçuluk Yüzme"},
-        {"Mübarek Hayvan", "Deve Koyun Keçi Kedi"},
-        {"Savaş 1", "Dandanakan Ridaniye Mercidabık Preveze"},
-        {"Savaş 2", "Bedir Uhud Hendek Hayber"},
-        {"Savaş 3", "Şehit Gazi Gaza"},
+        {"Kıblemiz", "Kâbe"},
+        {"İlahi Kitap", "Kuran"},
+        {"Kuran'ın İndirildiği Şehirler", "Mekke Medine"},
+        {"Bilal-i Habeşi", "Ezan Müezzin"},
+        {"Peygamber", "Nebi Resul"},
+        {"Hz. Ömer", "Faruk Halife Adalet"},
+        {"Hira", "Nur Oku Vahiy Cebrail"},
+        {"Mirac", "İsra Kudüs Namaz"},
+        {"İbadet", "Namaz Farz Sünnet Nafile Vacib"},
+        {"Hicret", "Habeşistan Sevr Medine Ensar Muhacir"},
+        {"İslam", "KelimeiŞahadet Namaz Oruç Zekat Hac"},
+        {"Ahiret", "Ölüm Azrail Cennet Cehennem Kabir"},
+        {"Cahiliye", "Darunnedve Putlar Zulüm İşkence Müşrik"},
     };
 
     [SerializeField] private Camera _camera;
@@ -30,6 +32,8 @@ public class KutuphaneManager : MonoBehaviour
 
     [SerializeField] private GameObject _winScreen;
     [SerializeField] private GameObject _puzzleScreen;
+
+    public UserManager UserManager;
 
     private void Start()
     {
@@ -45,7 +49,7 @@ public class KutuphaneManager : MonoBehaviour
         // idle movements can be done here?
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManagementUtil.Load(SceneManagementUtil.Scenes.AnaEkran);
+            Back();
         }
 
         if (!Input.GetMouseButton(0)) return;
@@ -54,12 +58,15 @@ public class KutuphaneManager : MonoBehaviour
         var hitInfo = Physics2D.Raycast(_camera.ScreenToWorldPoint(pos), Vector2.zero);
         // RaycastHit2D can be either true or null, but has an implicit conversion to bool, so we can use it like this
         if (!hitInfo) return;
-        if (hitInfo.transform.name == "Next")
-        {
-            StartPuzzle();
-        }
+        if (hitInfo.transform.name == "Next") StartPuzzle();
 
         // Here you can check hitInfo to see which collider has been hit, and act appropriately.
+    }
+
+    [UsedImplicitly]
+    public void Back()
+    {
+        SceneManagementUtil.Load(SceneManagementUtil.Scenes.AnaEkran);
     }
 
     private void LoadNextTopic()

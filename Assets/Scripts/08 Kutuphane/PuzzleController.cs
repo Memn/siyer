@@ -63,7 +63,6 @@ public class PuzzleController : MonoBehaviour
 
     private void FailCase()
     {
-        Debug.Log("Fail");
         foreach (var puzzleObject in _selectedPuzzleObjects)
         {
             puzzleObject.Wrong();
@@ -74,7 +73,6 @@ public class PuzzleController : MonoBehaviour
 
     private void SuccessCase()
     {
-        Debug.Log("Success");
         while (_selectedPuzzleObjects.Count > 0)
         {
             var puzzleObject = _selectedPuzzleObjects.Pop();
