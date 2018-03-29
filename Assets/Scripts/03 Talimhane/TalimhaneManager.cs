@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class TalimhaneManager : MonoBehaviour
@@ -21,6 +22,8 @@ public class TalimhaneManager : MonoBehaviour
     private void Start()
     {
         _musicPlayer = FindObjectOfType<TalimhaneMusicPlayer>();
+        _arrows.text = Arrows.ToString();
+        _score.text = _points.ToString();
         RecalculateDistance();
     }
 
@@ -42,8 +45,14 @@ public class TalimhaneManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManagementUtil.Load(SceneManagementUtil.Scenes.AnaEkran);
+            Back();
         }
+    }
+
+    [UsedImplicitly]
+    public void Back()
+    {
+        SceneManagementUtil.Load(SceneManagementUtil.Scenes.AnaEkran);
     }
 
     public bool HasArrows()
