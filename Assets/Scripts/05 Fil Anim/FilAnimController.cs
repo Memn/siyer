@@ -11,10 +11,17 @@ public class FilAnimController : MonoBehaviour
     [SerializeField] private Animator _videoPanelAnimator;
 
     [SerializeField] private GameObject _quest;
-
     [SerializeField] private GameObject _skipButton;
-
     [SerializeField] private RawImage _rawImage;
+
+    [SerializeField] private Button _nextButton;
+    [SerializeField] private Button _previousButton;
+
+
+    private static int _videoIndex = 0;
+
+    public VideoClip[] VideoClips;
+
 
     private void Start()
     {
@@ -24,20 +31,64 @@ public class FilAnimController : MonoBehaviour
 
     private IEnumerator PlayVideo()
     {
+        _videoPlayer.clip = VideoClips[_videoIndex];
+        UpdateButtonConditions();
         _videoPlayer.Prepare();
         while (!_videoPlayer.isPrepared)
         {
             yield return null;
         }
-        
+
         _rawImage.texture = _videoPlayer.texture;
         _videoPanelAnimator.SetTrigger("VideoStart");
         _videoPlayer.Play();
     }
 
+    private void UpdateButtonConditions()
+    {
+        // home button is normal
+        // if have next button is active
+        // if have back button is active
+        _nextButton.image.color = Color.white;
+        _previousButton.image.color = Color.white;
+       
+        _nextButton.interactable = _videoIndex < VideoClips.Length - 1;
+        _previousButton.interactable = _videoIndex > 0;
+    }
+
     private void EndReached(VideoPlayer source)
     {
-        Invoke("StartQuest", 1.0f);
+        // some end operations
+        if (_videoPlayer.isPlaying)
+        {
+            _videoPlayer.Pause();
+        }
+
+        Color color;
+        if (!ColorUtility.TryParseHtmlString("#92FF00FF", out color)) return;
+        if (_nextButton.interactable)
+        {
+            _nextButton.image.color = color;
+        }
+
+        if (_previousButton.interactable)
+        {
+            _previousButton.image.color = color;
+        }
+    }
+
+    public void NextVideo()
+    {
+        _videoPlayer.Stop();
+        _videoIndex++;
+        StartCoroutine(PlayVideo());
+    }
+
+    public void PreviousVideo()
+    {
+        _videoPlayer.Stop();
+        _videoIndex--;
+        StartCoroutine(PlayVideo());
     }
 
     private void StartQuest()
@@ -66,7 +117,7 @@ public class FilAnimController : MonoBehaviour
     {
         if (_videoPlayer.isPlaying)
         {
-            _videoPlayer.Stop();
+            _videoPlayer.Pause();
         }
 
         StartQuest();
