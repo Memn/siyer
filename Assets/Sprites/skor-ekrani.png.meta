@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 0dea93184bd2a644cb5b87ce1c5ff479
-timeCreated: 1521650320
+timeCreated: 1522827866
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -104,7 +104,7 @@ TextureImporter:
         width: 366
         height: 245
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -113,12 +113,12 @@ TextureImporter:
       name: skor-ekrani
       rect:
         serializedVersion: 2
-        x: 1213
-        y: 301
+        x: 1218
+        y: 296
         width: 5745
         height: 4445
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -132,7 +132,7 @@ TextureImporter:
         width: 174
         height: 163
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -146,21 +146,7 @@ TextureImporter:
         width: 657
         height: 337
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: skor-ekrani_4
-      rect:
-        serializedVersion: 2
-        x: 6678
-        y: 300
-        width: 117
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
