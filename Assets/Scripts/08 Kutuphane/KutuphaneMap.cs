@@ -7,6 +7,7 @@ using UnityEngine;
 public class KutuphaneMap : MonoBehaviour
 {
     public GameObject PuzzleObject;
+    public GameObject EmptyPuzzleObject;
     public Transform PuzzleParentTransform;
     private int _width = 7;
     private int _height = 5;
@@ -38,7 +39,7 @@ public class KutuphaneMap : MonoBehaviour
     {
         var startY = -1 * makePuzzle.height / 2;
         var startX = -1 * makePuzzle.width / 2;
-        var start  = new Vector2(startX, startY);
+        var start = new Vector2(startX, startY);
         for (var x = 0; x < makePuzzle.width; x++)
         {
             for (var y = 0; y < makePuzzle.height; y++)
@@ -52,11 +53,13 @@ public class KutuphaneMap : MonoBehaviour
                 }
 
                 var pos = new Vector2(fx, fy);
-                var go  = Instantiate(PuzzleObject, Vector3.zero, Quaternion.identity);
-                go.GetComponent<PuzzleObject>().SetCharacter(makePuzzle.puzzleData[x, y]);
-                go.transform.parent        = PuzzleParentTransform;
+                var c = makePuzzle.puzzleData[x, y];
+                var go = Instantiate(c != (char) 0 ? PuzzleObject : EmptyPuzzleObject, Vector3.zero,
+                                     Quaternion.identity);
+                go.transform.parent = PuzzleParentTransform;
                 go.transform.localPosition = pos;
-                go.transform.localScale    = Vector3.one * ScalingFactor;
+                go.transform.localScale = Vector3.one * ScalingFactor;
+                if (c != 0) go.GetComponent<PuzzleObject>().SetCharacter(makePuzzle.puzzleData[x, y]);
             }
         }
     }
