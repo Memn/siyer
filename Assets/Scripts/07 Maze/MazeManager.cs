@@ -9,6 +9,9 @@ public class MazeManager : MonoBehaviour
     public Text CollectedText;
     public Text RemainingText;
 
+    public Timer Timer;
+    public GameObject PlayerControlButtons;
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -29,6 +32,13 @@ public class MazeManager : MonoBehaviour
         _remaining--;
         CollectedText.text = _collected.ToString();
         RemainingText.text = _remaining.ToString();
+        if (_remaining == 0) NoMoreCollectable();
+    }
+
+    private void NoMoreCollectable()
+    {
+        Timer.Stop();
+        PlayerControlButtons.SetActive(false);
     }
 
     internal void SetRemaining(int v)
