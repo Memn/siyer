@@ -1,17 +1,43 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
+[Serializable]
 public class User
 {
-
-
+    public string FacebookID;
     public string Name;
-    public string Score;
+    public int Score;
+    public Sprite ProfilePic;
 
-    public User(string Name, string Score)
+    public List<Achievement> Achievements;
+    public Dictionary<string, string> Friends;
+
+
+    public static User Default = new User();
+
+    public User(string name, string score)
     {
-        this.Name = Name;
-        this.Score = Score;
+        Name = name;
+        Score = int.Parse(score);
+        Friends = new Dictionary<string, string>();
+    }
+
+    public User(User user)
+    {
+        Name = user.Name;
+        Score = user.Score;
+        ProfilePic = user.ProfilePic;
+        Friends = new Dictionary<string, string>(user.Friends);
+        Achievements = user.Achievements;
+    }
+
+    private User()
+    {
+        Name = "guest";
+        Score = 0;
+        ProfilePic = null;
+        Friends = new Dictionary<string, string>();
     }
 }

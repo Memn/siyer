@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
+using System.IO;
 using Facebook.MiniJSON;
+using UnityEngine;
 
 public class Util : MonoBehaviour
 {
@@ -73,5 +73,36 @@ public class Util : MonoBehaviour
     {
         Rect rect = new Rect (pos.x, pos.y, Screen.width, Screen.height);
         GUI.Label (rect, text, style);
+    }
+    
+    public static User LoadUserFromFile(string userFilePath)
+    {
+        // Path.Combine combines strings into a file path
+        Debug.Log(string.Format("looking for path {0} to load user!", userFilePath));
+        User user;
+        if (File.Exists(userFilePath))
+        {
+            // Read the json from the file into a string
+            var dataAsJson = File.ReadAllText(userFilePath);
+            // Pass the json to JsonUtility, and tell it to create a GameData object from it
+            user = JsonUtility.FromJson<User>(dataAsJson);
+            Debug.Log("User Loaded.");
+        }
+        else
+        {
+            Debug.LogError("user file does not exists!");
+            Debug.Log("Saving default user");
+            user = User.Default;
+        }
+
+        return user;
+    }
+    public static void SaveUser(User user, string userFilePath)
+    {
+        // Convert the instance ('this') of this class to a JSON string with "pretty print" (nice indenting).
+        var json = JsonUtility.ToJson(user, true);
+        // Write that JSON string to the specified file.
+        File.WriteAllText(userFilePath, json);
+        Debug.Log("User saved!");
     }
 }
