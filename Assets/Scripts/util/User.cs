@@ -22,6 +22,7 @@ public class User
         Name = name;
         Score = int.Parse(score);
         Friends = new Dictionary<string, string>();
+        Achievements = new List<Achievement>();
     }
 
     public User(User user)
@@ -30,6 +31,7 @@ public class User
         Score = user.Score;
         ProfilePic = user.ProfilePic;
         Friends = new Dictionary<string, string>(user.Friends);
+        Achievements = new List<Achievement>();
         Achievements = user.Achievements;
     }
 
@@ -39,5 +41,6 @@ public class User
         Score = 0;
         ProfilePic = null;
         Friends = new Dictionary<string, string>();
+        Achievements = new List<Achievement>();
     }
 }
