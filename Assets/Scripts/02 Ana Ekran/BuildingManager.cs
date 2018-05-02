@@ -1,17 +1,16 @@
 ﻿using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BuildingManager : MonoBehaviour
 {
     public Building[] Buildings;
     public SpriteRenderer Background;
-    public Text SelectedBuildingNameText;
     public GameObject Board;
+    private BoardHandler _boardHandler;
 
     private void Start()
     {
-        SelectedBuildingNameText.text = "";
+        _boardHandler = Board.GetComponent<BoardHandler>();
     }
 
     private Building FindInBuildings(GameObject b)
@@ -24,45 +23,15 @@ public class BuildingManager : MonoBehaviour
     public void Selection(GameObject b)
     {
         var building = FindInBuildings(b);
-        if (!building)
-        {
-            EnlightAll();
-            Board.SetActive(false);
-            return;
-        }
-
-        if (building.Selected)
-        {
-            building.GoScene();
-        }
-        else
-        {
-            DarkenAll();
-            building.Selection();
-            Board.SetActive(true);
-            SelectedBuildingNameText.text = building.BuildingName;
-        }
-    }
-
-    private void EnlightAll()
-    {
-        foreach (var building1 in Buildings)
-        {
-            building1.Enlight();
-        }
-
-        Background.color = Color.white;
-        SelectedBuildingNameText.text = "";
-    }
-
-    private void DarkenAll()
-    {
-        foreach (var building1 in Buildings)
-        {
-            building1.Darken();
-        }
+        if (!building) return;
 
         Background.color = Color.gray;
-        SelectedBuildingNameText.text = "";
+        Board.SetActive(true);
+        _boardHandler.ShowBuilding(building);
+    }
+
+    public void EnlightAll()
+    {
+        Background.color = Color.white;
     }
 }

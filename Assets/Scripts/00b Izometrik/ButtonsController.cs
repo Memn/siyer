@@ -18,8 +18,8 @@ public class ButtonsController : MonoBehaviour
     private void Start()
     {
         var isLoggedIn = FacebookManager.Instance.IsLoggedIn;
-        FbButton.interactable = !isLoggedIn;
-        ProfileButton.interactable = false;
+        FBButtonImage(isLoggedIn);
+        ProfileButton.interactable = UserManager.Instance.User != null;
     }
 
     [UsedImplicitly]
@@ -33,7 +33,7 @@ public class ButtonsController : MonoBehaviour
         else
         {
             FacebookManager.Instance.LogOut();
-            FbButton.image.color = Color.white;
+            FBButtonImage(false);
         }
     }
 
@@ -45,7 +45,7 @@ public class ButtonsController : MonoBehaviour
             if (!FacebookManager.Instance.IsLoggedIn) return;
             // seems successfull
             UserManager.Instance.LoggedIn();
-            FbButton.image.color = Color.red;
+            FBButtonImage(true);
         }
         else
         {
@@ -57,5 +57,10 @@ public class ButtonsController : MonoBehaviour
     public void ProfileLoaded()
     {
         ProfileButton.interactable = true;
+    }
+
+    private void FBButtonImage(bool loggedIn)
+    {
+        FbButton.image.color = loggedIn ? Color.red : Color.white;
     }
 }

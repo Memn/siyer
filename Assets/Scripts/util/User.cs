@@ -3,26 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 
-[Serializable]
 public class User
 {
     public string FacebookID;
     public string Name;
     public int Score;
     public Sprite ProfilePic;
-
-    public List<Achievement> Achievements;
+    public List<GameAchievement> Achievements;
     public Dictionary<string, string> Friends;
 
 
-    public static User Default = new User();
+    public static readonly User Default = new User();
 
     public User(string name, string score)
     {
         Name = name;
         Score = int.Parse(score);
         Friends = new Dictionary<string, string>();
-        Achievements = new List<Achievement>();
+        Achievements = new List<GameAchievement>();
     }
 
     public User(User user)
@@ -31,7 +29,7 @@ public class User
         Score = user.Score;
         ProfilePic = user.ProfilePic;
         Friends = new Dictionary<string, string>(user.Friends);
-        Achievements = new List<Achievement>();
+        Achievements = new List<GameAchievement>();
         Achievements = user.Achievements;
     }
 
@@ -41,6 +39,6 @@ public class User
         Score = 0;
         ProfilePic = null;
         Friends = new Dictionary<string, string>();
-        Achievements = new List<Achievement>();
+        Achievements = new List<GameAchievement>();
     }
 }

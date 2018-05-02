@@ -12,6 +12,8 @@ public class SiyerMainScreenManager : MonoBehaviour
 
     private Animator _animator;
 
+    public GameObject Board;
+
 
     private void Start()
     {
@@ -26,6 +28,7 @@ public class SiyerMainScreenManager : MonoBehaviour
             Back();
         }
 
+        if (Board.activeSelf) return;
         if (!Input.GetMouseButtonDown(0)) return;
         var pos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
         var hitInfo = Physics2D.Raycast(_camera.ScreenToWorldPoint(pos), Vector2.zero);

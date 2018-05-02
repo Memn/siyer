@@ -36,7 +36,7 @@ public class UserManager : MonoBehaviour
 
     private void Awake()
     {
-        FacebookManager.Instance.InitFB();
+//        FacebookManager.Instance.InitFB();
         // only game object
         if (FacebookManager.Instance.IsLoggedIn)
         {
@@ -75,7 +75,7 @@ public class UserManager : MonoBehaviour
             Debug.LogError("Cannot load user name");
             Debug.LogError(result.Error);
         }
-        
+
         Util.SaveUser(User, _userFilePath);
     }
 
@@ -90,7 +90,7 @@ public class UserManager : MonoBehaviour
             Debug.LogError("Profile Picture cannot be loaded.");
             Debug.LogError(result.Error);
         }
-        
+
         Util.SaveUser(User, _userFilePath);
     }
 
