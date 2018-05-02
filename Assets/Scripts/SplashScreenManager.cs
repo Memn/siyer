@@ -1,20 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
+﻿using UnityEngine;
 
 public class SplashScreenManager : MonoBehaviour
 {
-    public float loadMainMenuAfter;
+    public float LoadMainMenuAfter = 3;
 
-    void Start()
+    private void Awake()
     {
-        if (loadMainMenuAfter > 0)
-            Invoke("LoadMainMenu", loadMainMenuAfter);
+        FacebookManager.Instance.InitFB();
+        UserManager.Instance.Init();
     }
-    public void LoadMainMenu()
-    {   
+
+    private void Start()
+    {
+        if (LoadMainMenuAfter > 0)
+            Invoke("LoadMainMenu", LoadMainMenuAfter);
+    }
+
+    private void LoadMainMenu()
+    {
         SceneManagementUtil.Load(SceneManagementUtil.Scenes.Izometrik);
     }
 }

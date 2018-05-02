@@ -12,7 +12,6 @@ public class ButtonsController : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        UserManager.Instance.Init();
     }
 
     private void Start()

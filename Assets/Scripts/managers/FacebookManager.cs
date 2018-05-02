@@ -31,7 +31,6 @@ public class FacebookManager : MonoBehaviour
 
     private void Awake()
     {
-        InitFB();
         DontDestroyOnLoad(gameObject);
     }
 

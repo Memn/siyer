@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Facebook.MiniJSON;
 using Facebook.Unity;
@@ -30,18 +31,27 @@ public class UserManager : MonoBehaviour
         set { userFileName = value; }
     }
 
-    public void Init()
-    {
-    }
-
     private void Awake()
     {
-//        FacebookManager.Instance.InitFB();
-        // only game object
-        if (FacebookManager.Instance.IsLoggedIn)
+        DontDestroyOnLoad(gameObject);
+        _instance = this;
+    }
+
+    public void Init()
+    {
+        try
         {
-            LoggedIn();
+            InitUser();
         }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+
+    private void InitUser()
+    {
+        if (FacebookManager.Instance.IsLoggedIn) LoggedIn();
         else
         {
             _userFilePath = "guest.data";
@@ -58,9 +68,6 @@ public class UserManager : MonoBehaviour
 
             ButtonsController.Instance.ProfileLoaded();
         }
-
-        _instance = this;
-        DontDestroyOnLoad(gameObject);
     }
 
     private void BasicProfileCallback(IResult result)
