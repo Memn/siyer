@@ -54,21 +54,14 @@ public class IzometrikHarita : MonoBehaviour
                 GetComponent<Animator>().SetTrigger("medine");
                 break;
             default:
-                SceneManagementUtil.Load(SceneManagementUtil.Scenes.AnaEkran);
+                EnterGame();
                 break;
-//                case "Talimhane-Bina":
-//                    SceneManagementUtil.Load(SceneManagementUtil.Scenes.Talimhane);
-//                    break;
-//                case "Labirent-Bina":
-//                    SceneManagementUtil.Load(SceneManagementUtil.Scenes.Labirent);
-//                    break;
-//                case "SoruCevap-Bina":
-//                    SceneManagementUtil.Load(SceneManagementUtil.Scenes.SoruCevap);
-//                    break;
-//                case "Kabe-Bina":
-//                    SceneManagementUtil.Load(SceneManagementUtil.Scenes.FilVakasi);
-//                    break;
         }
+    }
+
+    public void EnterGame()
+    {
+        SceneManagementUtil.Load(SceneManagementUtil.Scenes.AnaEkran);
     }
 
     [UsedImplicitly]
