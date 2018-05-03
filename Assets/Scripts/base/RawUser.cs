@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 [Serializable]
-public class RawUser : MonoBehaviour
+public class RawUser 
 {
     public string FacebookID;
     public string Name;

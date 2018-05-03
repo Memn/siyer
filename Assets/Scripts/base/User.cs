@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class User
 {
@@ -29,7 +27,7 @@ public class User
         Score = user.Score;
         ProfilePic = user.ProfilePic;
         Friends = new Dictionary<string, string>(user.Friends);
-        Achievements = new List<GameAchievement>();
+//        Achievements = new List<GameAchievement>();
         Achievements = user.Achievements;
     }
 

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class ProfileHelper : MonoBehaviour
+public class ProfileHelper : MonoBehaviour, LoadableHelper
 {
     private User _user;
 
@@ -10,40 +10,73 @@ public class ProfileHelper : MonoBehaviour
     public Text Score;
     public Text Achievements;
 
+    public MenuTabsHandler AchievementsTabs;
+    public MenuTabsHandler LeaderboardTabs;
+
 //    public Text Leaderboard;
     public GameObject LeaderboardContainer;
     public GameObject LeaderboardEntryPrefab;
+
+    public GameObject AchievementsContainer;
+    public GameObject AchievementsEntryPrefab;
 
 
     private void Awake()
     {
         _user = UserManager.Instance.User;
+        LoadUser();
+    }
+
+    private void LoadUser()
+    {
         ProfileName.text = _user.Name;
         ProfilePic.sprite = _user.ProfilePic;
         Score.text = _user.Score.ToString();
         Achievements.text = string.Format("{0}/{1}", _user.Achievements.Count, GameUtil.Achievements.Count);
-        foreach (var friend in _user.Friends)
+        AchievementsTabs.Init();
+        LeaderboardTabs.Init();
+    }
+
+    public void Load(Selectable tab)
+    {
+        if (tab.name.Equals("Rozetler"))
         {
-            var friendObj = Instantiate(LeaderboardEntryPrefab, Vector3.zero, Quaternion.identity);
-            var friendEntry = friendObj.GetComponent<LeaderboardEntry>();
-            friendEntry.InitProfile(GameUtil.FindUser(friend));
-            friendObj.transform.SetParent(LeaderboardContainer.transform);
-            friendObj.transform.localScale = Vector3.one;
+            Util.ClearChildren(AchievementsContainer.transform);
+            LoadBadges();
+        }
+        else if (tab.name.Equals("Binalar"))
+        {
+        }
+        else if (tab.name.Equals("Friends"))
+        {
+            Util.ClearChildren(LeaderboardContainer.transform);
+            LoadFriends();
+        }
+        else if (tab.name.Equals("General"))
+        {
+            Util.ClearChildren(LeaderboardContainer.transform);
+        }
+
+        else
+        {
+            Debug.Log("Loading " + tab.name);
         }
     }
 
-    private void Update()
+    private void LoadBadges()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        Util.Load(AchievementsContainer, AchievementsEntryPrefab, _user.Achievements, (entry, member) =>
         {
-            SceneManagementUtil.Load(SceneManagementUtil.Scenes.Izometrik);
-        }
+            // TODO: Update Achievements to show
+        });
     }
 
-    public void ReloadProfile()
+    private void LoadFriends()
     {
-        _user = UserManager.Instance.User;
-        ProfileName.text = _user.Name;
-        ProfilePic.sprite = _user.ProfilePic;
+        Util.Load(LeaderboardContainer, LeaderboardEntryPrefab, _user.Friends, (entry, member) =>
+        {
+            var leaderboardEntry = entry.GetComponent<LeaderboardEntry>();
+            leaderboardEntry.InitProfile(GameUtil.FindUser(member));
+        });
     }
 }

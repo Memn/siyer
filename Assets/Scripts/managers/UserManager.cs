@@ -11,14 +11,7 @@ public class UserManager : MonoBehaviour
 
     public static UserManager Instance
     {
-        get
-        {
-            if (_instance != null)
-                return _instance;
-            var fbm = new GameObject("UserManager");
-            _instance = fbm.AddComponent<UserManager>();
-            return _instance;
-        }
+        get { return _instance ?? (_instance = new GameObject("UserManager").AddComponent<UserManager>()); }
     }
 
     public User User;
@@ -34,7 +27,6 @@ public class UserManager : MonoBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
-        _instance = this;
     }
 
     public void Init()
@@ -109,7 +101,8 @@ public class UserManager : MonoBehaviour
         {
             var friendName = friend["name"].ToString();
             var id = friend["id"].ToString();
-            User.Friends.Add(id, friendName);
+            if (!User.Friends.ContainsKey(id))
+                User.Friends.Add(id, friendName);
         }
 
         Util.SaveUser(User, _userFilePath);

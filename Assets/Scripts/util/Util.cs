@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Facebook.MiniJSON;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 public class Util : MonoBehaviour
@@ -10,8 +11,8 @@ public class Util : MonoBehaviour
     public static string GetPictureURL(string facebookID, int? width = null, int? height = null, string type = null)
     {
         string url = string.Format("/{0}/picture", facebookID);
-        string query = width != null ? "&width=" + width.ToString() : "";
-        query += height != null ? "&height=" + height.ToString() : "";
+        string query = width != null ? "&width=" + width : "";
+        query += height != null ? "&height=" + height : "";
         query += type != null ? "&type=" + type : "";
         if (query != "") url += ("?g" + query);
         return url;
@@ -112,6 +113,7 @@ public class Util : MonoBehaviour
 
     public static Sprite Str2Sprite(string pic)
     {
+        if (string.IsNullOrEmpty(pic)) return null;
         var texByte = Convert.FromBase64String(pic);
         var tex = new Texture2D(128, 128);
         //load texture from byte array
@@ -121,5 +123,26 @@ public class Util : MonoBehaviour
     public static string Sprite2Str(Sprite userProfilePic)
     {
         return userProfilePic == null ? "" : Convert.ToBase64String(userProfilePic.texture.EncodeToPNG());
+    }
+
+
+    public static void Load<T>(GameObject parent, GameObject prefab, IEnumerable<T> leaderboard,
+        UnityAction<GameObject, T> action)
+    {
+        foreach (var member in leaderboard)
+        {
+            var memberObj = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+            action(memberObj, member);
+            memberObj.transform.SetParent(parent.transform);
+            memberObj.transform.localScale = Vector3.one;
+        }
+    }
+
+    public static void ClearChildren(Transform parent)
+    {
+        foreach (Transform child in parent)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }

@@ -4,11 +4,12 @@ public class SplashScreenManager : MonoBehaviour
 {
     public float LoadMainMenuAfter = 3;
 
-    private void Awake()
-    {
-        FacebookManager.Instance.InitFB();
-        UserManager.Instance.Init();
-    }
+    // TODO: Remove from IzometrikHarita
+//    private void Awake()
+//    {
+//        FacebookManager.Instance.InitFB();
+//        UserManager.Instance.Init();
+//    }
 
     private void Start()
     {

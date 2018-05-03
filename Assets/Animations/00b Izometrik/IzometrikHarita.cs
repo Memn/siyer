@@ -7,7 +7,13 @@ public class IzometrikHarita : MonoBehaviour
     [SerializeField] private TextMesh _textMesh;
     [SerializeField] private Camera _camera;
 
-
+    private void Awake()
+    {
+        // TODO: Remove to Splash Screen
+        FacebookManager.Instance.InitFB();
+        UserManager.Instance.Init();
+    }
+    
     private enum Places
     {
         Medine,
@@ -15,6 +21,7 @@ public class IzometrikHarita : MonoBehaviour
     }
 
     private Dictionary<Places, string> _textDict;
+    public GameObject InfoPanel;
 
     private void Start()
     {
@@ -45,6 +52,7 @@ public class IzometrikHarita : MonoBehaviour
 
     private void HandleTouchOn(GameObject transformGameObject)
     {
+        if (InfoPanel.activeSelf) return;
         switch (transformGameObject.name)
         {
             case "kudus":

@@ -14,14 +14,7 @@ public class FacebookManager : MonoBehaviour
 
     public static FacebookManager Instance
     {
-        get
-        {
-            if (_instance != null)
-                return _instance;
-            var fbm = new GameObject("FacebookManager");
-            _instance = fbm.AddComponent<FacebookManager>();
-            return _instance;
-        }
+        get { return _instance ?? (_instance = new GameObject("FacebookManager").AddComponent<FacebookManager>()); }
     }
 
     public bool IsLoggedIn
