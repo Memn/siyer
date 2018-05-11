@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using Facebook.MiniJSON;
 using Facebook.Unity;
+using GooglePlayGames;
 using UnityEngine;
 
 public class UserManager : MonoBehaviour
@@ -31,14 +31,20 @@ public class UserManager : MonoBehaviour
 
     public void Init()
     {
-        try
+        PlayGamesPlatform.Activate();
+        PlayGamesPlatform.DebugLogEnabled = true;
+        
+    }
+
+    public bool IsConnected2GoogleServices;
+    public bool Connect2GoogleServices()
+    {
+        if (IsConnected2GoogleServices)
         {
-            InitUser();
+            Social.localUser.Authenticate((success) => { IsConnected2GoogleServices = success; });
         }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-        }
+
+        return IsConnected2GoogleServices;
     }
 
     private void InitUser()

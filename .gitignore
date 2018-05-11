@@ -29,3 +29,8 @@ sysinfo.txt
 *.apk
 *.unitypackage
 *.log
+Assets/Plugins/Android/
+Assets/GooglePlayGames/
+Assets/GooglePlayGames.meta
+Assets/PlayServicesResolver/
+Assets/PlayServicesResolver.meta

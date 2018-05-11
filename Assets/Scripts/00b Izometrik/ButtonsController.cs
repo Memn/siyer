@@ -8,6 +8,7 @@ public class ButtonsController : MonoBehaviour
     public static ButtonsController Instance { get; private set; }
     public Button FbButton;
     public Button ProfileButton;
+    public ProfileHelper ProfileHelper;
 
     private void Awake()
     {
@@ -56,6 +57,7 @@ public class ButtonsController : MonoBehaviour
     public void ProfileLoaded()
     {
         ProfileButton.interactable = true;
+        ProfileHelper.LoadUser();
     }
 
     private void FBButtonImage(bool loggedIn)

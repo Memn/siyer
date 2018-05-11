@@ -23,12 +23,12 @@ public class ProfileHelper : MonoBehaviour, LoadableHelper
 
     private void Awake()
     {
-        _user = UserManager.Instance.User;
         LoadUser();
     }
 
-    private void LoadUser()
+    public void LoadUser()
     {
+        _user = UserManager.Instance.User;
         ProfileName.text = _user.Name;
         ProfilePic.sprite = _user.ProfilePic;
         Score.text = _user.Score.ToString();
@@ -41,11 +41,13 @@ public class ProfileHelper : MonoBehaviour, LoadableHelper
     {
         if (tab.name.Equals("Rozetler"))
         {
-            Util.ClearChildren(AchievementsContainer.transform);
+//            Util.ClearChildren(AchievementsContainer.transform);
             LoadBadges();
         }
         else if (tab.name.Equals("Binalar"))
         {
+            //            Util.ClearChildren(AchievementsContainer.transform);
+            //            LoadBuildings();
         }
         else if (tab.name.Equals("Friends"))
         {
@@ -65,10 +67,10 @@ public class ProfileHelper : MonoBehaviour, LoadableHelper
 
     private void LoadBadges()
     {
-        Util.Load(AchievementsContainer, AchievementsEntryPrefab, _user.Achievements, (entry, member) =>
-        {
-            // TODO: Update Achievements to show
-        });
+//        Util.Load(AchievementsContainer, AchievementsEntryPrefab, _user.Achievements, (entry, member) =>
+//        {
+//            // TODO: Update Achievements to show
+//        });
     }
 
     private void LoadFriends()

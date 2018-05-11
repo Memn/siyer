@@ -13,6 +13,7 @@ public class SplashScreenManager : MonoBehaviour
 
     private void Start()
     {
+        
         if (LoadMainMenuAfter > 0)
             Invoke("LoadMainMenu", LoadMainMenuAfter);
     }
