@@ -24,9 +24,12 @@
 
 public static class SiyerResources
 {
+        public const string achievement_test5 = "CgkI_vSBg8sOEAIQBg"; // <GPGSID>
         public const string achievement_achievementtest1 = "CgkI_vSBg8sOEAIQAQ"; // <GPGSID>
         public const string achievement_achievementtest2 = "CgkI_vSBg8sOEAIQAg"; // <GPGSID>
         public const string achievement_achievementtest3 = "CgkI_vSBg8sOEAIQAw"; // <GPGSID>
+        public const string leaderboard_genel = "CgkI_vSBg8sOEAIQBA"; // <GPGSID>
+        public const string achievement_test4 = "CgkI_vSBg8sOEAIQBQ"; // <GPGSID>
 
 }
 

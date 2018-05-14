@@ -33,8 +33,6 @@ public class KutuphaneManager : MonoBehaviour
     [SerializeField] private GameObject _winScreen;
     [SerializeField] private GameObject _puzzleScreen;
 
-    public UserManager UserManager;
-
     private void Start()
     {
         _map = GetComponent<KutuphaneMap>();

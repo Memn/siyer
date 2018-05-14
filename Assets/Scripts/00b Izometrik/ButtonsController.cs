@@ -19,40 +19,41 @@ public class ButtonsController : MonoBehaviour
     {
         var isLoggedIn = FacebookManager.Instance.IsLoggedIn;
         FBButtonImage(isLoggedIn);
-        ProfileButton.interactable = UserManager.Instance.User != null;
+//        ProfileButton.interactable = UserManager.Instance.User != null;
     }
 
     [UsedImplicitly]
     public void Login()
     {
-        if (!FacebookManager.Instance.IsLoggedIn)
-        {
-            Screen.orientation = ScreenOrientation.Portrait;
-            FacebookManager.Instance.LogIn();
-        }
-        else
-        {
-            FacebookManager.Instance.LogOut();
-            FBButtonImage(false);
-        }
+        
+//        if (!FacebookManager.Instance.IsLoggedIn)
+//        {
+//            Screen.orientation = ScreenOrientation.Portrait;
+//            FacebookManager.Instance.LogIn();
+//        }
+//        else
+//        {
+//            FacebookManager.Instance.LogOut();
+//            FBButtonImage(false);
+//        }
     }
 
-    public void LoginCallback(ILoginResult result)
-    {
-        Screen.orientation = ScreenOrientation.Landscape;
-        if (string.IsNullOrEmpty(result.Error) || result.Cancelled)
-        {
-            if (!FacebookManager.Instance.IsLoggedIn) return;
-            // seems successfull
-            UserManager.Instance.LoggedIn();
-            FBButtonImage(true);
-        }
-        else
-        {
-            Debug.LogError("Login Error");
-            Debug.LogError(result.Error);
-        }
-    }
+//    public void LoginCallback(ILoginResult result)
+//    {
+//        Screen.orientation = ScreenOrientation.Landscape;
+//        if (string.IsNullOrEmpty(result.Error) || result.Cancelled)
+//        {
+//            if (!FacebookManager.Instance.IsLoggedIn) return;
+//            // seems successfull
+//            UserManager.Instance.LoggedIn();
+//            FBButtonImage(true);
+//        }
+//        else
+//        {
+//            Debug.LogError("Login Error");
+//            Debug.LogError(result.Error);
+//        }
+//    }
 
     public void ProfileLoaded()
     {

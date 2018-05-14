@@ -11,6 +11,11 @@ public class SplashScreenManager : MonoBehaviour
 //        UserManager.Instance.Init();
 //    }
 
+    private void Awake()
+    {
+        UserManager.Instance.Init();
+    }
+
     private void Start()
     {
         

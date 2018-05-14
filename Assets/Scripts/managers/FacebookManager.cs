@@ -57,7 +57,7 @@ public class FacebookManager : MonoBehaviour
     public void LogIn()
     {
         var permissions = new List<string> {"public_profile", "email", "user_friends"};
-        FB.LogInWithReadPermissions(permissions, ButtonsController.Instance.LoginCallback);
+//        FB.LogInWithReadPermissions(permissions, ButtonsController.Instance.LoginCallback);
     }
 
     public void LogOut()

@@ -10,8 +10,8 @@ public class IzometrikHarita : MonoBehaviour
     private void Awake()
     {
         // TODO: Remove to Splash Screen
-        FacebookManager.Instance.InitFB();
-        UserManager.Instance.Init();
+//        FacebookManager.Instance.InitFB();
+//        UserManager.Instance.Init();
     }
     
     private enum Places

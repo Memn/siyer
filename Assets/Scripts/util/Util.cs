@@ -120,6 +120,11 @@ public class Util : MonoBehaviour
         return tex.LoadImage(texByte) ? Sprite.Create(tex, new Rect(0, 0, 128, 128), new Vector2()) : null;
     }
 
+    public static Sprite Texture2Sprite(Texture2D tex)
+    {
+        return Sprite.Create(tex, new Rect(0, 0, 128, 128), new Vector2());
+    }
+
     public static string Sprite2Str(Sprite userProfilePic)
     {
         return userProfilePic == null ? "" : Convert.ToBase64String(userProfilePic.texture.EncodeToPNG());

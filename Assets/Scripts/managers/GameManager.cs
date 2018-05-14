@@ -17,4 +17,17 @@ public class GameManager : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void ShowAchievements()
+    {
+        if (UserManager.Instance.Connect2GoogleServices())
+        {
+            Debug.Log("Show Achievements...");
+            UserManager.Instance.ToAchievements();
+        }
+        else
+        {
+            Debug.Log("Cannot connect 2 Google Services..");
+        }
+    }
 }
