@@ -5,6 +5,7 @@ using UnityEngine;
 public class Building : MonoBehaviour
 {
     public SceneManagementUtil.Scenes Scene;
+    public string BuildingID;
     public string BuildingName;
     public string Info;
 

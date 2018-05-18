@@ -1,8 +1,14 @@
 ﻿using GooglePlayGames;
+using GooglePlayGames.BasicApi;
+using GooglePlayGames.BasicApi.SavedGame;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public class UserManager : MonoBehaviour
 {
+    public bool IsConnected2GoogleServices;
+    private ILocalUser _localUser;
+
     private static UserManager _instance;
 
     public static UserManager Instance
@@ -13,15 +19,16 @@ public class UserManager : MonoBehaviour
 
     private void Awake()
     {
+        _localUser = Social.localUser;
         DontDestroyOnLoad(gameObject);
     }
 
     public void Init()
     {
+        var conf = new PlayGamesClientConfiguration.Builder().EnableSavedGames().Build();
+        PlayGamesPlatform.InitializeInstance(conf);
         PlayGamesPlatform.Activate();
         PlayGamesPlatform.DebugLogEnabled = true;
-        Social.localUser.Authenticate((bool success) =>
-                                          Debug.Log("Connecttion " + (success ? "connected" : "not connected")));
     }
 
     private void Start()
@@ -29,25 +36,73 @@ public class UserManager : MonoBehaviour
         Connect2GoogleServices();
     }
 
-    public bool IsConnected2GoogleServices;
-
+    // Connection
     public bool Connect2GoogleServices()
     {
         if (!IsConnected2GoogleServices)
-        {
-            Social.localUser.Authenticate((success) => { IsConnected2GoogleServices = success; });
-        }
-
+            _localUser.Authenticate(success =>
+            {
+                // On Connection
+                IsConnected2GoogleServices = success;
+            });
+        OpenSave(false); // Load
         return IsConnected2GoogleServices;
     }
 
+    // Achievements
     public void ToAchievements()
     {
-        if (Social.localUser.authenticated)
+        if (!_localUser.authenticated) return;
+        Social.ShowAchievementsUI();
+    }
+
+    // Leaderboards
+    public void ToLeaderboards()
+    {
+        if (!_localUser.authenticated) return;
+        Social.ShowLeaderboardUI();
+    }
+
+    // Save/Load Game
+    private Game _game;
+    private bool isSaving = false;
+
+    private void OpenSave(bool saving)
+    {
+        isSaving = saving;
+        // save/load local first
+        _game = LocalOpenSave();
+        if (!Social.localUser.authenticated) return;
+
+        var savedGame = ((PlayGamesPlatform) Social.Active).SavedGame;
+        savedGame.OpenWithAutomaticConflictResolution("Siyer", DataSource.ReadCacheOrNetwork,
+                                                      ConflictResolutionStrategy.UseMostRecentlySaved, SaveGameOpen);
+    }
+
+    private Game LocalOpenSave()
+    {
+        if (!isSaving) return Util.LocalLoad(); // reading
+
+        // writing
+        Util.LocalSave(_game);
+        return _game;
+    }
+
+    private void SaveGameOpen(SavedGameRequestStatus status, ISavedGameMetadata metadata)
+    {
+        if (status != SavedGameRequestStatus.Success) return;
+        if (isSaving)
         {
-            Social.ShowAchievementsUI();
+            Util.CloudSave(metadata, _game);
+        }
+        else
+        {
+            var game = Util.CloudLoad(metadata);
+            if (game.SaveTime < _game.SaveTime)
+            {
+                // cloud is behind, sync
+                Util.CloudSave(metadata, _game);
+            }
         }
     }
-    
-    
 }

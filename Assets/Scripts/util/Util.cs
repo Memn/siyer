@@ -1,13 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using Facebook.MiniJSON;
+using GooglePlayGames;
+using GooglePlayGames.BasicApi.SavedGame;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SocialPlatforms.Impl;
 using Random = UnityEngine.Random;
 
 public class Util : MonoBehaviour
 {
+    private static Encoding _encoding = Encoding.UTF8;
+
     public static string GetPictureURL(string facebookID, int? width = null, int? height = null, string type = null)
     {
         string url = string.Format("/{0}/picture", facebookID);
@@ -149,5 +155,80 @@ public class Util : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+    }
+
+
+    // saving / loading
+    private static ISavedGameClient SavedGame
+    {
+        get { return ((PlayGamesPlatform) Social.Active).SavedGame; }
+    }
+
+    private static readonly string UserFilePath = Path.Combine(Application.persistentDataPath, "Siyer.data");
+
+    public static void LocalSave(Game game)
+    {
+        // Convert the instance ('this') of this class to a JSON string with "pretty print" (nice indenting).
+        // Write that JSON string to the specified file.
+        File.WriteAllText(UserFilePath, GameSaveString(game));
+        Debug.Log("Game saved!");
+    }
+
+    public static Game LocalLoad()
+    {
+        Debug.Log(string.Format("looking for path {0} to load game!", UserFilePath));
+        Game game;
+        if (File.Exists(UserFilePath))
+        {
+            // Read the json from the file into a string
+            var dataAsJson = File.ReadAllText(UserFilePath);
+            // Pass the json to JsonUtility, and tell it to create a GameData object from it
+            game = JsonUtility.FromJson<RawGame>(dataAsJson).ToGame();
+            Debug.Log("Game Loaded.");
+        }
+        else
+        {
+            Debug.LogError("game file does not exists!");
+            game = Game.Default;
+            LocalSave(game);
+        }
+
+        return game;
+    }
+
+    private static string GameSaveString(Game game)
+    {
+        // Convert the instance ('this') of this class to a JSON string with "pretty print" (nice indenting).
+        return JsonUtility.ToJson(new RawGame(game), true);
+    }
+
+    public static void CloudSave(ISavedGameMetadata metadata, Game game)
+    {
+        var data = _encoding.GetBytes(GameSaveString(game));
+        var upd = new SavedGameMetadataUpdate.Builder().Build();
+        // writing
+        SavedGame.CommitUpdate(metadata, upd, data, (s, m) => { });
+    }
+
+    public static Game CloudLoad(ISavedGameMetadata metadata)
+    {
+        var game = Game.Default;
+        // reading
+        SavedGame.ReadBinaryData(metadata, (status, data) =>
+        {
+            if (status != SavedGameRequestStatus.Success) return;
+            game = JsonUtility.FromJson<RawGame>(_encoding.GetString(data)).ToGame();
+        });
+        return game;
+    }
+
+    public static string Achievement2Str(Achievement achievement)
+    {
+        return JsonUtility.ToJson(achievement, true);
+    }
+
+    public static Achievement Str2Achievement(string achievement)
+    {
+        return JsonUtility.FromJson<Achievement>(achievement);
     }
 }
