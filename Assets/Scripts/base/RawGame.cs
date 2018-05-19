@@ -36,7 +36,7 @@ public class RawGame
         Achievements.ForEach(s =>
         {
             var split = s.Split('|');
-            game.Achievements.Add(split[0], bool.Parse(split[1]));
+            game.Achievements[split[0]] = bool.Parse(split[1]);
         });
         return game;
     }

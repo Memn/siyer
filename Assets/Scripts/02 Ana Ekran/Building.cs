@@ -8,8 +8,9 @@ public class Building : MonoBehaviour
     public string BuildingID;
     public string BuildingName;
     public string Info;
-
-
+    public Sprite ActualPhoto;
+    
+    
     public Sprite Photo
     {
         get { return gameObject.GetComponent<SpriteRenderer>().sprite; }

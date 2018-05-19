@@ -16,7 +16,7 @@ public class Game
 
     public Game()
     {
-        Achievements.Add(SiyerResources.achievement_achievementtest1, false);
+        Achievements.Add(SiyerResources.achievement_achievementtest1, true);
         Achievements.Add(SiyerResources.achievement_achievementtest2, false);
         Achievements.Add(SiyerResources.achievement_achievementtest3, false);
         Achievements.Add(SiyerResources.achievement_test4, false);

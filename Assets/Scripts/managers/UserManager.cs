@@ -65,6 +65,12 @@ public class UserManager : MonoBehaviour
 
     // Save/Load Game
     private Game _game;
+
+    public Game Game
+    {
+        get { return _game ?? (_game = LocalOpenSave()); }
+    }
+
     private bool isSaving = false;
 
     private void OpenSave(bool saving)
