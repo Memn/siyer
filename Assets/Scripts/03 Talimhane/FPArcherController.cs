@@ -24,6 +24,7 @@ public class FPArcherController : MonoBehaviour
     private bool _previouslyGrounded;
     private AudioSource _audioSource;
     private ArcherMouseLook _mouseLook;
+    private ElvenBow _elvenBow;
 
     // Use this for initialization
     private void Start()
@@ -35,6 +36,7 @@ public class FPArcherController : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         _mouseLook = GetComponent<ArcherMouseLook>();
         _mouseLook.Init(transform, _camera.transform);
+        _elvenBow = FindObjectOfType<ElvenBow>();
     }
 
 
@@ -47,6 +49,7 @@ public class FPArcherController : MonoBehaviour
             _mouseLook.Holding = true;
             if (!_hold)
             {
+                _elvenBow.Set();
                 _hold = true;
                 _audioSource.loop = true;
                 PlayHoldSound();
@@ -58,6 +61,7 @@ public class FPArcherController : MonoBehaviour
             _mouseLook.Holding = false;
             if (_hold)
             {
+                _elvenBow.Release();
                 _audioSource.loop = false;
                 _audioSource.Stop();
                 _hold = false;
