@@ -138,6 +138,7 @@ public class QuestsController : MonoBehaviour
 
         quest.gameObject.SetActive(false);
         quest.transform.parent.gameObject.SetActive(false);
+        UserManager.Instance.UnlockAchievement(SiyerResources.achievement_achievementtest2);
     }
 
     [UsedImplicitly]

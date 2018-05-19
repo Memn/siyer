@@ -52,7 +52,7 @@ public class SiyerMainScreenManager : MonoBehaviour
             _animator.SetTrigger(transformGameObject.name);
         }
         else
-            GetComponent<BuildingManager>().Selection(transformGameObject);
+            FindObjectOfType<BuildingManager>().Selection(transformGameObject);
     }
 
     // used by animations

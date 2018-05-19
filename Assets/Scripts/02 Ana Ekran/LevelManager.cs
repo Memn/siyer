@@ -8,7 +8,7 @@ public class LevelManager : MonoBehaviour
 	// 2. ..
 	public BuildingManager BuildingManager;
 
-
+ 		
 	private void Start()
 	{
 		

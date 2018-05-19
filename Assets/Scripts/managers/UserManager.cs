@@ -68,26 +68,26 @@ public class UserManager : MonoBehaviour
 
     public Game Game
     {
-        get { return _game ?? (_game = LocalOpenSave()); }
+        get { return _game ?? (_game = LocalOpenSave(_saving)); }
     }
 
-    private bool isSaving = false;
+    private bool _saving;
 
     private void OpenSave(bool saving)
     {
-        isSaving = saving;
+        _saving = saving;
         // save/load local first
-        _game = LocalOpenSave();
-        if (!Social.localUser.authenticated) return;
-
-        var savedGame = ((PlayGamesPlatform) Social.Active).SavedGame;
-        savedGame.OpenWithAutomaticConflictResolution("Siyer", DataSource.ReadCacheOrNetwork,
-                                                      ConflictResolutionStrategy.UseMostRecentlySaved, SaveGameOpen);
+        _game = LocalOpenSave(_saving);
+        var active = Social.Active as PlayGamesPlatform;
+        if (!Social.localUser.authenticated || active == null) return;
+        active.SavedGame.OpenWithAutomaticConflictResolution("Siyer", DataSource.ReadCacheOrNetwork,
+                                                             ConflictResolutionStrategy.UseMostRecentlySaved,
+                                                             SaveGameOpen);
     }
 
-    private Game LocalOpenSave()
+    private Game LocalOpenSave(bool saving)
     {
-        if (!isSaving) return Util.LocalLoad(); // reading
+        if (!saving) return Util.LocalLoad(); // reading
 
         // writing
         Util.LocalSave(_game);
@@ -97,7 +97,7 @@ public class UserManager : MonoBehaviour
     private void SaveGameOpen(SavedGameRequestStatus status, ISavedGameMetadata metadata)
     {
         if (status != SavedGameRequestStatus.Success) return;
-        if (isSaving)
+        if (_saving)
         {
             Util.CloudSave(metadata, _game);
         }
@@ -110,5 +110,13 @@ public class UserManager : MonoBehaviour
                 Util.CloudSave(metadata, _game);
             }
         }
+    }
+
+    public void UnlockAchievement(string achievementId)
+    {
+        _game.Achievements[achievementId] = true;
+        OpenSave(true);
+        var playGamesPlatform = (PlayGamesPlatform) Social.Active;
+        playGamesPlatform.UnlockAchievement(achievementId);
     }
 }

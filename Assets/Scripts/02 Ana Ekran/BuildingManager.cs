@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class BuildingManager : MonoBehaviour
@@ -7,20 +8,24 @@ public class BuildingManager : MonoBehaviour
     public Sprite UnderConstruction;
     public SpriteRenderer Background;
     public GameObject Board;
-    
-    
+
+
     private BoardHandler _boardHandler;
     private Building[] _buildings;
+
+    private void Awake()
+    {
+        _buildings = GetComponentsInChildren<Building>();
+    }
 
     private void Start()
     {
         _boardHandler = Board.GetComponent<BoardHandler>();
-        _buildings = GetComponentsInChildren<Building>();
     }
 
     private Building FindInBuildings(GameObject b)
     {
-        if (!b.GetComponent<Building>()) return null;
+        if (!b.GetComponent<Building>() || _buildings == null) return null;
         var buildingName = b.name;
         return _buildings.FirstOrDefault(building => building.name == buildingName);
     }
@@ -33,6 +38,12 @@ public class BuildingManager : MonoBehaviour
         Background.color = Color.gray;
         Board.SetActive(true);
         _boardHandler.ShowBuilding(building);
+    }
+
+    [UsedImplicitly]
+    public void EnlightAll()
+    {
+        Background.color = Color.white;
     }
 
     public void LockingAdjustments(Dictionary<string, bool> gameAchievements)
