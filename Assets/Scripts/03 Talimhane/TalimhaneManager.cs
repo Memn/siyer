@@ -8,11 +8,10 @@ public class TalimhaneManager : MonoBehaviour
     [SerializeField] private Text _score;
     [SerializeField] private Text _distance;
 
-    public int Arrows = 30;
+    public int Arrows = 10;
     private int _points;
 
     [SerializeField] private GameObject _player;
-    [SerializeField] private GameObject _target;
 
     [SerializeField] private Animator _targetAnimator;
     [SerializeField] private Animator _strawAnimator;
@@ -30,17 +29,15 @@ public class TalimhaneManager : MonoBehaviour
     public void RecalculateDistance()
     {
         _distance.text = CalculateDistance();
-//        _aim.GetComponent<AimDrawer>()
-//            .AdjustAccordingToDistance(Vector3.Distance(_player.transform.position, _target.transform.position));
     }
 
     private string CalculateDistance()
     {
-        var distance = Vector3.Distance(_player.transform.position, _target.transform.position);
+        var targeTransformPos = FindObjectOfType<TalimhaneTarget>().transform.position;
+        var distance = Vector3.Distance(_player.transform.position, targeTransformPos);
         return distance.ToString("F2") + "m";
     }
 
-    // Update is called once per frame
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))

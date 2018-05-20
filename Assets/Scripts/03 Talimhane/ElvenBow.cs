@@ -15,12 +15,10 @@ public class ElvenBow : MonoBehaviour
 
     private void Start()
     {
-        // create an arrow to shoot
         _animator = GetComponent<Animator>();
         _musicPlayer = FindObjectOfType<TalimhaneMusicPlayer>();
     }
 
-    // Update is called once per frame
     private void Update()
     {
         if (_gameEnded) return;
@@ -30,28 +28,6 @@ public class ElvenBow : MonoBehaviour
         _animator.Play("talimhane_out_of_arrows");
         Controls.SetActive(false);
         _gameEnded = true;
-//            return;
-
-        // game is steered via mouse
-        // (also works with touch on android)
-//        if (Input.GetMouseButtonDown(0))
-//        {
-//            if (!_animator.GetBool("hazir"))
-//            {
-//                _animator.SetBool("hazir", true);
-//            }
-//
-//            //            _animator.SetTrigger("ready");
-//        }
-
-        // ok, player released the mouse
-        // (player released the touch on android)
-//        if (!Input.GetMouseButtonUp(0)) return;
-//        if (_animator.GetBool("hazir"))
-//        {
-////            _animator.SetBool("cek", true);
-//            _animator.SetBool("release", true);
-//        }
     }
 
 
@@ -64,10 +40,8 @@ public class ElvenBow : MonoBehaviour
     [UsedImplicitly]
     private void ArrowReleased()
     {
-//        Debug.Log("Arrow Released");
         _musicPlayer.Play(TalimhaneMusicPlayer.AudioClips.ArrowSwoosh);
         _animator.SetBool("hazir", false);
-//        _animator.SetBool("cek", false);
         _animator.SetBool("release", false);
         CreateArrow();
         ShootArrow();
@@ -101,7 +75,6 @@ public class ElvenBow : MonoBehaviour
     [UsedImplicitly]
     private void StringReleased()
     {
-//        Debug.Log("String Released");
         _musicPlayer.Play(TalimhaneMusicPlayer.AudioClips.StringRelease);
     }
 
@@ -114,17 +87,12 @@ public class ElvenBow : MonoBehaviour
     public void Set()
     {
         if (!_animator.GetBool("hazir"))
-        {
             _animator.SetBool("hazir", true);
-        }
     }
 
     public void Release()
     {
         if (_animator.GetBool("hazir"))
-        {
-            //            _animator.SetBool("cek", true);
             _animator.SetBool("release", true);
-        }
     }
 }
