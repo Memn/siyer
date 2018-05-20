@@ -41,8 +41,7 @@ public class ElvenBow : MonoBehaviour
     private void ArrowReleased()
     {
         _musicPlayer.Play(TalimhaneMusicPlayer.AudioClips.ArrowSwoosh);
-        _animator.SetBool("hazir", false);
-        _animator.SetBool("release", false);
+        Cancel();
         CreateArrow();
         ShootArrow();
     }
@@ -84,6 +83,21 @@ public class ElvenBow : MonoBehaviour
         _musicPlayer.Play(TalimhaneMusicPlayer.AudioClips.StringPull);
     }
 
+    [UsedImplicitly]
+    public void Pulled()
+    {
+        _animator.SetBool("pulled", true);
+    }
+
+    [UsedImplicitly]
+    public void Cancel()
+    {
+        _animator.SetBool("hazir", false);
+        _animator.SetBool("cancel", false);
+        _animator.SetBool("release", false);
+        _animator.SetBool("pulled", false);
+    }
+
     public void Set()
     {
         if (!_animator.GetBool("hazir"))
@@ -92,7 +106,7 @@ public class ElvenBow : MonoBehaviour
 
     public void Release()
     {
-        if (_animator.GetBool("hazir"))
-            _animator.SetBool("release", true);
+        if (_animator.GetBool("hazir")) 
+            _animator.SetBool(_animator.GetBool("pulled") ? "release" : "cancel", true);
     }
 }
