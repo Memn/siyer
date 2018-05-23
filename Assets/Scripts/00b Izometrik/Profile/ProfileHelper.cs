@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class ProfileHelper : MonoBehaviour, LoadableHelper
 {
-    private User _user;
+    
 
     public Image ProfilePic;
     public Text ProfileName;

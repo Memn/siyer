@@ -16,6 +16,7 @@ public class BuildingManager : MonoBehaviour
     private void Awake()
     {
         _buildings = GetComponentsInChildren<Building>();
+        
     }
 
     private void Start()

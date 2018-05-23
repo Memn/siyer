@@ -1,5 +1,4 @@
-﻿using Facebook.Unity;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,12 +14,6 @@ public class ButtonsController : MonoBehaviour
         Instance = this;
     }
 
-    private void Start()
-    {
-        var isLoggedIn = FacebookManager.Instance.IsLoggedIn;
-        FBButtonImage(isLoggedIn);
-//        ProfileButton.interactable = UserManager.Instance.User != null;
-    }
 
     [UsedImplicitly]
     public void Login()
