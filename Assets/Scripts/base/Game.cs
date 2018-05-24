@@ -291,4 +291,30 @@ public class Game
     {
         return AchievementDescriptions.FirstOrDefault(description => description.id == buildingId);
     }
+
+
+    public static Dictionary<int, List<string>> LevelCompletionCriterias
+    {
+        get
+        {
+            return new Dictionary<int, List<string>>
+            {
+                {1, new List<string> {SiyerResources.a1, SiyerResources.a3}},
+                {2, new List<string> {SiyerResources.a2}}
+            };
+        }
+    }
+
+    public IAchievement AchievementOf(string id)
+    {
+        foreach (var achievement in Achievements)
+        {
+            if (achievement.id == id)
+            {
+                return achievement;
+            }
+        }
+
+        return null;
+    }
 }

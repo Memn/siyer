@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using UnityEngine;
 
 public class InitAnimationStopper : MonoBehaviour
 {
@@ -11,8 +12,10 @@ public class InitAnimationStopper : MonoBehaviour
         _init = false;
     }
 
+    [UsedImplicitly]
     private void Stop()
     {
         GetComponent<Animator>().cullingMode = AnimatorCullingMode.CullCompletely;
+        FindObjectOfType<LevelManager>().ShowLevelQuestsInfo();
     }
 }
