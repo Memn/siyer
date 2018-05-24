@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public class BuildingManager : MonoBehaviour
 {
@@ -16,7 +16,6 @@ public class BuildingManager : MonoBehaviour
     private void Awake()
     {
         _buildings = GetComponentsInChildren<Building>();
-        
     }
 
     private void Start()
@@ -26,16 +25,20 @@ public class BuildingManager : MonoBehaviour
 
     private Building FindInBuildings(GameObject b)
     {
-        if (!b.GetComponent<Building>() || _buildings == null) return null;
-        var buildingName = b.name;
-        return _buildings.FirstOrDefault(building => building.name == buildingName);
+//        if (!b.GetComponent<Building>() || _buildings == null) return null;
+//        var buildingName = b.name;
+//        return _buildings.FirstOrDefault(building => building.name == buildingName);
+        return b.GetComponent<Building>();
+
     }
 
     public void Selection(GameObject b)
     {
+        Debug.Log("Object name: "+b.name);
         var building = FindInBuildings(b);
         if (!building) return;
 
+        
         Background.color = Color.gray;
         Board.SetActive(true);
         _boardHandler.ShowBuilding(building);
@@ -47,14 +50,15 @@ public class BuildingManager : MonoBehaviour
         Background.color = Color.white;
     }
 
-    public void LockingAdjustments(Dictionary<string, bool> gameAchievements)
+    public void LockingAdjustments(IAchievement[] gameAchievements)
     {
         foreach (var building in _buildings)
         {
-            bool unlocked;
-            if (!gameAchievements.TryGetValue(building.BuildingID, out unlocked)) continue;
-            building.GetComponent<SpriteRenderer>().sprite = unlocked ? building.ActualPhoto : UnderConstruction;
-            building.GetComponent<SpriteRenderer>().color = unlocked ? Color.white : Color.gray;
+            var first = gameAchievements.FirstOrDefault(achievement => building.BuildingID == achievement.id);
+            if (first == null) continue;
+
+            building.GetComponent<SpriteRenderer>().sprite = first.completed ? building.ActualPhoto : UnderConstruction;
+            building.GetComponent<SpriteRenderer>().color = first.completed ? Color.white : Color.gray;
         }
     }
 }

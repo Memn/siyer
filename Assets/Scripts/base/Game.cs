@@ -68,7 +68,7 @@ public class Game
 
         var file = File.Open(Util.SaveFilePath, FileMode.Open);
         var reader = XmlDictionaryReader.CreateTextReader(file, new XmlDictionaryReaderQuotas());
-        
+
         var ds = new DataContractSerializer(typeof(GameData));
         Debug.Log(string.Format("Loading game from {0}", Util.SaveFilePath));
         var gameData = ds.ReadObject(reader) as GameData;
@@ -285,5 +285,10 @@ public class Game
 
         _gameData.AchievementDescriptions = temp.ToList();
         Save();
+    }
+
+    public IAchievementDescription DescriptionOf(string buildingId)
+    {
+        return AchievementDescriptions.FirstOrDefault(description => description.id == buildingId);
     }
 }

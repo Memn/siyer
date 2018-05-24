@@ -14,6 +14,11 @@ public class UserManager : MonoBehaviour
         get { return _instance ?? (_instance = new GameObject("UserManager").AddComponent<UserManager>()); }
     }
 
+    public Game Game
+    {
+        get { return _game; }
+    }
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
