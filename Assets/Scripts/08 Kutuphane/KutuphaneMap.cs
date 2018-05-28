@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class KutuphaneMap : MonoBehaviour
@@ -9,14 +10,19 @@ public class KutuphaneMap : MonoBehaviour
     public GameObject PuzzleObject;
     public GameObject EmptyPuzzleObject;
     public Transform PuzzleParentTransform;
+    public PuzzleController Controller;
+
     private int _width = 7;
     private int _height = 5;
     private const float ScalingFactor = 1f;
     private const float XSpacing = 1.00f;
     private const float YSpacing = 0.9f;
+    private const int WordScore = 10;
 
     private List<string> _words;
     private Puzzle _currentPuzzle;
+    private int _givenHint = 0;
+    private int _currentScore = 0;
 
     public void StartPuzzle()
     {
@@ -64,11 +70,14 @@ public class KutuphaneMap : MonoBehaviour
         }
     }
 
-
     public bool CheckAnswer(string word)
     {
         if (!_words.Contains(word)) return false;
         _words.Remove(word);
+        _currentScore += word.Length;
+        _currentScore -= _givenHint;
+        _givenHint = 0;
+        GetComponent<KutuphaneManager>().UpdateScore(_currentScore*WordScore);
         return true;
     }
 
@@ -82,8 +91,12 @@ public class KutuphaneMap : MonoBehaviour
         GetComponent<KutuphaneManager>().Congrats();
     }
 
+    [UsedImplicitly]
     public void Help()
     {
-        Debug.Log(_words.First());
+        var hint = _words.First();
+        Debug.Log(hint);
+        if (hint.Length > _givenHint)
+            Controller.Hint(hint[_givenHint++]);
     }
 }

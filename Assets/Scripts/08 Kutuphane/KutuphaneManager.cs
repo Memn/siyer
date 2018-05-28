@@ -7,9 +7,18 @@ using UnityEngine.UI;
 public class KutuphaneManager : MonoBehaviour
 {
     public Text topicHead;
+    public Text Scoreboard;
+
+    [SerializeField] private Camera _camera;
+    private KutuphaneMap _map;
+    private int _topicIndex;
+
+    [SerializeField] private GameObject _winScreen;
+    [SerializeField] private GameObject _puzzleScreen;
 
 
-    private static readonly Dictionary<string, string> TopicWords = new Dictionary<string, string>
+    // filtered for level & grouped for topics
+    private Dictionary<string, string> _lookup = new Dictionary<string, string>
     {
         {"Kıblemiz", "Kâbe"},
         {"İlahi Kitap", "Kuran"},
@@ -26,19 +35,26 @@ public class KutuphaneManager : MonoBehaviour
         {"Cahiliye", "Darunnedve Putlar Zulüm İşkence Müşrik"},
     };
 
-    [SerializeField] private Camera _camera;
-    private KutuphaneMap _map;
-    private int _topicIndex;
-
-    [SerializeField] private GameObject _winScreen;
-    [SerializeField] private GameObject _puzzleScreen;
-
     private void Start()
     {
         _map = GetComponent<KutuphaneMap>();
-        _topicIndex = Random.Range(0, TopicWords.Count);
+//        var words = JsonUtility.FromJson<Kelimelik>(WordUtil.Dict).Kelimeler.FindAll(kelime => kelime.Level == 1);
+//        _lookup = words.ToLookup(kelime => kelime.Topic, kelime => kelime).ToDictionary(
+//            kelimes => kelimes.Key, kelimes =>
+//            {
+//                var word = words.Aggregate("", (current, kelime) => current + (kelime.Text + " "));
+//                if (word.Length > 1)
+//                {
+//                    word.Remove(word.Length - 1);
+//                }
+//
+//                return word;
+//            });
+
+        _topicIndex = Random.Range(0, _lookup.Count);
         LoadNextTopic();
         StartPuzzle();
+        UpdateScore(0);
     }
 
 
@@ -69,9 +85,9 @@ public class KutuphaneManager : MonoBehaviour
 
     private void LoadNextTopic()
     {
-        _topicIndex = ++_topicIndex % TopicWords.Count;
+        _topicIndex = ++_topicIndex % _lookup.Count;
         string words;
-        if (TopicWords.TryGetValue(TopicWords.Keys.ElementAt(_topicIndex), out words))
+        if (_lookup.TryGetValue(_lookup.Keys.ElementAt(_topicIndex), out words))
         {
             _map.LoadPuzzle(words);
         }
@@ -81,7 +97,7 @@ public class KutuphaneManager : MonoBehaviour
     {
         _puzzleScreen.SetActive(true);
         _winScreen.SetActive(false);
-        var topicWords = TopicWords.Keys.ElementAt(_topicIndex).Split();
+        var topicWords = _lookup.Keys.ElementAt(_topicIndex).Split();
         topicHead.text = string.Join("\n", topicWords);
         _map.StartPuzzle();
     }
@@ -94,5 +110,10 @@ public class KutuphaneManager : MonoBehaviour
         _winScreen.SetActive(true);
         _puzzleScreen.SetActive(false);
         LoadNextTopic();
+    }
+
+    public void UpdateScore(int score)
+    {
+        Scoreboard.text = score.ToString();
     }
 }

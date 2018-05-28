@@ -55,10 +55,7 @@ public class PuzzleController : MonoBehaviour
     {
         _answer = "";
         AnswerParentTransform.position += Vector3.right * 0.4f * AnswerParentTransform.childCount;
-        foreach (Transform child in AnswerParentTransform)
-        {
-            Destroy(child.gameObject);
-        }
+        Util.ClearChildren(AnswerParentTransform);
     }
 
     private void FailCase()
@@ -81,6 +78,12 @@ public class PuzzleController : MonoBehaviour
         }
 
         Invoke("AnyWordsLeft", 0.8f);
+        ClearHintLine();   
+    }
+    private void ClearHintLine()
+    {
+        HintTransform.position += Vector3.right * 0.4f * HintTransform.childCount;
+        Util.ClearChildren(HintTransform);
     }
 
     private void ClearSelectedLetters()
@@ -110,7 +113,7 @@ public class PuzzleController : MonoBehaviour
         else if (puzzleComponent == _selectedPuzzleObjects.Peek()) return; // holding last
         else
         {
-            if (!AreNeighbours(puzzleComponent, _selectedPuzzleObjects.Peek())) return;
+            if (puzzleComponent == _selectedPuzzleObjects.Peek()) return;
             if (!puzzleComponent.Selected())
             {
                 Push(puzzleComponent);
@@ -154,8 +157,15 @@ public class PuzzleController : MonoBehaviour
         AnswerParentTransform.position += Vector3.left * 0.4f;
     }
 
-    private bool AreNeighbours(PuzzleObject puzzleComponent, PuzzleObject last)
+    public Transform HintTransform;
+
+    public void Hint(char c)
     {
-        return puzzleComponent != last;
+        var go = Instantiate(AnswerObject, Vector3.zero, Quaternion.identity);
+        go.GetComponent<PuzzleObject>().SetCharacter(c);
+        go.transform.parent = HintTransform;
+        go.transform.localPosition = Vector2.right * 0.8f * HintTransform.childCount;
+        go.transform.localScale = Vector3.one;
+        HintTransform.position += Vector3.left * 0.4f;
     }
 }
