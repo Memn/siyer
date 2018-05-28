@@ -29,7 +29,7 @@ public class KutuphaneMap : MonoBehaviour
         Puzzle2Map(_currentPuzzle);
     }
 
-    public void LoadPuzzle(string word)
+    private void LoadPuzzle(string word)
     {
         _words = word.ToUpper(new CultureInfo("tr-TR", false)).Split(' ').ToList();
         foreach (Transform child in PuzzleParentTransform)
@@ -39,6 +39,21 @@ public class KutuphaneMap : MonoBehaviour
 
         var sentence = Regex.Replace(word.ToUpper(new CultureInfo("tr-TR", false)), @"\s+", "");
         _currentPuzzle = PuzzleMaker.MakePuzzle(sentence);
+    }
+
+    public void LoadPuzzle(IEnumerator<KutuphaneManager.Word> wordEnumerator)
+    {
+        using (wordEnumerator)
+        {
+            var words = "";
+            while (wordEnumerator.MoveNext())
+            {
+                var word = wordEnumerator.Current;
+                if (word != null) words += word.Text + " ";
+            }
+
+            LoadPuzzle(words.Trim());
+        }
     }
 
     private void Puzzle2Map(Puzzle makePuzzle)
@@ -77,7 +92,7 @@ public class KutuphaneMap : MonoBehaviour
         _currentScore += word.Length;
         _currentScore -= _givenHint;
         _givenHint = 0;
-        GetComponent<KutuphaneManager>().UpdateScore(_currentScore*WordScore);
+        GetComponent<KutuphaneManager>().UpdateScore(_currentScore * WordScore);
         return true;
     }
 

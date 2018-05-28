@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class KutuphaneManager : MonoBehaviour
 {
@@ -35,21 +37,51 @@ public class KutuphaneManager : MonoBehaviour
         {"Cahiliye", "Darunnedve Putlar Zulüm İşkence Müşrik"},
     };
 
+    private Dictionary<string, string> _dict;
+    private ILookup<string, Word> _lookup2;
+    private IEnumerator<IGrouping<string, Word>> _lookupEnumerator;
+
+
+    private void Awake()
+    {
+        var words = JsonUtility.FromJson<Wrapper>(WordUtil.Dict).Words.FindAll(kelime => kelime.Level == 1);
+        _lookup2 = words.ToLookup(word => word.Topic, word => word);
+        _lookupEnumerator = _lookup2.GetEnumerator();
+        _dict = _lookup2.ToDictionary(grouping => grouping.Key, grouping =>
+        {
+            var combined = "";
+            using (var wordEnumerator = grouping.GetEnumerator())
+            {
+                while (wordEnumerator.MoveNext())
+                {
+                    var w = wordEnumerator.Current;
+                    if (w != null) combined += w.Text + " ";
+                }
+            }
+
+            return combined;
+        });
+
+        Debug.Log(_lookup2.Count);
+    }
+
+    [Serializable]
+    private class Wrapper
+    {
+        public List<Word> Words;
+    }
+
+    [Serializable]
+    public class Word
+    {
+        public string Text;
+        public string Topic;
+        public int Level;
+    }
+
     private void Start()
     {
         _map = GetComponent<KutuphaneMap>();
-//        var words = JsonUtility.FromJson<Kelimelik>(WordUtil.Dict).Kelimeler.FindAll(kelime => kelime.Level == 1);
-//        _lookup = words.ToLookup(kelime => kelime.Topic, kelime => kelime).ToDictionary(
-//            kelimes => kelimes.Key, kelimes =>
-//            {
-//                var word = words.Aggregate("", (current, kelime) => current + (kelime.Text + " "));
-//                if (word.Length > 1)
-//                {
-//                    word.Remove(word.Length - 1);
-//                }
-//
-//                return word;
-//            });
 
         _topicIndex = Random.Range(0, _lookup.Count);
         LoadNextTopic();
@@ -85,20 +117,26 @@ public class KutuphaneManager : MonoBehaviour
 
     private void LoadNextTopic()
     {
-        _topicIndex = ++_topicIndex % _lookup.Count;
-        string words;
-        if (_lookup.TryGetValue(_lookup.Keys.ElementAt(_topicIndex), out words))
+        if (!_lookupEnumerator.MoveNext())
         {
-            _map.LoadPuzzle(words);
+            var id = CommonResources.IdOf(CommonResources.Resource.DarulErkam, UserManager.CurrentLevel);
+            UserManager.Instance.UnlockAchievement(id);
+            EndOfLevel();
+            return;
         }
+
+        var current = _lookupEnumerator.Current;
+        if (current == null) return;
+        topicHead.text = string.Join("\n", current.Key.Split());
+        var wordEnumerator = current.GetEnumerator();
+        _map.LoadPuzzle(wordEnumerator);
     }
+
 
     private void StartPuzzle()
     {
         _puzzleScreen.SetActive(true);
         _winScreen.SetActive(false);
-        var topicWords = _lookup.Keys.ElementAt(_topicIndex).Split();
-        topicHead.text = string.Join("\n", topicWords);
         _map.StartPuzzle();
     }
 
@@ -110,6 +148,13 @@ public class KutuphaneManager : MonoBehaviour
         _winScreen.SetActive(true);
         _puzzleScreen.SetActive(false);
         LoadNextTopic();
+    }
+
+    private void EndOfLevel()
+    {
+        _winScreen.transform.Find("Text").GetComponent<TextMesh>().text = "Seviye Tamamlandi";
+        _winScreen.SetActive(true);
+        _puzzleScreen.SetActive(false);
     }
 
     public void UpdateScore(int score)

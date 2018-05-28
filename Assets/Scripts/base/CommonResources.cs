@@ -128,6 +128,38 @@ return "";
         }
     }
 
+    public static string DarulErkam_1
+    {
+        get
+        {
+#if UNITY_EDITOR
+            return "Achievement03";
+#elif UNITY_ANDROID
+            return "";
+#elif UNITY_IOS
+                        return "";
+            #else
+return "";
+            #endif
+        }
+    }
+
+    public static string DarulErkam_2
+    {
+        get
+        {
+#if UNITY_EDITOR
+            return "Achievement03";
+#elif UNITY_ANDROID
+            return "";
+#elif UNITY_IOS
+                        return "";
+            #else
+return "";
+            #endif
+        }
+    }
+
     public static string Hamza
     {
         get
@@ -206,5 +238,40 @@ return "";
 return "";
             #endif
         }
+    }
+
+    public static string IdOf(Resource resource, int currentLevel)
+    {
+        switch (resource)
+        {
+            case Resource.Kabe:
+                break;
+            case Resource.Abdulmuttalib:
+                break;
+            case Resource.HzMuhammed:
+                break;
+            case Resource.DarulErkam:
+                switch (currentLevel)
+                {
+                    case 1: return DarulErkam_1;
+                    case 2: return DarulErkam_2;
+                    default:
+                        throw new ArgumentOutOfRangeException("currentLevel", currentLevel, null);
+                }
+            case Resource.Hamza:
+                break;
+            case Resource.Omer:
+                break;
+            case Resource.Unknown:
+                break;
+            case Resource.Hatice:
+                break;
+            case Resource.Hicret:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException("resource", resource, null);
+        }
+
+        return "";
     }
 }
