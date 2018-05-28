@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,6 +22,7 @@ public class QuestsController : MonoBehaviour
 
     [SerializeField] private GameObject _videoPanel;
     private VideoPlayer _videoPlayer;
+    public CommonResources.Resource Reward = CommonResources.Resource.Abdulmuttalib;
 
 
     // Use this for initialization
@@ -28,13 +30,14 @@ public class QuestsController : MonoBehaviour
     {
         _videoPlayer = _videoPanel.GetComponent<VideoPlayer>();
         _videoPlayer.loopPointReached += EndVideo;
-        InitiateQuest();
+        if (_videoPlayer.clip == null) Quests[_questIndex].Completed = true;
     }
 
     private void EndVideo(VideoPlayer source)
     {
         if (_videoPlayer.isPlaying)
             _videoPlayer.Pause();
+        Quests[_questIndex].Completed = true;
         EndQuest();
     }
 
@@ -51,6 +54,10 @@ public class QuestsController : MonoBehaviour
         {
             _previousButton.image.color = color;
         }
+
+        // Check achievement Conditions
+        if (Quests.All(quest => quest.Completed))
+            UserManager.Instance.UnlockAchievement(CommonResources.IdOf(Reward));
     }
 
     private void UpdateButtonConditions()
@@ -117,7 +124,7 @@ public class QuestsController : MonoBehaviour
         _videoPanel.GetComponent<Animator>().Play("VideoIdle");
     }
 
-    private void InitiateQuest()
+    public void InitiateQuest()
     {
         UpdateButtonConditions();
         var quest = Quests[_questIndex];
@@ -138,7 +145,6 @@ public class QuestsController : MonoBehaviour
 
         quest.gameObject.SetActive(false);
         quest.transform.parent.gameObject.SetActive(false);
-//        UserManager.Instance.UnlockAchievement(SiyerResources.achievement_achievementtest2);
     }
 
     [UsedImplicitly]

@@ -150,7 +150,6 @@ public class Game
         }
     }
 
-
     [DataContract(Name = "AchievementDescriptions")]
     private class AchievementDescriptionsDto : IAchievementDescription
     {
@@ -225,45 +224,29 @@ public class Game
     }
 
 
-    public void Sync(IAchievement[] achievements)
+    public void Sync(IEnumerable<IAchievement> achievements)
     {
         var toBeSaved = false;
-        var temp = new AchievementDto[achievements.Length];
-        if (Achievements == null)
+        var temp = new List<AchievementDto>();
+
+        foreach (var platform in achievements)
         {
-            for (var index = 0; index < achievements.Length; index++)
+            var local = Achievements.FirstOrDefault(ach => ach.id == platform.id);
+            if (local == null)
             {
-                var achievement = achievements[index];
-                temp[index] = new AchievementDto(achievement);
+                var dto = new AchievementDto(platform);
+                temp.Add(dto);
+                toBeSaved = true;
             }
-
-            toBeSaved = true;
+            else
+            {
+                UserManager.Instance.UnlockAchievement(local.id);
+            }
         }
-        else
-            for (var index = 0; index < achievements.Length; index++)
-            {
-                var platform = achievements[index];
-                var local = Achievements.First(ach => ach.id == platform.id);
 
-                // new is always better! :)
-                if (local == null || local.lastReportedDate < platform.lastReportedDate)
-                {
-                    temp[index] = new AchievementDto(platform);
-                    toBeSaved = true;
-                }
-                else
-                {
-                    temp[index] = local as AchievementDto;
-                    Social.ReportProgress(platform.id, local.percentCompleted - platform.percentCompleted,
-                                          success => Debug.Log(
-                                              success
-                                                  ? "Successfully reported achievement progress"
-                                                  : "Failed to report achievement"));
-                }
-            }
 
         if (!toBeSaved) return;
-        _gameData.Achievements = temp.ToList();
+        _gameData.Achievements.AddRange(temp);
         Save();
     }
 
@@ -274,16 +257,10 @@ public class Game
         Save();
     }
 
-    public void Sync(IAchievementDescription[] descriptions)
+    public void Sync(IEnumerable<IAchievementDescription> descriptions)
     {
-        var temp = new AchievementDescriptionsDto[descriptions.Length];
-        for (var index = 0; index < descriptions.Length; index++)
-        {
-            var achievement = descriptions[index];
-            temp[index] = new AchievementDescriptionsDto(achievement);
-        }
-
-        _gameData.AchievementDescriptions = temp.ToList();
+        _gameData.AchievementDescriptions =
+            descriptions.Select(description => new AchievementDescriptionsDto(description)).ToList();
         Save();
     }
 
@@ -307,14 +284,13 @@ public class Game
 
     public IAchievement AchievementOf(string id)
     {
-        foreach (var achievement in Achievements)
-        {
-            if (achievement.id == id)
-            {
-                return achievement;
-            }
-        }
+        return Achievements.FirstOrDefault(achievement => achievement.id == id);
+    }
 
-        return null;
+    public bool IsCompleted(CommonResources.Resource resource)
+    {
+//        var achievement = AchievementOf(CommonResources.IdOf(resource));
+//        return achievement != null;
+        return false;
     }
 }

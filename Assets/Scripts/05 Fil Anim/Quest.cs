@@ -19,6 +19,8 @@ public class Quest : MonoBehaviour
     public bool HasQuestion = true;
     private GameObject _choices;
 
+    public bool Completed;
+
 
     private void Start()
     {

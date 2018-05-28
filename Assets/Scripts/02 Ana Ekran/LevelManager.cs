@@ -17,15 +17,14 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        _game = UserManager.Instance.Game;
+        _game = UserManager.Game;
         BuildingManager.LockingAdjustments(_game.Achievements);
     }
-
 
     public void ShowLevelQuestsInfo()
     {
         Util.ClearChildren(LevelQuestObjectParent.transform);
-        var levelQuests = UserManager.Instance.GetCurrentLevelCompletionAchievements();
+        var levelQuests = UserManager.Instance.GetCurrentLevelAchievementCompletions();
         foreach (var levelQuest in levelQuests)
         {
             var memberObj = Instantiate(LevelQuestPrefab, Vector3.zero, Quaternion.identity);

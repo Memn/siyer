@@ -9,6 +9,7 @@ public class BoardHandler : MonoBehaviour
     private Text _info;
 
     private SceneManagementUtil.Scenes _targetScene;
+    private Button _go;
 
     private void Awake()
     {
@@ -26,6 +27,10 @@ public class BoardHandler : MonoBehaviour
                 case "Info":
                     _info = child.GetComponent<Text>();
                     break;
+                case "Enter":
+                    _go = child.GetComponent<Button>();
+                    break;
+
             }
         }
     }
@@ -35,9 +40,11 @@ public class BoardHandler : MonoBehaviour
         if (!building) return;
 
         _photo.sprite = building.Photo;
-        _title.text = building.BuildingName;
-        _info.text = building.Info;
+        _title.text = building.BuildingName ?? "";
+        _info.text = building.Info ?? "";
         _targetScene = building.Scene;
+        _go.interactable = building.Achieved;
+
     }
 
     [UsedImplicitly]
