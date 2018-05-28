@@ -64,20 +64,26 @@ public class UserManager : MonoBehaviour
         Debug.Log("Game Init is completed..");
     }
 
-    public IEnumerable<KeyValuePair<bool, string>> GetCurrentLevelAchievementCompletions()
+    public static IEnumerable<KeyValuePair<bool, string>> GetCurrentLevelAchievementCompletions()
     {
         var criteriaCompletions = new List<KeyValuePair<bool, string>>();
         List<string> achievementIds;
-        if (!Game.LevelCompletionCriterias.TryGetValue(_currentLevel, out achievementIds)) return criteriaCompletions;
+        if (!Game.LevelCompletionCriterias.TryGetValue(CurrentLevel, out achievementIds))
+            return criteriaCompletions;
         foreach (var achievementId in achievementIds)
         {
-            var description = _game.DescriptionOf(achievementId).unachievedDescription;
-            var achievement = _game.AchievementOf(achievementId);
+            var description = Game.DescriptionOf(achievementId).unachievedDescription;
+            var achievement = Game.AchievementOf(achievementId);
             var completed = achievement != null && achievement.completed;
             criteriaCompletions.Add(new KeyValuePair<bool, string>(completed, description));
         }
 
         return criteriaCompletions;
+    }
+
+    public static void UnlockBuilding(CommonResources.Resource building)
+    {
+        Instance.UnlockAchievement(CommonResources.IdOf(building));
     }
 
     public void UnlockAchievement(string id)

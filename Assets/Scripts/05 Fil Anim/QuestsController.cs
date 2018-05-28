@@ -57,7 +57,7 @@ public class QuestsController : MonoBehaviour
 
         // Check achievement Conditions
         if (Quests.All(quest => quest.Completed))
-            UserManager.Instance.UnlockAchievement(CommonResources.IdOf(Reward));
+            UserManager.UnlockBuilding(Reward);
     }
 
     private void UpdateButtonConditions()

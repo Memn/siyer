@@ -69,7 +69,7 @@ public class CommonResources : MonoBehaviour
         get
         {
 #if UNITY_EDITOR
-            return "Achievement01";
+            return "";
 #elif UNITY_ANDROID
             return "";
 #elif UNITY_IOS
@@ -96,7 +96,7 @@ return "";
         }
     }
 
-    public static string HzMuhammed
+    public static string Labirent_1
     {
         get
         {
@@ -112,12 +112,45 @@ return "";
         }
     }
 
-    public static string DarulErkam
+    public static string Labirent_2
+    {
+        get
+        {
+#if UNITY_EDITOR
+            return "";
+#elif UNITY_ANDROID
+            return "";
+#elif UNITY_IOS
+                        return "";
+            #else
+return "";
+            #endif
+        }
+    }
+
+
+    public static string HzMuhammed
     {
         get
         {
 #if UNITY_EDITOR
             return "Achievement03";
+#elif UNITY_ANDROID
+            return "";
+#elif UNITY_IOS
+                        return "";
+            #else
+return "";
+            #endif
+        }
+    }
+
+    public static string DarulErkam
+    {
+        get
+        {
+#if UNITY_EDITOR
+            return "";
 #elif UNITY_ANDROID
             return "";
 #elif UNITY_IOS
@@ -133,7 +166,7 @@ return "";
         get
         {
 #if UNITY_EDITOR
-            return "Achievement03";
+            return "";
 #elif UNITY_ANDROID
             return "";
 #elif UNITY_IOS
@@ -149,7 +182,7 @@ return "";
         get
         {
 #if UNITY_EDITOR
-            return "Achievement03";
+            return "";
 #elif UNITY_ANDROID
             return "";
 #elif UNITY_IOS
@@ -165,7 +198,7 @@ return "";
         get
         {
 #if UNITY_EDITOR
-            return "Achievement01";
+            return "";
 #elif UNITY_ANDROID
             return "";
 #elif UNITY_IOS
@@ -181,7 +214,7 @@ return "";
         get
         {
 #if UNITY_EDITOR
-            return "Achievement01";
+            return "";
 #elif UNITY_ANDROID
             return "";
 #elif UNITY_IOS
@@ -197,7 +230,7 @@ return "";
         get
         {
 #if UNITY_EDITOR
-            return "Achievement01";
+            return "";
 #elif UNITY_ANDROID
             return "";
 #elif UNITY_IOS
@@ -213,7 +246,7 @@ return "";
         get
         {
 #if UNITY_EDITOR
-            return "Achievement01";
+            return "";
 #elif UNITY_ANDROID
             return "";
 #elif UNITY_IOS
@@ -229,7 +262,7 @@ return "";
         get
         {
 #if UNITY_EDITOR
-            return "Achievement01";
+            return "";
 #elif UNITY_ANDROID
             return "";
 #elif UNITY_IOS

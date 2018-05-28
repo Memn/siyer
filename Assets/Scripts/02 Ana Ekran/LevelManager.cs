@@ -24,7 +24,7 @@ public class LevelManager : MonoBehaviour
     public void ShowLevelQuestsInfo()
     {
         Util.ClearChildren(LevelQuestObjectParent.transform);
-        var levelQuests = UserManager.Instance.GetCurrentLevelAchievementCompletions();
+        var levelQuests = UserManager.GetCurrentLevelAchievementCompletions();
         foreach (var levelQuest in levelQuests)
         {
             var memberObj = Instantiate(LevelQuestPrefab, Vector3.zero, Quaternion.identity);
