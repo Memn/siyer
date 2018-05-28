@@ -5,7 +5,9 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class MazeDirectCharacterController : MonoBehaviour
 {
-    [SerializeField] private float _moveSpeed = 2;
+    private const float NormalSpeed = 2;
+    private const float RunSpeed = 4;
+    [SerializeField] private float _moveSpeed = NormalSpeed;
 
     [SerializeField] private float _jumpForce = 3;
     [SerializeField] private Transform _camera;
@@ -25,7 +27,7 @@ public class MazeDirectCharacterController : MonoBehaviour
     private Vector3 _currentDirection = Vector3.zero;
 
     private float _jumpTimeStamp;
-    private const float MinJumpInterval = 0.25f;
+    private const float runInterval = 2.5f;
 
     private bool _isGrounded;
     private readonly List<Collider> _collisions = new List<Collider>();
@@ -38,8 +40,6 @@ public class MazeDirectCharacterController : MonoBehaviour
     private const float MinY = 0.05f;
 
 
-    
-    
     private void OnCollisionEnter(Collision collision)
     {
         var contactPoints = collision.contacts;
@@ -139,28 +139,20 @@ public class MazeDirectCharacterController : MonoBehaviour
             _animator.SetFloat("MoveSpeed", direction.magnitude);
         }
 
-        JumpingAndLanding();
+        Running();
     }
 
-    private void JumpingAndLanding()
+    private void Running()
     {
-        var jumpCooldownOver = (Time.time - _jumpTimeStamp) >= MinJumpInterval;
+        var runOver = Time.time - _jumpTimeStamp >= runInterval;
+        if (!runOver) return;
+        if (!Input.GetKey(KeyCode.Space) && !CrossPlatformInputManager.GetButton("Jump")) return;
+        _moveSpeed = RunSpeed;
+        Invoke("RunningEnd", runInterval);
+    }
 
-        if (jumpCooldownOver && _isGrounded &&
-            (Input.GetKey(KeyCode.Space) || CrossPlatformInputManager.GetButton("Jump")))
-        {
-            _jumpTimeStamp = Time.time;
-            _rigidBody.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
-        }
-
-        if (!_wasGrounded && _isGrounded)
-        {
-            _animator.SetTrigger("Land");
-        }
-
-        if (!_isGrounded && _wasGrounded)
-        {
-            _animator.SetTrigger("Jump");
-        }
+    private void RunningEnd()
+    {
+        _moveSpeed = NormalSpeed;
     }
 }
