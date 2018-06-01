@@ -8,7 +8,7 @@ public class BoardHandler : MonoBehaviour
     private Text _title;
     private Text _info;
 
-    private SceneManagementUtil.Scenes _targetScene;
+    private CommonResources.Resource _targetScene;
     private Button _go;
 
     private void Awake()
@@ -42,7 +42,7 @@ public class BoardHandler : MonoBehaviour
         _photo.sprite = building.Photo;
         _title.text = building.BuildingName ?? "";
         _info.text = building.Info ?? "";
-        _targetScene = building.Scene;
+        _targetScene = building.Resource;
         _go.interactable = building.Achieved;
 
     }

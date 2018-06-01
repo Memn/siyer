@@ -6,15 +6,15 @@ public class CommonResources : MonoBehaviour
 {
     public enum Resource
     {
-        Kabe,
-        Abdulmuttalib,
-        HzMuhammed,
-        DarulErkam,
-        Hamza,
-        Omer,
-        Ebubekir,
-        Hatice,
-        EbuTalib
+        Kabe = 3,
+        Abdulmuttalib = 4,
+        HzMuhammed = 5,
+        DarulErkam = 6,
+        Hamza = 7,
+        Omer = 8,
+        Ebubekir = 9,
+        Hatice = 10,
+        EbuTalib = 11
     }
 
 

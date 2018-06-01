@@ -5,7 +5,7 @@ using UnityEngine.SocialPlatforms;
 [Serializable]
 public class Building : MonoBehaviour
 {
-    public SceneManagementUtil.Scenes Scene;
+//    public SceneManagementUtil.Scenes Scene;
     public CommonResources.Resource Resource;
     public Sprite ActualPhoto;
 
