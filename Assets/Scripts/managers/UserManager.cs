@@ -96,7 +96,6 @@ public class UserManager : MonoBehaviour
 
     public void UnlockAchievement(string id)
     {
-        return;
         var achievement = _game.AchievementOf(id);
         if (achievement == null)
         {

@@ -19,11 +19,11 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         _game = UserManager.Game;
-//        BuildingManager.LockingAdjustments(_game.Achievements);
+        BuildingManager.LockingAdjustments(_game.Achievements);
         
         var levelQuests = UserManager.GetCurrentLevelAchievementCompletions();
         if (levelQuests.Any(pair => !pair.Key))    return;
-//        UserManager.LevelUp();
+        UserManager.LevelUp();
     }
 
     public void ShowLevelQuestsInfo()
