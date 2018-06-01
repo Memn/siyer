@@ -38,6 +38,12 @@ public class Game
         set { _gameData.PlayedTime = value.Ticks; }
     }
 
+    public int Level
+    {
+        get { return _gameData.Level; }
+        set { _gameData.Level = value; }
+    }
+
     // Achievements
     public IAchievement[] Achievements
     {
@@ -63,17 +69,18 @@ public class Game
 
     public static Game Load()
     {
-        Debug.Log(string.Format("Checking {0} for saves.", Util.SaveFilePath));
+        Debug.Log(("Checking " + Util.SaveFilePath + " for saves."));
         if (!File.Exists(Util.SaveFilePath)) return new Game();
 
         var file = File.Open(Util.SaveFilePath, FileMode.Open);
         var reader = XmlDictionaryReader.CreateTextReader(file, new XmlDictionaryReaderQuotas());
 
         var ds = new DataContractSerializer(typeof(GameData));
-        Debug.Log(string.Format("Loading game from {0}", Util.SaveFilePath));
+        Debug.Log("Loading game from " + Util.SaveFilePath);
         var gameData = ds.ReadObject(reader) as GameData;
         reader.Close();
         file.Close();
+        Debug.Log(gameData == null ? "Game loading failed" : "Game Loaded Successfully");
         return gameData == null ? new Game() : new Game {_gameData = gameData};
     }
 
@@ -84,6 +91,7 @@ public class Game
         [DataMember(Name = "score")] public int Score = 0;
         [DataMember(Name = "profilePic")] public Texture2D ProfilePic;
         [DataMember(Name = "playedTime")] public long PlayedTime = 0;
+        [DataMember(Name = "level")] public int Level = 1;
         [DataMember(Name = "achievements")] public List<AchievementDto> Achievements = new List<AchievementDto>();
 
         [DataMember(Name = "achievementDescriptions")]
@@ -223,7 +231,6 @@ public class Game
         }
     }
 
-
     public void Sync(IEnumerable<IAchievement> achievements)
     {
         var toBeSaved = false;
@@ -240,28 +247,35 @@ public class Game
             }
             else
             {
-                UserManager.Instance.UnlockAchievement(local.id);
+                if (local.completed)
+                {
+                    UserManager.Instance.UnlockAchievement(local.id);
+                }
             }
         }
 
 
         if (!toBeSaved) return;
         _gameData.Achievements.AddRange(temp);
-        Save();
     }
 
     public void Sync(ILocalUser localUser)
     {
         UserName = localUser.userName;
-        ProfilePic = Util.Texture2Sprite(localUser.image);
-        Save();
+        if (localUser.image == null)
+        {
+            UserManager.SyncUserLater(2);
+        }
+        else
+        {
+            ProfilePic = Util.Texture2Sprite(localUser.image);
+        }
     }
 
     public void Sync(IEnumerable<IAchievementDescription> descriptions)
     {
         _gameData.AchievementDescriptions =
             descriptions.Select(description => new AchievementDescriptionsDto(description)).ToList();
-        Save();
     }
 
     public IAchievementDescription DescriptionOf(string buildingId)
@@ -276,8 +290,51 @@ public class Game
         {
             return new Dictionary<int, List<string>>
             {
-                {1, new List<string> {SiyerResources.a1, SiyerResources.a3}},
-                {2, new List<string> {SiyerResources.a2}}
+                // Hikaye, Oyunlar
+                {1, new List<string> {CommonResources.Abdulmuttalib, CommonResources.Muhafiz}},
+                {
+                    2,
+                    new List<string>
+                    {
+                        CommonResources.HzMuhammed,
+                        CommonResources.DarulErkam,
+                        CommonResources.Muhafiz,
+                        CommonResources.Talebe
+                    }
+                },
+                {
+                    3,
+                    new List<string>
+                    {
+                        CommonResources.Hamza,
+                        CommonResources.Omer,
+                        CommonResources.Muhafiz,
+                        CommonResources.Talebe,
+                        CommonResources.Okcubasi
+                    }
+                },
+                {
+                    4,
+                    new List<string>
+                    {
+                        CommonResources.Ebubekir,
+                        CommonResources.Muhafiz,
+                        CommonResources.Talebe,
+                        CommonResources.Okcubasi,
+                        CommonResources.Muallim
+                    }
+                },
+                {
+                    5,
+                    new List<string>
+                    {
+                        CommonResources.EbuTalib,
+                        CommonResources.Muhafiz,
+                        CommonResources.Talebe,
+                        CommonResources.Okcubasi,
+                        CommonResources.Muallim
+                    }
+                }
             };
         }
     }
@@ -285,12 +342,5 @@ public class Game
     public IAchievement AchievementOf(string id)
     {
         return Achievements.FirstOrDefault(achievement => achievement.id == id);
-    }
-
-    public bool IsCompleted(CommonResources.Resource resource)
-    {
-//        var achievement = AchievementOf(CommonResources.IdOf(resource));
-//        return achievement != null;
-        return false;
     }
 }

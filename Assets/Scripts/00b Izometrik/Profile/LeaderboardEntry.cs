@@ -1,5 +1,4 @@
-﻿using GooglePlayGames;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
@@ -12,12 +11,7 @@ public class LeaderboardEntry : MonoBehaviour
 
     public void Init(IUserProfile member)
     {
-        
-        var user = member as PlayGamesLocalUser;
-        if (user == null) return;
-        StartCoroutine(user.LoadImage());
-        ProfilePic.sprite = Util.Texture2Sprite(user.image);
-        ProfileName.text = user.userName;
-        
+        ProfilePic.sprite = Util.Texture2Sprite(member.image);
+        ProfileName.text = member.userName;
     }
 }

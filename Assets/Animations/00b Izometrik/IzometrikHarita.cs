@@ -6,14 +6,7 @@ public class IzometrikHarita : MonoBehaviour
 {
     [SerializeField] private TextMesh _textMesh;
     [SerializeField] private Camera _camera;
-
-    private void Awake()
-    {
-        // TODO: Remove to Splash Screen
-//        FacebookManager.Instance.InitFB();
-//        UserManager.Instance.Init();
-    }
-    
+  
     private enum Places
     {
         Medine,

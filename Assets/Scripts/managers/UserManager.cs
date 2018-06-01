@@ -1,6 +1,8 @@
 ﻿#if UNITY_ANDROID && !UNITY_EDITOR
 using GooglePlayGames;
 #endif
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +10,6 @@ public class UserManager : MonoBehaviour
 {
     private Game _game;
     private static UserManager _instance;
-    private int _currentLevel = 1;
 
     public static UserManager Instance
     {
@@ -22,7 +23,7 @@ public class UserManager : MonoBehaviour
 
     public static int CurrentLevel
     {
-        get { return Instance._currentLevel; }
+        get { return Game.Level; }
     }
 
     private void Awake()
@@ -72,10 +73,19 @@ public class UserManager : MonoBehaviour
             return criteriaCompletions;
         foreach (var achievementId in achievementIds)
         {
-            var description = Game.DescriptionOf(achievementId).unachievedDescription;
-            var achievement = Game.AchievementOf(achievementId);
-            var completed = achievement != null && achievement.completed;
-            criteriaCompletions.Add(new KeyValuePair<bool, string>(completed, description));
+            var achDescription = Game.DescriptionOf(achievementId);
+            if (achDescription != null)
+            {
+                Debug.Log("Description is found: " + achievementId);
+                var description = achDescription.unachievedDescription;
+                var achievement = Game.AchievementOf(achievementId);
+                var completed = achievement != null && achievement.completed;
+                criteriaCompletions.Add(new KeyValuePair<bool, string>(completed, description));
+            }
+            else
+            {
+                Debug.Log("Description cannot be found: " + achievementId);
+            }
         }
 
         return criteriaCompletions;
@@ -106,4 +116,22 @@ public class UserManager : MonoBehaviour
             Debug.Log(id + " unlocked successfully or not: " + success);
         });
     }
+
+    public static void LevelUp()
+    {
+        Game.Level++;
+//        Instance.UnlockAchievement();
+    }
+
+    public static void SyncUserLater(float time)
+    {
+        Instance.Invoke("Sync", time);
+    }
+
+    private void Sync()
+    {
+        _game.Sync(Social.localUser);
+    }
+
+
 }

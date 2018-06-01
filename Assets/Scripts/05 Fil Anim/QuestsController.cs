@@ -30,14 +30,17 @@ public class QuestsController : MonoBehaviour
     {
         _videoPlayer = _videoPanel.GetComponent<VideoPlayer>();
         _videoPlayer.loopPointReached += EndVideo;
-        if (_videoPlayer.clip == null) Quests[_questIndex].Completed = true;
+        var unused = Quests.All(quest => quest.Completed = true);
+        // Check achievement Conditions
+        if (Quests.All(quest => quest.Completed))
+            UserManager.UnlockBuilding(Reward);
     }
 
     private void EndVideo(VideoPlayer source)
     {
         if (_videoPlayer.isPlaying)
             _videoPlayer.Pause();
-        Quests[_questIndex].Completed = true;
+//        Quests[_questIndex].Completed = true;
         EndQuest();
     }
 

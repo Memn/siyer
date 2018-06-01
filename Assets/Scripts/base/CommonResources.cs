@@ -12,9 +12,9 @@ public class CommonResources : MonoBehaviour
         DarulErkam,
         Hamza,
         Omer,
-        Unknown,
+        Ebubekir,
         Hatice,
-        Hicret
+        EbuTalib
     }
 
 
@@ -28,25 +28,14 @@ public class CommonResources : MonoBehaviour
             case Resource.DarulErkam:    return DarulErkam;
             case Resource.Hamza:         return Hamza;
             case Resource.Omer:          return Omer;
-            case Resource.Unknown:       return Unknown;
+            case Resource.Ebubekir:      return Ebubekir;
             case Resource.Hatice:        return Hatice;
-            case Resource.Hicret:        return Hicret;
+            case Resource.EbuTalib:      return EbuTalib;
             default:
                 throw new ArgumentOutOfRangeException("resource", resource, null);
         }
     }
 
-
-    public enum ResourceTypes
-    {
-        Building,
-        Badge
-    }
-
-    public ResourceTypes TypeOf(string id)
-    {
-        return Buildings.Contains(id) ? ResourceTypes.Building : ResourceTypes.Badge;
-    }
 
     public static List<string> Buildings = new List<string>
     {
@@ -56,253 +45,76 @@ public class CommonResources : MonoBehaviour
         DarulErkam,
         Hamza,
         Omer,
-        Unknown,
+        Ebubekir,
         Hatice,
-        Hicret,
+        EbuTalib,
     };
 
-    public static List<string> Badges;
-
-
-    public static string Kabe
+    static CommonResources()
     {
-        get
-        {
+
+        Kabe = SiyerResources.achievement_kabe;
+        Abdulmuttalib = SiyerResources.achievement_abdulmuttalibin_evi;
+        HzMuhammed = SiyerResources.achievement_peygamberimizin_evi;
+        DarulErkam = SiyerResources.achievement_darul_erkam;
+        Hamza = SiyerResources.achievement_hz_hamzann_evi;
+        Omer = SiyerResources.achievement_hz_merin_evi;
+        Ebubekir = SiyerResources.achievement_hz_ebubekirin_evi;
+        Hatice = SiyerResources.achievement_hz_haticenin_evi;
+        EbuTalib = SiyerResources.achievement_ebu_talibin_evi;
+
+        Muhafiz = SiyerResources.achievement_muhafz;
+        Talebe = SiyerResources.achievement_talebe;
+        Okcubasi = SiyerResources.achievement_okuba;
+        Muallim = SiyerResources.achievement_muallim;
 #if UNITY_EDITOR
-            return "";
-#elif UNITY_ANDROID
-            return "";
-#elif UNITY_IOS
-                        return "";
-            #else
-return "";
-            #endif
-        }
+        Kabe = "Achievement01";
+        Abdulmuttalib = "Achievement02";
+        HzMuhammed = "Achievement01";
+        DarulErkam = "Achievement02";
+        Hamza = "Achievement01";
+        Omer = "Achievement01";
+        Ebubekir = "Achievement01";
+        Hatice = "Achievement01";
+        EbuTalib = "Achievement01";
+
+        Muhafiz = "Achievement03";
+        Talebe = "Achievement02";
+        Okcubasi = "Achievement02";
+        Muallim = "Achievement02";
+#endif
     }
 
-    public static string Abdulmuttalib
-    {
-        get
-        {
-#if UNITY_EDITOR
-            return "Achievement01";
-#elif UNITY_ANDROID
-            return "";
-#elif UNITY_IOS
-                        return "";
-            #else
-return "";
-            #endif
-        }
-    }
+    // Binalar
+    public static string Kabe { get; set; }
+    public static string Abdulmuttalib { get; set; }
+    public static string HzMuhammed { get; set; }
+    public static string DarulErkam { get; set; }
+    public static string Hamza { get; set; }
+    public static string Omer { get; set; }
+    public static string Ebubekir { get; set; }
+    public static string Hatice { get; set; }
+    public static string EbuTalib { get; set; }
 
-    public static string Labirent_1
-    {
-        get
-        {
-#if UNITY_EDITOR
-            return "Achievement02";
-#elif UNITY_ANDROID
-            return "";
-#elif UNITY_IOS
-                        return "";
-            #else
-return "";
-            #endif
-        }
-    }
+    // Rozetler
+    public static string Muhafiz { get; set; }
+    public static string Talebe { get; set; }
+    public static string Okcubasi { get; set; }
+    public static string Muallim { get; set; }
 
-    public static string Labirent_2
-    {
-        get
-        {
-#if UNITY_EDITOR
-            return "";
-#elif UNITY_ANDROID
-            return "";
-#elif UNITY_IOS
-                        return "";
-            #else
-return "";
-            #endif
-        }
-    }
-
-
-    public static string HzMuhammed
-    {
-        get
-        {
-#if UNITY_EDITOR
-            return "Achievement03";
-#elif UNITY_ANDROID
-            return "";
-#elif UNITY_IOS
-                        return "";
-            #else
-return "";
-            #endif
-        }
-    }
-
-    public static string DarulErkam
-    {
-        get
-        {
-#if UNITY_EDITOR
-            return "";
-#elif UNITY_ANDROID
-            return "";
-#elif UNITY_IOS
-                        return "";
-            #else
-return "";
-            #endif
-        }
-    }
-
-    public static string DarulErkam_1
-    {
-        get
-        {
-#if UNITY_EDITOR
-            return "";
-#elif UNITY_ANDROID
-            return "";
-#elif UNITY_IOS
-                        return "";
-            #else
-return "";
-            #endif
-        }
-    }
-
-    public static string DarulErkam_2
-    {
-        get
-        {
-#if UNITY_EDITOR
-            return "";
-#elif UNITY_ANDROID
-            return "";
-#elif UNITY_IOS
-                        return "";
-            #else
-return "";
-            #endif
-        }
-    }
-
-    public static string Hamza
-    {
-        get
-        {
-#if UNITY_EDITOR
-            return "";
-#elif UNITY_ANDROID
-            return "";
-#elif UNITY_IOS
-                        return "";
-            #else
-return "";
-            #endif
-        }
-    }
-
-    public static string Omer
-    {
-        get
-        {
-#if UNITY_EDITOR
-            return "";
-#elif UNITY_ANDROID
-            return "";
-#elif UNITY_IOS
-                        return "";
-            #else
-return "";
-            #endif
-        }
-    }
-
-    public static string Unknown
-    {
-        get
-        {
-#if UNITY_EDITOR
-            return "";
-#elif UNITY_ANDROID
-            return "";
-#elif UNITY_IOS
-                        return "";
-            #else
-return "";
-            #endif
-        }
-    }
-
-    public static string Hatice
-    {
-        get
-        {
-#if UNITY_EDITOR
-            return "";
-#elif UNITY_ANDROID
-            return "";
-#elif UNITY_IOS
-                        return "";
-            #else
-return "";
-            #endif
-        }
-    }
-
-    public static string Hicret
-    {
-        get
-        {
-#if UNITY_EDITOR
-            return "";
-#elif UNITY_ANDROID
-            return "";
-#elif UNITY_IOS
-                        return "";
-            #else
-return "";
-            #endif
-        }
-    }
 
     public static string IdOf(Resource resource, int currentLevel)
     {
         switch (resource)
         {
-            case Resource.Kabe:
-                break;
             case Resource.Abdulmuttalib:
-                break;
-            case Resource.HzMuhammed:
-                break;
+                return Muhafiz;
             case Resource.DarulErkam:
-                switch (currentLevel)
-                {
-                    case 1: return DarulErkam_1;
-                    case 2: return DarulErkam_2;
-                    default:
-                        throw new ArgumentOutOfRangeException("currentLevel", currentLevel, null);
-                }
-            case Resource.Hamza:
-                break;
+                return Talebe;
             case Resource.Omer:
-                break;
-            case Resource.Unknown:
-                break;
+                return Okcubasi;
             case Resource.Hatice:
-                break;
-            case Resource.Hicret:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException("resource", resource, null);
+                return Muallim;
         }
 
         return "";

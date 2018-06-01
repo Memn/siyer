@@ -26,7 +26,6 @@ public class Quest : MonoBehaviour
     {
         Answered = false;
         _choices = transform.Find("Choices").gameObject;
-        if (VideoClip == null) Completed = true;
         DecorateQuestion();
     }
 

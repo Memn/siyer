@@ -44,7 +44,7 @@ public class BuildingManager : MonoBehaviour
         foreach (var building in _buildings)
         {
             // init case
-            if (building.Scene == SceneManagementUtil.Scenes.FilVakasi)
+            if (building.Scene == SceneManagementUtil.Scenes.Kabe)
             {
                 building.Achieved = true;
                 continue;

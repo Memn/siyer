@@ -23,8 +23,8 @@ public class Util : MonoBehaviour
     {
         return Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2());
     }
-    
-    
+
+
     public static Texture2D Sprite2Texture(Sprite value)
     {
         return value.texture;
@@ -37,7 +37,7 @@ public class Util : MonoBehaviour
 
     public static string Texture2Str(Texture2D tex)
     {
-        return Convert.ToBase64String(tex.EncodeToPNG());
+        return tex == null ? "" : Convert.ToBase64String(tex.EncodeToPNG());
     }
 
     public static Texture2D Str2Texture(string pic)
@@ -82,5 +82,4 @@ public class Util : MonoBehaviour
     {
         return JsonUtility.FromJson<Achievement>(achievement);
     }
-
 }
