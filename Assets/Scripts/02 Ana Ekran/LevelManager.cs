@@ -23,7 +23,7 @@ public class LevelManager : MonoBehaviour
         
         var levelQuests = UserManager.GetCurrentLevelAchievementCompletions();
         if (levelQuests.Any(pair => !pair.Key))    return;
-        UserManager.LevelUp();
+//        UserManager.LevelUp();
     }
 
     public void ShowLevelQuestsInfo()

@@ -43,7 +43,7 @@ public class BoardHandler : MonoBehaviour
         _title.text = building.BuildingName ?? "";
         _info.text = building.Info ?? "";
         _targetScene = building.Resource;
-        _go.interactable = building.Achieved;
+        _go.interactable = /*building.Achieved;*/true;
 
     }
 
