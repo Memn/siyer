@@ -68,10 +68,8 @@ public class UserManager : MonoBehaviour
     public static IEnumerable<KeyValuePair<bool, string>> GetCurrentLevelAchievementCompletions()
     {
         var criteriaCompletions = new List<KeyValuePair<bool, string>>();
-        List<string> achievementIds;
-        if (!Game.LevelCompletionCriterias.TryGetValue(CurrentLevel, out achievementIds))
-            return criteriaCompletions;
-        foreach (var achievementId in achievementIds)
+        
+        foreach (var achievementId in Game.LevelCompletionCriterias)
         {
             var achDescription = Game.DescriptionOf(achievementId);
             if (achDescription != null)

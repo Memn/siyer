@@ -283,8 +283,18 @@ public class Game
         return AchievementDescriptions.FirstOrDefault(description => description.id == buildingId);
     }
 
+    public IEnumerable<string> LevelCompletionCriterias
+    {
+        get
+        {
+            List<string> value;
+            CompletionCriterias.TryGetValue(Level, out value);
+            return value ?? new List<string>();
+        }
+    }
 
-    public static Dictionary<int, List<string>> LevelCompletionCriterias
+
+    public static Dictionary<int, List<string>> CompletionCriterias
     {
         get
         {
