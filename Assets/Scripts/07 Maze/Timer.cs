@@ -10,7 +10,7 @@ public class Timer : MonoBehaviour
     private bool _stop = false;
 
     private float _startTime;
-
+    public float Remaining;
     private void Start()
     {
         _startTime = Time.time;
@@ -22,9 +22,9 @@ public class Timer : MonoBehaviour
         if (_stop) return;
 
         var t = Time.time - _startTime;
-        var remaining = _totalInSeconds - t;
-        var mins = (int) (remaining / 60);
-        var seconds = (int) (remaining % 60);
+        Remaining = _totalInSeconds - t;
+        var mins = (int) (Remaining / 60);
+        var seconds = (int) (Remaining % 60);
 
         if (mins == 0 && seconds == 0) TimeIsUp();
 
@@ -33,8 +33,7 @@ public class Timer : MonoBehaviour
 
     private void TimeIsUp()
     {
-        _stop = true;
-        PlayerControlButtons.SetActive(false);
+        FindObjectOfType<MazeManager>().EndOfGame(false);
     }
 
     public void Stop()

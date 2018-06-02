@@ -2,7 +2,6 @@
 using GooglePlayGames;
 #endif
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class UserManager : MonoBehaviour
@@ -53,29 +52,37 @@ public class UserManager : MonoBehaviour
                 else
                     _game.Sync(achievements);
             });
-            Social.LoadAchievementDescriptions(descriptions =>
-            {
-                if (descriptions.Length == 0)
-                    Debug.Log("Error: no descriptions found");
-                else
-                    _game.Sync(descriptions);
-            });
         });
         Debug.Log("Game Init is completed..");
     }
 
     public static IEnumerable<KeyValuePair<bool, string>> GetCurrentLevelAchievementCompletions()
     {
-        return (from duty in Game.LevelDuties 
-                let description = duty.Title 
-                let achievement = Game.AchievementOf(duty.Reward) 
-                let completed = achievement != null && achievement.completed 
-                select new KeyValuePair<bool, string>(completed, description)).ToList();
+        var list = new List<KeyValuePair<bool, string>>();
+        foreach (var duty in Game.LevelDuties)
+        {
+            list.Add(new KeyValuePair<bool, string>(Game.IsAchieved(duty.Reward), duty.Title));
+        }
+
+        return list;
     }
 
-    public static void UnlockBuilding(CommonResources.Resource building)
+    public static void UnlockBuilding(CommonResources.Building building)
     {
         Instance.UnlockAchievement(CommonResources.IdOf(building));
+    }
+
+    public static void Reward(CommonResources.Building building)
+    {
+        var duties = CommonResources.DutyOf(CurrentLevel);
+        var reward = duties.Find(duty => duty.Building == building).Reward;
+        if (reward == null)
+        {
+            Debug.Log("Reward not specified.");
+            return;
+        }
+
+        Instance.UnlockAchievement(reward);
     }
 
     public void UnlockAchievement(string id)
@@ -92,17 +99,11 @@ public class UserManager : MonoBehaviour
         {
             if (success)
             {
-                Social.LoadAchievements(achievements => _game.Sync(achievements));
+                _game.UnlockedAchievement(achievement);
             }
 
             Debug.Log(id + " unlocked successfully or not: " + success);
         });
-    }
-
-    public static void LevelUp()
-    {
-        Game.Level++;
-//        Instance.UnlockAchievement();
     }
 
     public static void SyncUserLater(float time)
@@ -110,10 +111,28 @@ public class UserManager : MonoBehaviour
         Instance.Invoke("Sync", time);
     }
 
+    public static void LevelUp()
+    {
+        Game.Level++;
+        Instance.UnlockAchievement(CommonResources.Levels(Game.Level));
+        Reward(CommonResources.Stories(Game.Level));
+        FindObjectOfType<BuildingManager>().LockingAdjustments(Game.Achievements);
+    }
+
     private void Sync()
     {
         _game.Sync(Social.localUser);
     }
 
+    public static void MazeSuccess(int collected, float timerRemaining)
+    {
+        Debug.Log("Success with " + collected + " collected and remaining time in sec:" + timerRemaining);
+        Reward(CommonResources.Building.Abdulmuttalib);
+    }
 
+    public static void KelimelikSuccess(int score, float spentTime)
+    {
+        Debug.Log("Kelimelik success " + score + " remaining time in sec:" + spentTime);
+        Reward(CommonResources.Building.DarulErkam);
+    }
 }

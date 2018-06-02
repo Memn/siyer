@@ -27,26 +27,26 @@ public class SceneManagementUtil : MonoBehaviour
         SceneManager.LoadScene((int) scene);
     }
 
-    public static void Load(CommonResources.Resource resource)
+    public static void Load(CommonResources.Building building)
     {
-        Load(ToScene(resource));
+        Load(ToScene(building));
     }
 
-    private static Scenes ToScene(CommonResources.Resource resource)
+    private static Scenes ToScene(CommonResources.Building building)
     {
-        switch (resource)
+        switch (building)
         {
-            case CommonResources.Resource.Kabe:          return Scenes.Kabe;
-            case CommonResources.Resource.Abdulmuttalib: return Scenes.Abdulmuttalib;
-            case CommonResources.Resource.HzMuhammed:    return Scenes.HzMuhammed;
-            case CommonResources.Resource.DarulErkam:    return Scenes.DarulErkam;
-            case CommonResources.Resource.Hamza:         return Scenes.Hamza;
-            case CommonResources.Resource.Omer:          return Scenes.Omer;
-            case CommonResources.Resource.Ebubekir:      return Scenes.Ebubekir;
-            case CommonResources.Resource.Hatice:        return Scenes.Hatice;
-            case CommonResources.Resource.EbuTalib:      return Scenes.EbuTalib;
+            case CommonResources.Building.Kabe:          return Scenes.Kabe;
+            case CommonResources.Building.Abdulmuttalib: return Scenes.Abdulmuttalib;
+            case CommonResources.Building.HzMuhammed:    return Scenes.HzMuhammed;
+            case CommonResources.Building.DarulErkam:    return Scenes.DarulErkam;
+            case CommonResources.Building.Hamza:         return Scenes.Hamza;
+            case CommonResources.Building.Omer:          return Scenes.Omer;
+            case CommonResources.Building.Ebubekir:      return Scenes.Ebubekir;
+            case CommonResources.Building.Hatice:        return Scenes.Hatice;
+            case CommonResources.Building.EbuTalib:      return Scenes.EbuTalib;
             default:
-                throw new ArgumentOutOfRangeException("resource", resource, null);
+                throw new ArgumentOutOfRangeException("building", building, null);
         }
     }
 

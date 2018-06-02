@@ -32,13 +32,17 @@ public class MazeManager : MonoBehaviour
         _remaining--;
         CollectedText.text = _collected.ToString();
         RemainingText.text = _remaining.ToString();
-        if (_remaining == 0) NoMoreCollectable();
+        if (_remaining == 0) EndOfGame(true);
     }
 
-    private void NoMoreCollectable()
+    public void EndOfGame(bool success)
     {
         Timer.Stop();
         PlayerControlButtons.SetActive(false);
+        if (success)
+        {
+            UserManager.MazeSuccess(_collected, Timer.Remaining);
+        }
     }
 
     internal void SetRemaining(int v)

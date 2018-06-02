@@ -8,7 +8,7 @@ public class BoardHandler : MonoBehaviour
     private Text _title;
     private Text _info;
 
-    private CommonResources.Resource _targetScene;
+    private CommonResources.Building _targetScene;
     private Button _go;
 
     private void Awake()

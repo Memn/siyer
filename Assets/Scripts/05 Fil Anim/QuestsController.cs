@@ -22,7 +22,7 @@ public class QuestsController : MonoBehaviour
 
     [SerializeField] private GameObject _videoPanel;
     private VideoPlayer _videoPlayer;
-    public CommonResources.Resource Reward = CommonResources.Resource.Abdulmuttalib;
+    public CommonResources.Building Reward = CommonResources.Building.Abdulmuttalib;
 
 
     // Use this for initialization

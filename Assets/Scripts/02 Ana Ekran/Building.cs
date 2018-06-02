@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public class Building : MonoBehaviour
 {
-    public CommonResources.Resource Resource;
+    public CommonResources.Building Resource;
     public Sprite ActualPhoto;
 
     private CommonResources.Description _desc;

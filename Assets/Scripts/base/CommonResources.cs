@@ -4,67 +4,58 @@ using UnityEngine;
 
 public class CommonResources : MonoBehaviour
 {
-    static CommonResources()
-    {
-        Kabe = SiyerResources.achievement_kabe;
-        Abdulmuttalib = SiyerResources.achievement_abdulmuttalibin_evi;
-        HzMuhammed = SiyerResources.achievement_peygamberimizin_evi;
-        DarulErkam = SiyerResources.achievement_darul_erkam;
-        Hamza = SiyerResources.achievement_hz_hamzann_evi;
-        Omer = SiyerResources.achievement_hz_merin_evi;
-        Ebubekir = SiyerResources.achievement_hz_ebubekirin_evi;
-        Hatice = SiyerResources.achievement_hz_haticenin_evi;
-        EbuTalib = SiyerResources.achievement_ebu_talibin_evi;
-
-        Muhafiz = SiyerResources.achievement_muhafz;
-        Talebe = SiyerResources.achievement_talebe;
-        Okcubasi = SiyerResources.achievement_okuba;
-        Muallim = SiyerResources.achievement_muallim;
 #if UNITY_EDITOR
-        Kabe = "Achievement01";
-        Abdulmuttalib = "Achievement02";
-        HzMuhammed = "Achievement01";
-        DarulErkam = "Achievement02";
-        Hamza = "Achievement01";
-        Omer = "Achievement01";
-        Ebubekir = "Achievement01";
-        Hatice = "Achievement01";
-        EbuTalib = "Achievement01";
+    // Binalar
+    private static string Kabe = "Achievement01";
+    private static string Abdulmuttalib = "Achievement01";
+    private static string HzMuhammed = "Achievement03";
+    private static string DarulErkam = "Achievement03";
+    private static string Hamza = "Achievement01";
+    private static string Omer = "Achievement01";
+    private static string Ebubekir = "Achievement01";
+    private static string Hatice = "Achievement01";
+    private static string EbuTalib = "Achievement01";
+    private static string Muhafiz = "Achievement02";
+    private static string Talebe = "Achievement02";
+    private static string Okcubasi = "Achievement02";
+    private static string Muallim = "Achievement02";
 
-        Muhafiz = "Achievement03";
-        Talebe = "Achievement02";
-        Okcubasi = "Achievement02";
-        Muallim = "Achievement02";
+    private static string MEKKE_MUHAFIZLARI = "Achievement01";
+    private static string ILIM_AVCILARI = "Achievement01";
+    private static string CENGAVERLER = "Achievement01";
+    private static string KAHRAMANLAR = "Achievement01";
+    private static string PEYGAMBER_DOSTLARI = "Achievement01";
+#elif UNITY_ANDROID
+    private static string Kabe = SiyerResources.achievement_kabe;
+    private static string Abdulmuttalib = SiyerResources.achievement_abdulmuttalibin_evi;
+    private static string HzMuhammed = SiyerResources.achievement_peygamberimizin_evi;
+    private static string DarulErkam = SiyerResources.achievement_darul_erkam;
+    private static string Hamza = SiyerResources.achievement_hz_hamzann_evi;
+    private static string Omer = SiyerResources.achievement_hz_merin_evi;
+    private static string Ebubekir = SiyerResources.achievement_hz_ebubekirin_evi;
+    private static string Hatice = SiyerResources.achievement_hz_haticenin_evi;
+    private static string EbuTalib = SiyerResources.achievement_ebu_talibin_evi;
+    private static string Muhafiz = SiyerResources.achievement_muhafz;
+    private static string Talebe = SiyerResources.achievement_talebe;
+    private static string Okcubasi = SiyerResources.achievement_okuba;
+    private static string Muallim = SiyerResources.achievement_muallim;
+    
+    private static string MEKKE_MUHAFIZLARI = SiyerResources.achievement_mekke_muhafzlar;
+    private static string ILIM_AVCILARI = SiyerResources.achievement_ilim_avclar;
+    private static string CENGAVERLER = SiyerResources.achievement_cengaverler;
+    private static string KAHRAMANLAR = SiyerResources.achievement_kahramanlar;
+    private static string PEYGAMBER_DOSTLARI = SiyerResources.achievement_peygamber_dostlar;
 #endif
+    // Levels
+
+    public static object ExtraRewards
+    {
+        get { return _extraRewards; }
+        set { _extraRewards = value; }
     }
 
-    
-    // Binalar
-    private static string Kabe { get; set; }
-    private static string Abdulmuttalib { get; set; }
-    private static string HzMuhammed { get; set; }
-    private static string DarulErkam { get; set; }
-    private static string Hamza { get; set; }
-    private static string Omer { get; set; }
-    private static string Ebubekir { get; set; }
-    private static string Hatice { get; set; }
-    private static string EbuTalib { get; set; }
 
-    // Rozetler
-    private static string Muhafiz { get; set; }
-    private static string Talebe { get; set; }
-    private static string Okcubasi { get; set; }
-    private static string Muallim { get; set; }
-
-    // Levels
-    private static string MEKKE_MUHAFIZLARI{ get; set; }
-    private static string ILIM_AVCILARI { get; set; }
-    private static string CENGAVERLER { get; set; }
-    private static string KAHRAMANLAR { get; set; }
-    private static string PEYGAMBER_DOSTLARI { get; set; }
-
-
-    public enum Resource
+    public enum Building
     {
         Kabe = 3,
         Abdulmuttalib = 4,
@@ -77,10 +68,10 @@ public class CommonResources : MonoBehaviour
         EbuTalib = 11
     }
 
-    public static readonly Dictionary<Resource, Description> Descriptions = new Dictionary<Resource, Description>
+    public static readonly Dictionary<Building, Description> Descriptions = new Dictionary<Building, Description>
     {
         {
-            Resource.Kabe,
+            Building.Kabe,
             new Description
             {
                 Title = "Kâbe",
@@ -90,7 +81,7 @@ public class CommonResources : MonoBehaviour
             }
         },
         {
-            Resource.Abdulmuttalib,
+            Building.Abdulmuttalib,
             new Description
             {
                 Title = "Abdulmuttalib'in Evi",
@@ -100,7 +91,7 @@ public class CommonResources : MonoBehaviour
             }
         },
         {
-            Resource.HzMuhammed,
+            Building.HzMuhammed,
             new Description
             {
                 Title = "Peygamberimizin Evi",
@@ -109,7 +100,7 @@ public class CommonResources : MonoBehaviour
             }
         },
         {
-            Resource.DarulErkam,
+            Building.DarulErkam,
             new Description
             {
                 Title = "Darul Erkam",
@@ -118,7 +109,7 @@ public class CommonResources : MonoBehaviour
             }
         },
         {
-            Resource.Hamza,
+            Building.Hamza,
             new Description
             {
                 Title = "Hz. Hamza’nın Evi",
@@ -127,7 +118,7 @@ public class CommonResources : MonoBehaviour
             }
         },
         {
-            Resource.Omer,
+            Building.Omer,
             new Description
             {
                 Title = "Hz. Ömer’in Evi",
@@ -137,7 +128,7 @@ public class CommonResources : MonoBehaviour
             }
         },
         {
-            Resource.Ebubekir,
+            Building.Ebubekir,
             new Description
             {
                 Title = "Hz. Ebu Bekir'in Evi",
@@ -147,7 +138,7 @@ public class CommonResources : MonoBehaviour
             }
         },
         {
-            Resource.Hatice,
+            Building.Hatice,
             new Description
             {
                 Title = "Hz. Hatice’nin Evi",
@@ -157,7 +148,7 @@ public class CommonResources : MonoBehaviour
             }
         },
         {
-            Resource.EbuTalib,
+            Building.EbuTalib,
             new Description
             {
                 Title = "Ebu Talib'in Evi",
@@ -168,127 +159,103 @@ public class CommonResources : MonoBehaviour
         }
     };
 
-    public static readonly Dictionary<int, List<Duty>> Duties = new Dictionary<int, List<Duty>>
+    public static List<Duty> DutyOf(int level)
     {
+        switch (level)
         {
-            1,
-            new List<Duty>
-            {
-                new Duty
-                {
-                    Resource = Resource.Kabe,
-                    Requirement = 0,
-                    Title = "Fil Vakasi animasyonlarini bitir.",
-                    Reward = Abdulmuttalib
-                },
-                new Duty
-                {
-                    Resource = Resource.Abdulmuttalib,
-                    Requirement = 10,
-                    Title = "Labirent 10 deveyi verilen surede bul.",
-                    Reward = Muhafiz
-                },
-            }
-        },
-        {
-            2,
-            new List<Duty>
-            {
-                new Duty {Resource = Resource.HzMuhammed, Requirement = 0, Title = "Animasyonlari bitir."},
-                new Duty
-                {
-                    Resource = Resource.Abdulmuttalib,
-                    Requirement = 10,
-                    Title = "Labirent 10 deveyi verilen surede bul."
-                    
-                },
-                new Duty
-                {
-                    Resource = Resource.DarulErkam,
-                    Requirement = 0,
-                    Title = "Seviyeye ait kelimeleri tek seferde bitir"
-                },
-            }
-        },
-        {
-            3,
-            new List<Duty>
-            {
-                new Duty {Resource = Resource.Hamza, Requirement = 0, Title = "Animasyonlari bitir."},
-                new Duty
-                {
-                    Resource = Resource.Abdulmuttalib,
-                    Requirement = 10,
-                    Title = "Labirent 10 deveyi verilen surede bul."
-                },
-                new Duty
-                {
-                    Resource = Resource.DarulErkam,
-                    Requirement = 0,
-                    Title = "Seviyeye ait kelimeleri tek seferde bitir"
-                },
-                new Duty {Resource = Resource.Omer, Requirement = 6, Title = "10 Ok atisindan 6 tanesinde hedefi vur."},
-            }
-        },
-        {
-            4,
-            new List<Duty>
-            {
-                new Duty {Resource = Resource.Ebubekir, Requirement = 0, Title = "Animasyonlari bitir."},
-                new Duty
-                {
-                    Resource = Resource.Abdulmuttalib,
-                    Requirement = 10,
-                    Title = "Labirent 10 deveyi verilen surede bul."
-                },
-                new Duty
-                {
-                    Resource = Resource.DarulErkam,
-                    Requirement = 0,
-                    Title = "Seviyeye ait kelimeleri tek seferde bitir"
-                },
-                new Duty {Resource = Resource.Omer, Requirement = 6, Title = "10 Ok atisindan 6 tanesinde hedefi vur."},
-                new Duty
-                {
-                    Resource = Resource.Hatice,
-                    Requirement = 6,
-                    Title = "Seviyeye ait sorulardan en az 6 tanesini bil."
-                }
-            }
-        },
-        {
-            5,
-            new List<Duty>
-            {
-                new Duty {Resource = Resource.EbuTalib, Requirement = 0, Title = "Animasyonlari bitir."},
-                new Duty
-                {
-                    Resource = Resource.Abdulmuttalib,
-                    Requirement = 10,
-                    Title = "Labirent 10 deveyi verilen surede bul."
-                },
-                new Duty
-                {
-                    Resource = Resource.DarulErkam,
-                    Requirement = 0,
-                    Title = "Seviyeye ait kelimeleri tek seferde bitir"
-                },
-                new Duty {Resource = Resource.Omer, Requirement = 8, Title = "10 Ok atisindan 8 tanesinde hedefi vur."},
-                new Duty
-                {
-                    Resource = Resource.Hatice,
-                    Requirement = 8,
-                    Title = "Seviyeye ait sorulardan en az 8 tanesini bil."
-                }
-            }
+            case 1:
+                return First;
+            case 2:
+                return Second;
+            case 3:
+                return Third;
+            case 4:
+                return Fourth;
+            case 5:
+                return Fifth;
+            default:
+                throw new ArgumentOutOfRangeException(level + "level is not known");
         }
+    }
+
+    private static readonly List<Duty> First = new List<Duty>
+    {
+        new Duty
+        {
+            Building = Building.Kabe,
+            Requirement = 0,
+            Title = "Fil Vakasi animasyonlarini bitir.",
+            Reward = Abdulmuttalib
+        },
+        new Duty
+        {
+            Building = Building.Abdulmuttalib,
+            Requirement = 10,
+            Title = "Labirent icerisindeki develeri verilen surede bul.",
+            Reward = Muhafiz
+        },
     };
+
+    private static readonly List<Duty> Second = new List<Duty>
+    {
+        new Duty {Building = Building.HzMuhammed, Requirement = 0, Title = "Animasyonlari bitir.", Reward = DarulErkam},
+        new Duty
+        {
+            Building = Building.Abdulmuttalib,
+            Requirement = 10,
+            Title = "Labirent icerisindeki develeri verilen surede bul."
+        },
+        new Duty {Building = Building.DarulErkam, Requirement = 0, Title = "Seviyeye ait kelimeleri tek seferde bitir"},
+    };
+
+    private static readonly List<Duty> Third = new List<Duty>
+    {
+        new Duty {Building = Building.Hamza, Requirement = 0, Title = "Animasyonlari bitir."},
+        new Duty
+        {
+            Building = Building.Abdulmuttalib,
+            Requirement = 10,
+            Title = "Labirent icerisindeki develeri verilen surede bul."
+        },
+        new Duty {Building = Building.DarulErkam, Requirement = 0, Title = "Seviyeye ait kelimeleri tek seferde bitir"},
+        new Duty {Building = Building.Omer, Requirement = 6, Title = "10 Ok atisindan 6 tanesinde hedefi vur."},
+    };
+
+    private static readonly List<Duty> Fourth = new List<Duty>
+    {
+        new Duty {Building = Building.Ebubekir, Requirement = 0, Title = "Animasyonlari bitir."},
+        new Duty
+        {
+            Building = Building.Abdulmuttalib,
+            Requirement = 10,
+            Title = "Labirent icerisindeki develeri verilen surede bul."
+        },
+        new Duty {Building = Building.DarulErkam, Requirement = 0, Title = "Seviyeye ait kelimeleri tek seferde bitir"},
+        new Duty {Building = Building.Omer, Requirement = 6, Title = "10 Ok atisindan 6 tanesinde hedefi vur."},
+        new Duty {Building = Building.Hatice, Requirement = 6, Title = "Seviyeye ait sorulardan en az 6 tanesini bil."}
+    };
+
+    private static readonly List<Duty> Fifth = new List<Duty>
+    {
+        new Duty {Building = Building.EbuTalib, Requirement = 0, Title = "Animasyonlari bitir."},
+        new Duty
+        {
+            Building = Building.Abdulmuttalib,
+            Requirement = 10,
+            Title = "Labirent icerisindeki develeri verilen surede bul."
+        },
+        new Duty {Building = Building.DarulErkam, Requirement = 0, Title = "Seviyeye ait kelimeleri tek seferde bitir"},
+        new Duty {Building = Building.Omer, Requirement = 8, Title = "10 Ok atisindan 8 tanesinde hedefi vur."},
+        new Duty {Building = Building.Hatice, Requirement = 8, Title = "Seviyeye ait sorulardan en az 8 tanesini bil."}
+    };
+
+    private static object _extraRewards;
 
     public class Duty
     {
         public string Title;
         public int Requirement;
-        public Resource Resource;
+        public Building Building;
         public string Reward;
     }
 
@@ -299,39 +266,75 @@ public class CommonResources : MonoBehaviour
         public string Info;
     }
 
-    public static string IdOf(Resource resource)
+    public static string IdOf(Building building)
     {
-        switch (resource)
+        switch (building)
         {
-            case Resource.Kabe:          return Kabe;
-            case Resource.Abdulmuttalib: return Abdulmuttalib;
-            case Resource.HzMuhammed:    return HzMuhammed;
-            case Resource.DarulErkam:    return DarulErkam;
-            case Resource.Hamza:         return Hamza;
-            case Resource.Omer:          return Omer;
-            case Resource.Ebubekir:      return Ebubekir;
-            case Resource.Hatice:        return Hatice;
-            case Resource.EbuTalib:      return EbuTalib;
+            case Building.Kabe:          return Kabe;
+            case Building.Abdulmuttalib: return Abdulmuttalib;
+            case Building.HzMuhammed:    return HzMuhammed;
+            case Building.DarulErkam:    return DarulErkam;
+            case Building.Hamza:         return Hamza;
+            case Building.Omer:          return Omer;
+            case Building.Ebubekir:      return Ebubekir;
+            case Building.Hatice:        return Hatice;
+            case Building.EbuTalib:      return EbuTalib;
             default:
-                throw new ArgumentOutOfRangeException("resource", resource, null);
+                throw new ArgumentOutOfRangeException("building", building, null);
         }
     }
 
 
-    public static string IdOf(Resource resource, int currentLevel)
+    public static string IdOf(Building building, int currentLevel)
     {
-        switch (resource)
+        switch (building)
         {
-            case Resource.Abdulmuttalib:
+            case Building.Abdulmuttalib:
                 return Muhafiz;
-            case Resource.DarulErkam:
+            case Building.DarulErkam:
                 return Talebe;
-            case Resource.Omer:
+            case Building.Omer:
                 return Okcubasi;
-            case Resource.Hatice:
+            case Building.Hatice:
                 return Muallim;
         }
 
         return "";
+    }
+
+    public static string Levels(int level)
+    {
+        switch (level)
+        {
+            case 1:
+                return MEKKE_MUHAFIZLARI;
+            case 2:
+                return ILIM_AVCILARI;
+            case 3:
+                return CENGAVERLER;
+            case 4:
+                return KAHRAMANLAR;
+            case 5:
+                return PEYGAMBER_DOSTLARI;
+            default:
+                throw new ArgumentOutOfRangeException(level + "level is not known");
+        }
+    }
+
+    public static Building Stories(int level)
+    {
+        switch (level)
+        {
+            case 2:
+                return Building.HzMuhammed;
+            case 3:
+                return Building.Hamza;
+            case 4:
+                return Building.Ebubekir;
+            case 5:
+                return Building.EbuTalib;
+            default:
+                throw new ArgumentOutOfRangeException(level + "level is not known");
+        }
     }
 }

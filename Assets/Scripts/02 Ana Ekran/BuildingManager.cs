@@ -44,7 +44,7 @@ public class BuildingManager : MonoBehaviour
         foreach (var building in _buildings)
         {
             // init case
-            if (building.Resource == CommonResources.Resource.Kabe)
+            if (building.Resource == CommonResources.Building.Kabe)
             {
                 building.Achieved = true;
                 continue;

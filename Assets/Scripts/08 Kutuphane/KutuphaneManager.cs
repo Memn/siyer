@@ -79,6 +79,9 @@ public class KutuphaneManager : MonoBehaviour
         public int Level;
     }
 
+    private float _startTime;
+    private float _spentTime = 0;
+
     private void Start()
     {
         _map = GetComponent<KutuphaneMap>();
@@ -87,6 +90,7 @@ public class KutuphaneManager : MonoBehaviour
         LoadNextTopic();
         StartPuzzle();
         UpdateScore(0);
+        _startTime = Time.time;
     }
 
 
@@ -117,10 +121,11 @@ public class KutuphaneManager : MonoBehaviour
 
     private void LoadNextTopic()
     {
+        _spentTime += Time.time - _startTime;
+        _startTime = Time.time;
         if (!_lookupEnumerator.MoveNext())
         {
-            var id = CommonResources.IdOf(CommonResources.Resource.DarulErkam, UserManager.CurrentLevel);
-            UserManager.Instance.UnlockAchievement(id);
+            UserManager.KelimelikSuccess(int.Parse(Scoreboard.text), _spentTime);
             EndOfLevel();
             return;
         }
@@ -153,8 +158,9 @@ public class KutuphaneManager : MonoBehaviour
     private void EndOfLevel()
     {
         _winScreen.transform.Find("Text").GetComponent<TextMesh>().text = "Seviye Tamamlandi";
-        _winScreen.SetActive(true);
+        _winScreen.transform.Find("Next").gameObject.SetActive(false);
         _puzzleScreen.SetActive(false);
+        Invoke("Back", 2);
     }
 
     public void UpdateScore(int score)

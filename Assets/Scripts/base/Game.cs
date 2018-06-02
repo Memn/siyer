@@ -51,12 +51,6 @@ public class Game
         get { return _gameData.Achievements.ToArray(); }
     }
 
-    public IAchievementDescription[] AchievementDescriptions
-    {
-        // ReSharper disable once CoVariantArrayConversion
-        get { return _gameData.AchievementDescriptions.ToArray(); }
-    }
-
     public void Save()
     {
         var ds = new DataContractSerializer(typeof(GameData));
@@ -84,153 +78,14 @@ public class Game
         return gameData == null ? new Game() : new Game {_gameData = gameData};
     }
 
-    [DataContract(Name = "GameData")]
-    private class GameData
+    public void UnlockedAchievement(IAchievement achievement)
     {
-        [DataMember(Name = "userName")] public string UserName = "";
-        [DataMember(Name = "score")] public int Score = 0;
-        [DataMember(Name = "profilePic")] public Texture2D ProfilePic;
-        [DataMember(Name = "playedTime")] public long PlayedTime = 0;
-        [DataMember(Name = "level")] public int Level = 1;
-        [DataMember(Name = "achievements")] public List<AchievementDto> Achievements = new List<AchievementDto>();
-
-        [DataMember(Name = "achievementDescriptions")]
-        public List<AchievementDescriptionsDto> AchievementDescriptions = new List<AchievementDescriptionsDto>();
+        var local = Achievements.FirstOrDefault(ach => ach.id == achievement.id);
+        if (local != null) return;
+        var dto = new AchievementDto(achievement) {completed = true};
+        _gameData.Achievements.Add(dto);
+        Save();
     }
-
-    [DataContract(Name = "Achievements")]
-    private class AchievementDto : IAchievement
-    {
-        [DataMember(Name = "id")] private string _id;
-
-        [DataMember(Name = "percentCompleted")]
-        private double _percentCompleted;
-
-        [DataMember(Name = "completed")] private bool _completed;
-        [DataMember(Name = "hidden")] private bool _hidden;
-
-        [DataMember(Name = "lastReportedDate")]
-        private DateTime _lastReportedDate;
-
-        internal AchievementDto(IAchievement achievement)
-        {
-            id = achievement.id;
-            percentCompleted = achievement.percentCompleted;
-            completed = achievement.completed;
-            hidden = achievement.hidden;
-            lastReportedDate = achievement.lastReportedDate;
-        }
-
-
-        public void ReportProgress(Action<bool> callback)
-        {
-            Social.ReportProgress(_id, _percentCompleted, callback);
-        }
-
-        public string id
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
-
-        public double percentCompleted
-        {
-            get { return _percentCompleted; }
-            set { _percentCompleted = value; }
-        }
-
-        public bool completed
-        {
-            get { return _completed; }
-            private set { _completed = value; }
-        }
-
-        public bool hidden
-        {
-            get { return _hidden; }
-            private set { _hidden = value; }
-        }
-
-        public DateTime lastReportedDate
-        {
-            get { return _lastReportedDate; }
-            private set { _lastReportedDate = value; }
-        }
-    }
-
-    [DataContract(Name = "AchievementDescriptions")]
-    private class AchievementDescriptionsDto : IAchievementDescription
-    {
-        [DataMember(Name = "id")] private string _id;
-
-        [DataMember(Name = "title")] private string _title;
-
-        [DataMember(Name = "image")] private string _image;
-
-        [DataMember(Name = "achievedDescription")]
-        private string _achievedDescription;
-
-        [DataMember(Name = "unachievedDescription")]
-        private string _unachievedDescription;
-
-        [DataMember(Name = "hidden")] private bool _hidden;
-
-        [DataMember(Name = "points")] private int _points;
-
-        public AchievementDescriptionsDto(IAchievementDescription achievement)
-        {
-            id = achievement.id;
-            title = achievement.title;
-            image = achievement.image;
-            achievedDescription = achievement.achievedDescription;
-            unachievedDescription = achievement.unachievedDescription;
-            hidden = achievement.hidden;
-            points = achievement.points;
-        }
-
-        public string id
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
-
-        public string title
-        {
-            get { return _title; }
-            private set { _title = value; }
-        }
-
-        public Texture2D image
-        {
-            get { return Util.Str2Texture(_image); }
-            set { _image = Util.Texture2Str(value); }
-        }
-
-        public string achievedDescription
-        {
-            get { return _achievedDescription; }
-            private set { _achievedDescription = value; }
-        }
-
-        public string unachievedDescription
-        {
-            get { return _unachievedDescription; }
-            private set { _unachievedDescription = value; }
-        }
-
-        public bool hidden
-        {
-            get { return _hidden; }
-            private set { _hidden = value; }
-        }
-
-        public int points
-        {
-            get { return _points; }
-            private set { _points = value; }
-        }
-    }
-
     public void Sync(IEnumerable<IAchievement> achievements)
     {
         var toBeSaved = false;
@@ -272,23 +127,12 @@ public class Game
         }
     }
 
-    public void Sync(IEnumerable<IAchievementDescription> descriptions)
-    {
-        _gameData.AchievementDescriptions =
-            descriptions.Select(description => new AchievementDescriptionsDto(description)).ToList();
-    }
-
-    public IAchievementDescription DescriptionOf(string buildingId)
-    {
-        return AchievementDescriptions.FirstOrDefault(description => description.id == buildingId);
-    }
 
     public IEnumerable<CommonResources.Duty> LevelDuties
     {
         get
         {
-            List<CommonResources.Duty> value;
-            CommonResources.Duties.TryGetValue(Level, out value);
+            var value = CommonResources.DutyOf(Level);
             return value ?? new List<CommonResources.Duty>();
         }
     }
@@ -296,5 +140,11 @@ public class Game
     public IAchievement AchievementOf(string id)
     {
         return Achievements.FirstOrDefault(achievement => achievement.id == id);
+    }
+
+    public bool IsAchieved(string id)
+    {
+        var achievement = Achievements.FirstOrDefault(ac => ac.id == id);
+        return achievement != null && achievement.completed;
     }
 }
