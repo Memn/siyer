@@ -288,66 +288,13 @@ public class Game
         get
         {
             List<string> value;
-            CompletionCriterias.TryGetValue(Level, out value);
+            CommonResources.CompletionCriterias.TryGetValue(Level, out value);
             return value ?? new List<string>();
         }
     }
 
 
-    public static Dictionary<int, List<string>> CompletionCriterias
-    {
-        get
-        {
-            return new Dictionary<int, List<string>>
-            {
-                // Hikaye, Oyunlar
-                {1, new List<string> {CommonResources.Abdulmuttalib, CommonResources.Muhafiz}},
-                {
-                    2,
-                    new List<string>
-                    {
-                        CommonResources.HzMuhammed,
-                        CommonResources.DarulErkam,
-                        CommonResources.Muhafiz,
-                        CommonResources.Talebe
-                    }
-                },
-                {
-                    3,
-                    new List<string>
-                    {
-                        CommonResources.Hamza,
-                        CommonResources.Omer,
-                        CommonResources.Muhafiz,
-                        CommonResources.Talebe,
-                        CommonResources.Okcubasi
-                    }
-                },
-                {
-                    4,
-                    new List<string>
-                    {
-                        CommonResources.Ebubekir,
-                        CommonResources.Muhafiz,
-                        CommonResources.Talebe,
-                        CommonResources.Okcubasi,
-                        CommonResources.Muallim
-                    }
-                },
-                {
-                    5,
-                    new List<string>
-                    {
-                        CommonResources.EbuTalib,
-                        CommonResources.Muhafiz,
-                        CommonResources.Talebe,
-                        CommonResources.Okcubasi,
-                        CommonResources.Muallim
-                    }
-                }
-            };
-        }
-    }
+  
 
     public IAchievement AchievementOf(string id)
     {

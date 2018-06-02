@@ -40,8 +40,8 @@ public class BoardHandler : MonoBehaviour
         if (!building) return;
 
         _photo.sprite = building.Photo;
-        _title.text = building.BuildingName ?? "";
-        _info.text = building.Info ?? "";
+        _title.text = building.BuildingName;
+        _info.text = building.Info;
         _targetScene = building.Resource;
         _go.interactable = building.Achieved;
 
