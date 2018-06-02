@@ -283,18 +283,15 @@ public class Game
         return AchievementDescriptions.FirstOrDefault(description => description.id == buildingId);
     }
 
-    public IEnumerable<string> LevelCompletionCriterias
+    public IEnumerable<CommonResources.Duty> LevelDuties
     {
         get
         {
-            List<string> value;
-            CommonResources.CompletionCriterias.TryGetValue(Level, out value);
-            return value ?? new List<string>();
+            List<CommonResources.Duty> value;
+            CommonResources.Duties.TryGetValue(Level, out value);
+            return value ?? new List<CommonResources.Duty>();
         }
     }
-
-
-  
 
     public IAchievement AchievementOf(string id)
     {

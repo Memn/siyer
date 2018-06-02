@@ -1,9 +1,8 @@
 ﻿#if UNITY_ANDROID && !UNITY_EDITOR
 using GooglePlayGames;
 #endif
-using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class UserManager : MonoBehaviour
@@ -67,26 +66,11 @@ public class UserManager : MonoBehaviour
 
     public static IEnumerable<KeyValuePair<bool, string>> GetCurrentLevelAchievementCompletions()
     {
-        var criteriaCompletions = new List<KeyValuePair<bool, string>>();
-        
-        foreach (var achievementId in Game.LevelCompletionCriterias)
-        {
-            var achDescription = Game.DescriptionOf(achievementId);
-            if (achDescription != null)
-            {
-                Debug.Log("Description is found: " + achievementId);
-                var description = achDescription.unachievedDescription;
-                var achievement = Game.AchievementOf(achievementId);
-                var completed = achievement != null && achievement.completed;
-                criteriaCompletions.Add(new KeyValuePair<bool, string>(completed, description));
-            }
-            else
-            {
-                Debug.Log("Description cannot be found: " + achievementId);
-            }
-        }
-
-        return criteriaCompletions;
+        return (from duty in Game.LevelDuties 
+                let description = duty.Title 
+                let achievement = Game.AchievementOf(duty.Reward) 
+                let completed = achievement != null && achievement.completed 
+                select new KeyValuePair<bool, string>(completed, description)).ToList();
     }
 
     public static void UnlockBuilding(CommonResources.Resource building)
