@@ -16,10 +16,10 @@ public class SceneManagementUtil : MonoBehaviour
         HzMuhammed = 5,
         DarulErkam = 6,
         Hamza = 7,
-        Omer = 8,
-        Ebubekir = 9,
-        Hatice = 10,
-        EbuTalib = 11
+        EbuTalib = 8,
+        Hatice = 9,
+        Omer = 10,
+        Ebubekir = 11,
     };
 
     public static void Load(Scenes scene)
