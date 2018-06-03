@@ -20,50 +20,52 @@
 /// These are the constants defined in the Play Games Console for Game Services
 /// Resources.
 ///
-
-
 public static class SiyerResources
 {
-         // binalar
-        public const string achievement_kabe = "CgkI_vSBg8sOEAIQAQ"; // <GPGSID>
-        public const string achievement_abdulmuttalibin_evi = "CgkI_vSBg8sOEAIQGQ"; // <GPGSID>
-        public const string achievement_peygamberimizin_evi = "CgkI_vSBg8sOEAIQAw"; // <GPGSID>
-        public const string achievement_darul_erkam = "CgkI_vSBg8sOEAIQBQ"; // <GPGSID>
-        public const string achievement_hz_hamzann_evi = "CgkI_vSBg8sOEAIQBg"; // <GPGSID>
-        public const string achievement_hz_merin_evi = "CgkI_vSBg8sOEAIQCQ"; // <GPGSID>
-        public const string achievement_hz_ebubekirin_evi = "CgkI_vSBg8sOEAIQCg";   // <GPGSID>
-    
-        public const string achievement_hz_haticenin_evi = "CgkI_vSBg8sOEAIQCA"; // <GPGSID>
-        public const string achievement_ebu_talibin_evi = "CgkI_vSBg8sOEAIQBw"; // <GPGSID>
+    public const string achievement_kabe = "CgkI_vSBg8sOEAIQAQ";                // <GPGSID>
+    public const string achievement_abdulmuttalibin_evi = "CgkI_vSBg8sOEAIQGQ"; // <GPGSID>
+    public const string achievement_peygamberimizin_evi = "CgkI_vSBg8sOEAIQAw"; // <GPGSID>
+    public const string achievement_darul_erkam = "CgkI_vSBg8sOEAIQBQ";         // <GPGSID>
+    public const string achievement_hz_hamzann_evi = "CgkI_vSBg8sOEAIQBg";      // <GPGSID>
+    public const string achievement_ebu_talibin_evi = "CgkI_vSBg8sOEAIQBw";     // <GPGSID>
+    public const string achievement_hz_haticenin_evi = "CgkI_vSBg8sOEAIQCA";    // <GPGSID>
+    public const string achievement_hz_merin_evi = "CgkI_vSBg8sOEAIQCQ";        // <GPGSID>
+    public const string achievement_hz_ebubekirin_evi = "CgkI_vSBg8sOEAIQCg";   // <GPGSID>
 
-        //seviyeler
-        public const string achievement_mekke_muhafzlar = "CgkI_vSBg8sOEAIQCw"; // <GPGSID>
-        public const string achievement_ilim_avclar = "CgkI_vSBg8sOEAIQDQ"; // <GPGSID>
-        public const string achievement_cengaverler = "CgkI_vSBg8sOEAIQDg"; // <GPGSID>
-        public const string achievement_kahramanlar = "CgkI_vSBg8sOEAIQDw"; // <GPGSID>
-        public const string achievement_peygamber_dostlar = "CgkI_vSBg8sOEAIQDA"; // <GPGSID>
+    public const string achievement_muhafz = "CgkI_vSBg8sOEAIQEw"; // <GPGSID>
+    public const string achievement_alim = "CgkI_vSBg8sOEAIQFA";   // <GPGSID>
+    public const string achievement_okuba = "CgkI_vSBg8sOEAIQEA";  // <GPGSID>
+    public const string achievement_stad = "CgkI_vSBg8sOEAIQGA";   // <GPGSID>
 
-        // okculuk
-        public const string achievement_kemanke = "CgkI_vSBg8sOEAIQEQ"; // <GPGSID>
-        public const string achievement_okuba = "CgkI_vSBg8sOEAIQEA"; // <GPGSID>
+    public const string achievement_kaif = "CgkI_vSBg8sOEAIQEg";   // <GPGSID>
+    public const string achievement_kaif_2 = "CgkI_vSBg8sOEAIQGg"; // <GPGSID>
+    public const string achievement_kaif_3 = "CgkI_vSBg8sOEAIQGw"; // <GPGSID>
+    public const string achievement_kaif_4 = "CgkI_vSBg8sOEAIQHA"; // <GPGSID>
+    public const string achievement_kaif_5 = "CgkI_vSBg8sOEAIQJA"; // <GPGSID>
 
-        // labirent
-        public const string achievement_muhafz = "CgkI_vSBg8sOEAIQEw"; // <GPGSID>
-        public const string achievement_kaif = "CgkI_vSBg8sOEAIQEg"; // <GPGSID>
 
-        // kelime
-        public const string achievement_alim = "CgkI_vSBg8sOEAIQFA"; // <GPGSID>
-        public const string achievement_talebe = "CgkI_vSBg8sOEAIQFQ"; // <GPGSID>
+    public const string achievement_kemanke = "CgkI_vSBg8sOEAIQEQ";    // <GPGSID>
+    public const string achievement_kemankes_2 = "CgkI_vSBg8sOEAIQHw"; // <GPGSID>
+    public const string achievement_kemankes_3 = "CgkI_vSBg8sOEAIQIg"; // <GPGSID>
 
-        // soru
-        public const string achievement_stad = "CgkI_vSBg8sOEAIQGA"; // <GPGSID>
-        public const string achievement_muallim = "CgkI_vSBg8sOEAIQFg"; // <GPGSID>
-        
-        // liste
-        public const string leaderboard_genel = "CgkI_vSBg8sOEAIQBA"; // <GPGSID>
-        
-        // deprecated
-        public const string achievement_abdulmuttalibin_evi_deprecated = "CgkI_vSBg8sOEAIQAg"; // <GPGSID>
-       
+    public const string achievement_muallim = "CgkI_vSBg8sOEAIQFg";   // <GPGSID>
+    public const string achievement_muallim_2 = "CgkI_vSBg8sOEAIQIw"; // <GPGSID>
+
+    public const string achievement_talebe = "CgkI_vSBg8sOEAIQFQ";   // <GPGSID>
+    public const string achievement_talebe_2 = "CgkI_vSBg8sOEAIQHQ"; // <GPGSID>
+    public const string achievement_talebe_3 = "CgkI_vSBg8sOEAIQHg"; // <GPGSID>
+    public const string achievement_talebe_4 = "CgkI_vSBg8sOEAIQIQ"; // <GPGSID>
+
+    public const string achievement_muhacir = "CgkI_vSBg8sOEAIQIA"; // <GPGSID>
+
+    public const string achievement_ilim_avclar = "CgkI_vSBg8sOEAIQDQ";       // <GPGSID>
+    public const string achievement_cengaverler = "CgkI_vSBg8sOEAIQDg";       // <GPGSID>
+    public const string achievement_kahramanlar = "CgkI_vSBg8sOEAIQDw";       // <GPGSID>
+    public const string achievement_peygamber_dostlar = "CgkI_vSBg8sOEAIQDA"; // <GPGSID>
+    public const string achievement_mekke_muhafzlar = "CgkI_vSBg8sOEAIQCw";   // <GPGSID>
+
+
+    public const string achievement_abdulmuttalibin_evi_deprecated = "CgkI_vSBg8sOEAIQAg"; // <GPGSID>
+
+    public const string leaderboard_genel = "CgkI_vSBg8sOEAIQBA"; // <GPGSID>
 }
-

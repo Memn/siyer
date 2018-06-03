@@ -92,6 +92,11 @@ public class UserManager : MonoBehaviour
         {
             achievement = Social.CreateAchievement();
             achievement.id = id;
+#if UNITY_EDITOR
+            achievement.percentCompleted = 100;
+            _game.UnlockedAchievement(achievement);
+            return;
+#endif
         }
 
         achievement.percentCompleted = 100;
@@ -115,7 +120,7 @@ public class UserManager : MonoBehaviour
     {
         Game.Level++;
         Instance.UnlockAchievement(CommonResources.Levels(Game.Level));
-        Reward(CommonResources.Stories(Game.Level));
+        Instance.UnlockAchievement(CommonResources.Stories(Game.Level));
         FindObjectOfType<BuildingManager>().LockingAdjustments(Game.Achievements);
     }
 
