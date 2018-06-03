@@ -27,6 +27,7 @@ public class ElvenBow : MonoBehaviour
         if (Manager.HasArrows()) return;
         _animator.Play("talimhane_out_of_arrows");
         Controls.SetActive(false);
+        Manager.EndOfGame();
         _gameEnded = true;
     }
 

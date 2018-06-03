@@ -2,6 +2,8 @@
 using GooglePlayGames;
 #endif
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 public class UserManager : MonoBehaviour
@@ -17,11 +19,6 @@ public class UserManager : MonoBehaviour
     public static Game Game
     {
         get { return Instance._game; }
-    }
-
-    public static int CurrentLevel
-    {
-        get { return Game.Level; }
     }
 
     private void Awake()
@@ -58,23 +55,13 @@ public class UserManager : MonoBehaviour
 
     public static IEnumerable<KeyValuePair<bool, string>> GetCurrentLevelAchievementCompletions()
     {
-        var list = new List<KeyValuePair<bool, string>>();
-        foreach (var duty in Game.LevelDuties)
-        {
-            list.Add(new KeyValuePair<bool, string>(Game.IsAchieved(duty.Reward), duty.Title));
-        }
-
-        return list;
+        return Game.LevelDuties.Select(duty => new KeyValuePair<bool, string>(Game.IsAchieved(duty.Reward), duty.Title))
+                   .ToList();
     }
-
-    public static void UnlockBuilding(CommonResources.Building building)
+ 
+    private static void Reward(CommonResources.Building building)
     {
-        Instance.UnlockAchievement(CommonResources.IdOf(building));
-    }
-
-    public static void Reward(CommonResources.Building building)
-    {
-        var duties = CommonResources.DutyOf(CurrentLevel);
+        var duties = CommonResources.DutyOf(Game.Level);
         var reward = duties.Find(duty => duty.Building == building).Reward;
         if (reward == null)
         {
@@ -129,6 +116,11 @@ public class UserManager : MonoBehaviour
         _game.Sync(Social.localUser);
     }
 
+    public static void StorySuccess(CommonResources.Building building)
+    {
+        Instance.UnlockAchievement(CommonResources.IdOf(building));
+    }
+
     public static void MazeSuccess(int collected, float timerRemaining)
     {
         Debug.Log("Success with " + collected + " collected and remaining time in sec:" + timerRemaining);
@@ -139,5 +131,17 @@ public class UserManager : MonoBehaviour
     {
         Debug.Log("Kelimelik success " + score + " remaining time in sec:" + spentTime);
         Reward(CommonResources.Building.DarulErkam);
+    }
+
+    public static bool TalimhaneSuccess(int score)
+    {
+        if (score < 6) return false;
+        Reward(CommonResources.Building.EbuTalib);
+        if (score == 10)
+        {
+            Instance.UnlockAchievement(CommonResources.Extras(CommonResources.Building.EbuTalib));
+        }
+        return true;
+
     }
 }

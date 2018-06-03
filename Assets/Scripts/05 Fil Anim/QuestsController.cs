@@ -33,7 +33,7 @@ public class QuestsController : MonoBehaviour
         var unused = Quests.All(quest => quest.Completed = true);
         // Check achievement Conditions
         if (Quests.All(quest => quest.Completed))
-            UserManager.UnlockBuilding(Reward);
+            UserManager.StorySuccess(Reward);
     }
 
     private void EndVideo(VideoPlayer source)
@@ -60,7 +60,7 @@ public class QuestsController : MonoBehaviour
 
         // Check achievement Conditions
         if (Quests.All(quest => quest.Completed))
-            UserManager.UnlockBuilding(Reward);
+            UserManager.StorySuccess(Reward);
     }
 
     private void UpdateButtonConditions()

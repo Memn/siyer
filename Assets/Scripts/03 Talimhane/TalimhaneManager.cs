@@ -87,4 +87,10 @@ public class TalimhaneManager : MonoBehaviour
         var hitTargetAnimator = straw ? _strawAnimator : _targetAnimator;
         hitTargetAnimator.transform.parent.GetComponent<TalimhaneTarget>().SetPostion();
     }
+
+    public void EndOfGame()
+    {
+        var success = UserManager.TalimhaneSuccess(_points / 10);
+        Debug.Log("Success: " + success);
+    }
 }

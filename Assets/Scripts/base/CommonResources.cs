@@ -51,7 +51,6 @@ public class CommonResources : MonoBehaviour
     private static string Muhacir = SiyerResources.achievement_muhacir;
 
 
-
     public enum Building
     {
         Kabe = 3,
@@ -395,6 +394,20 @@ public class CommonResources : MonoBehaviour
                 return Ebubekir;
             default:
                 throw new ArgumentOutOfRangeException(level + "level is not known");
+        }
+    }
+
+    public static string Extras(Building building)
+    {
+        // ReSharper disable once SwitchStatementMissingSomeCases
+        switch (building)
+        {
+            case Building.Abdulmuttalib: return Muhafiz;
+            case Building.DarulErkam:    return Alim;
+            case Building.EbuTalib:      return Okcubasi;
+            case Building.Omer:          return Ustad;
+            default:
+                throw new ArgumentOutOfRangeException("building", building, null);
         }
     }
 }
