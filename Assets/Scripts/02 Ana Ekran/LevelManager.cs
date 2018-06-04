@@ -13,6 +13,7 @@ public class LevelManager : MonoBehaviour
     public GameObject LevelQuestPrefab;
     public GameObject LevelQuestObjectParent;
     public GameObject ShowLevelQuestsInfoButton;
+    public Text Level;
     [SerializeField] private Sprite _completed;
     [SerializeField] private Sprite _notCompleted;
 
@@ -20,15 +21,13 @@ public class LevelManager : MonoBehaviour
     {
         _game = UserManager.Game;
         BuildingManager.LockingAdjustments(_game.Achievements);
-        
-        var levelQuests = UserManager.GetCurrentLevelAchievementCompletions();
-        if (levelQuests.Any(pair => !pair.Key))    return;
-        UserManager.LevelUp();
+        UserManager.CheckLevelUp();
     }
 
     public void ShowLevelQuestsInfo()
     {
         Util.ClearChildren(LevelQuestObjectParent.transform);
+        Level.text = UserManager.Game.Level.ToString();
         var levelQuests = UserManager.GetCurrentLevelAchievementCompletions();
         
         foreach (var levelQuest in levelQuests)

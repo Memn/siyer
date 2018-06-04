@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 public class KutuphaneManager : MonoBehaviour
 {
@@ -13,71 +10,13 @@ public class KutuphaneManager : MonoBehaviour
 
     [SerializeField] private Camera _camera;
     private KutuphaneMap _map;
-    private int _topicIndex;
 
     [SerializeField] private GameObject _winScreen;
     [SerializeField] private GameObject _puzzleScreen;
 
-
-    // filtered for level & grouped for topics
-    private Dictionary<string, string> _lookup = new Dictionary<string, string>
-    {
-        {"Kıblemiz", "Kâbe"},
-        {"İlahi Kitap", "Kuran"},
-        {"Kuran'ın İndirildiği Şehirler", "Mekke Medine"},
-        {"Bilal-i Habeşi", "Ezan Müezzin"},
-        {"Peygamber", "Nebi Resul"},
-        {"Hz. Ömer", "Faruk Halife Adalet"},
-        {"Hira", "Nur Oku Vahiy Cebrail"},
-        {"Mirac", "İsra Kudüs Namaz"},
-        {"İbadet", "Namaz Farz Sünnet Nafile Vacib"},
-        {"Hicret", "Habeşistan Sevr Medine Ensar Muhacir"},
-        {"İslam", "KelimeiŞahadet Namaz Oruç Zekat Hac"},
-        {"Ahiret", "Ölüm Azrail Cennet Cehennem Kabir"},
-        {"Cahiliye", "Darunnedve Putlar Zulüm İşkence Müşrik"},
-    };
+    private Dictionary<string, string>.Enumerator _enumerator;
 
     private Dictionary<string, string> _dict;
-    private ILookup<string, Word> _lookup2;
-    private IEnumerator<IGrouping<string, Word>> _lookupEnumerator;
-
-
-    private void Awake()
-    {
-        var words = JsonUtility.FromJson<Wrapper>(WordUtil.Dict).Words.FindAll(kelime => kelime.Level == 1);
-        _lookup2 = words.ToLookup(word => word.Topic, word => word);
-        _lookupEnumerator = _lookup2.GetEnumerator();
-        _dict = _lookup2.ToDictionary(grouping => grouping.Key, grouping =>
-        {
-            var combined = "";
-            using (var wordEnumerator = grouping.GetEnumerator())
-            {
-                while (wordEnumerator.MoveNext())
-                {
-                    var w = wordEnumerator.Current;
-                    if (w != null) combined += w.Text + " ";
-                }
-            }
-
-            return combined;
-        });
-
-        Debug.Log(_lookup2.Count);
-    }
-
-    [Serializable]
-    private class Wrapper
-    {
-        public List<Word> Words;
-    }
-
-    [Serializable]
-    public class Word
-    {
-        public string Text;
-        public string Topic;
-        public int Level;
-    }
 
     private float _startTime;
     private float _spentTime = 0;
@@ -85,11 +24,16 @@ public class KutuphaneManager : MonoBehaviour
     private void Start()
     {
         _map = GetComponent<KutuphaneMap>();
+        _dict = WordUtil.FindDictionaryByLevel(UserManager.Game.Level);
+        _enumerator = _dict.GetEnumerator();
+        UpdateScore(0);
+        StartGame();
+    }
 
-        _topicIndex = Random.Range(0, _lookup.Count);
+    public void StartGame()
+    {
         LoadNextTopic();
         StartPuzzle();
-        UpdateScore(0);
         _startTime = Time.time;
     }
 
@@ -123,18 +67,17 @@ public class KutuphaneManager : MonoBehaviour
     {
         _spentTime += Time.time - _startTime;
         _startTime = Time.time;
-        if (!_lookupEnumerator.MoveNext())
+
+        if (!_enumerator.MoveNext())
         {
             UserManager.KelimelikSuccess(int.Parse(Scoreboard.text), _spentTime);
             EndOfLevel();
             return;
         }
 
-        var current = _lookupEnumerator.Current;
-        if (current == null) return;
+        var current = _enumerator.Current;
         topicHead.text = string.Join("\n", current.Key.Split());
-        var wordEnumerator = current.GetEnumerator();
-        _map.LoadPuzzle(wordEnumerator);
+        _map.LoadPuzzle(current.Value);
     }
 
 

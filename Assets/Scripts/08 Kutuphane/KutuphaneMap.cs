@@ -29,7 +29,7 @@ public class KutuphaneMap : MonoBehaviour
         Puzzle2Map(_currentPuzzle);
     }
 
-    private void LoadPuzzle(string word)
+    public void LoadPuzzle(string word)
     {
         _words = word.ToUpper(new CultureInfo("tr-TR", false)).Split(' ').ToList();
         foreach (Transform child in PuzzleParentTransform)
@@ -39,21 +39,6 @@ public class KutuphaneMap : MonoBehaviour
 
         var sentence = Regex.Replace(word.ToUpper(new CultureInfo("tr-TR", false)), @"\s+", "");
         _currentPuzzle = PuzzleMaker.MakePuzzle(sentence);
-    }
-
-    public void LoadPuzzle(IEnumerator<KutuphaneManager.Word> wordEnumerator)
-    {
-        using (wordEnumerator)
-        {
-            var words = "";
-            while (wordEnumerator.MoveNext())
-            {
-                var word = wordEnumerator.Current;
-                if (word != null) words += word.Text + " ";
-            }
-
-            LoadPuzzle(words.Trim());
-        }
     }
 
     private void Puzzle2Map(Puzzle makePuzzle)

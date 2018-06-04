@@ -3,7 +3,6 @@ using GooglePlayGames;
 #endif
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 public class UserManager : MonoBehaviour
@@ -92,6 +91,7 @@ public class UserManager : MonoBehaviour
             if (success)
             {
                 _game.UnlockedAchievement(achievement);
+                CheckLevelUp();
             }
 
             Debug.Log(id + " unlocked successfully or not: " + success);
@@ -103,7 +103,16 @@ public class UserManager : MonoBehaviour
         Instance.Invoke("Sync", time);
     }
 
-    public static void LevelUp()
+    public static void CheckLevelUp()
+    {
+        var levelQuests = GetCurrentLevelAchievementCompletions();
+        if ( levelQuests.All(pair => pair.Key))
+        {
+            LevelUp();
+        }
+    }
+
+    private static void LevelUp()
     {
         Game.Level++;
         Instance.UnlockAchievement(CommonResources.Levels(Game.Level));
