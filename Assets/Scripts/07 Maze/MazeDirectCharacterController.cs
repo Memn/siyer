@@ -5,8 +5,8 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class MazeDirectCharacterController : MonoBehaviour
 {
-    private const float NormalSpeed = 2;
-    private const float RunSpeed = 4;
+    private const float NormalSpeed = 3;
+    private const float RunSpeed = 5;
     [SerializeField] private float _moveSpeed = NormalSpeed;
 
     [SerializeField] private float _jumpForce = 3;
@@ -27,7 +27,7 @@ public class MazeDirectCharacterController : MonoBehaviour
     private Vector3 _currentDirection = Vector3.zero;
 
     private float _jumpTimeStamp;
-    private const float runInterval = 2.5f;
+    private const float runInterval = 5;
 
     private bool _isGrounded;
     private readonly List<Collider> _collisions = new List<Collider>();
@@ -145,14 +145,10 @@ public class MazeDirectCharacterController : MonoBehaviour
     private void Running()
     {
         var runOver = Time.time - _jumpTimeStamp >= runInterval;
-        if (!runOver) return;
+        if (!runOver)    return;
+        _moveSpeed = NormalSpeed;            
         if (!Input.GetKey(KeyCode.Space) && !CrossPlatformInputManager.GetButton("Jump")) return;
         _moveSpeed = RunSpeed;
-        Invoke("RunningEnd", runInterval);
     }
 
-    private void RunningEnd()
-    {
-        _moveSpeed = NormalSpeed;
-    }
 }
