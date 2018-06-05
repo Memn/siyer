@@ -5,15 +5,13 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class MazeDirectCharacterController : MonoBehaviour
 {
-    private const float NormalSpeed = 3;
-    private const float RunSpeed = 5;
+    private const float NormalSpeed = 2.8f;
+    private const float RunSpeed = 4.5f;
     [SerializeField] private float _moveSpeed = NormalSpeed;
 
-    [SerializeField] private float _jumpForce = 3;
     [SerializeField] private Transform _camera;
 
     private Animator _animator;
-    private Rigidbody _rigidBody;
 
 
     private float _currentV;
@@ -23,11 +21,9 @@ public class MazeDirectCharacterController : MonoBehaviour
     private readonly float _backwardsWalkScale = 0.16f;
     private readonly float _backwardRunScale = 0.66f;
 
-    private bool _wasGrounded;
     private Vector3 _currentDirection = Vector3.zero;
 
     private float _jumpTimeStamp;
-    private const float runInterval = 5;
 
     private bool _isGrounded;
     private readonly List<Collider> _collisions = new List<Collider>();
@@ -98,7 +94,7 @@ public class MazeDirectCharacterController : MonoBehaviour
     private void Start()
     {
         _animator = GetComponent<Animator>();
-        _rigidBody = GetComponent<Rigidbody>();
+        GetComponent<Rigidbody>();
     }
 
     private void Update()
@@ -106,8 +102,6 @@ public class MazeDirectCharacterController : MonoBehaviour
         _animator.SetBool("Grounded", _isGrounded);
 
         DirectUpdate();
-
-        _wasGrounded = _isGrounded;
     }
 
     private void DirectUpdate()
@@ -144,8 +138,6 @@ public class MazeDirectCharacterController : MonoBehaviour
 
     private void Running()
     {
-        var runOver = Time.time - _jumpTimeStamp >= runInterval;
-        if (!runOver)    return;
         _moveSpeed = NormalSpeed;            
         if (!Input.GetKey(KeyCode.Space) && !CrossPlatformInputManager.GetButton("Jump")) return;
         _moveSpeed = RunSpeed;
