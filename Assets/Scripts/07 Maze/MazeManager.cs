@@ -12,6 +12,8 @@ public class MazeManager : MonoBehaviour
     public Timer Timer;
     public GameObject PlayerControlButtons;
 
+    public GameObject Congrats;
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -42,6 +44,13 @@ public class MazeManager : MonoBehaviour
         if (success)
         {
             UserManager.MazeSuccess(_collected, Timer.Remaining);
+            Congrats.GetComponent<CongratsUtil>().ShowSuccess(-1);
+            Invoke("Back", 5);
+        }
+        else
+        {
+            Congrats.GetComponent<CongratsUtil>().ShowFail(-1);
+            Invoke("Back", 5);
         }
     }
 

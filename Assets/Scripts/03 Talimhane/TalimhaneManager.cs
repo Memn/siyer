@@ -16,6 +16,8 @@ public class TalimhaneManager : MonoBehaviour
     [SerializeField] private Animator _targetAnimator;
     [SerializeField] private Animator _strawAnimator;
 
+    public CongratsUtil Congrats;
+
     private TalimhaneMusicPlayer _musicPlayer;
 
     private void Start()
@@ -64,6 +66,7 @@ public class TalimhaneManager : MonoBehaviour
         _arrows.text = Arrows.ToString();
         _points += 10;
         _score.text = _points.ToString();
+        Congrats.ShowSuccess(2.0f);
     }
 
     public void NotHit()
@@ -72,6 +75,7 @@ public class TalimhaneManager : MonoBehaviour
         _arrows.text = Arrows.ToString();
         _points += 0;
         _score.text = _points.ToString();
+        Congrats.ShowFail(2.0f);
     }
 
     public void SetTrigger(string triggerName)

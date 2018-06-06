@@ -8,7 +8,6 @@ public class KutuphaneManager : MonoBehaviour
     public Text topicHead;
     public Text Scoreboard;
 
-    [SerializeField] private Camera _camera;
     private KutuphaneMap _map;
 
     [SerializeField] private GameObject _winScreen;
@@ -19,7 +18,7 @@ public class KutuphaneManager : MonoBehaviour
     private Dictionary<string, string> _dict;
 
     private float _startTime;
-    private float _spentTime = 0;
+    private float _spentTime;
 
     private void Start()
     {
@@ -30,7 +29,7 @@ public class KutuphaneManager : MonoBehaviour
         StartGame();
     }
 
-    public void StartGame()
+    private void StartGame()
     {
         LoadNextTopic();
         StartPuzzle();
@@ -45,16 +44,6 @@ public class KutuphaneManager : MonoBehaviour
         {
             Back();
         }
-
-        if (!Input.GetMouseButton(0)) return;
-
-        var pos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-        var hitInfo = Physics2D.Raycast(_camera.ScreenToWorldPoint(pos), Vector2.zero);
-        // RaycastHit2D can be either true or null, but has an implicit conversion to bool, so we can use it like this
-        if (!hitInfo) return;
-        if (hitInfo.transform.name == "Next") StartPuzzle();
-
-        // Here you can check hitInfo to see which collider has been hit, and act appropriately.
     }
 
     [UsedImplicitly]
@@ -80,8 +69,8 @@ public class KutuphaneManager : MonoBehaviour
         _map.LoadPuzzle(current.Value);
     }
 
-
-    private void StartPuzzle()
+    [UsedImplicitly]
+    public void StartPuzzle()
     {
         _puzzleScreen.SetActive(true);
         _winScreen.SetActive(false);
@@ -90,19 +79,14 @@ public class KutuphaneManager : MonoBehaviour
 
     public void Congrats()
     {
-        string[] messages = {"Aferin", "Tebrikler", "Canavar", "Helal", "Mükemmel", "Başarılı"};
-        var r = Random.Range(0, messages.Length);
-        _winScreen.transform.Find("Text").GetComponent<TextMesh>().text = messages[r];
-        _winScreen.SetActive(true);
+        _winScreen.GetComponent<CongratsUtil>().ShowSuccess(-1);
         _puzzleScreen.SetActive(false);
         LoadNextTopic();
+        Invoke("StartPuzzle", 3.5f);
     }
 
     private void EndOfLevel()
     {
-        _winScreen.transform.Find("Text").GetComponent<TextMesh>().text = "Seviye Tamamlandi";
-        _winScreen.transform.Find("Next").gameObject.SetActive(false);
-        _puzzleScreen.SetActive(false);
         Invoke("Back", 2);
     }
 
