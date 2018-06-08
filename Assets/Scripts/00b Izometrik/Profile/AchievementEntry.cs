@@ -1,5 +1,8 @@
-﻿using GooglePlayGames;
+﻿#if UNITY_ANDROID
+using UnityEngine.UI;
 using UnityEngine;
+using GooglePlayGames;
+#endif
 using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
@@ -11,13 +14,13 @@ public class AchievementEntry : MonoBehaviour
 
     public void Init(IAchievement playGamesAchievement)
     {
-        var achievement = playGamesAchievement as PlayGamesAchievement;
-//        var achievement = UserManager.Game.DescriptionOf(playGamesAchievement.id);
-        
-        if (achievement == null) return;
+#if UNITY_ANDROID
 
+        var achievement = playGamesAchievement as PlayGamesAchievement;
+        if (achievement == null) return;
         AchievementPic.sprite = Util.Texture2Sprite(achievement.image);
         AchievementName.text = achievement.title;
         Completion.text = "True";
+#endif
     }
 }
