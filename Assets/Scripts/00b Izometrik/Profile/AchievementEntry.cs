@@ -1,8 +1,7 @@
 ﻿#if UNITY_ANDROID
-using UnityEngine.UI;
-using UnityEngine;
 using GooglePlayGames;
 #endif
+using UnityEngine;
 using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
