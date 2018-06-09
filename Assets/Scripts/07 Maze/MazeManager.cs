@@ -43,8 +43,8 @@ public class MazeManager : MonoBehaviour
         PlayerControlButtons.SetActive(false);
         if (success)
         {
-            UserManager.MazeSuccess(_collected, Timer.Remaining);
             Congrats.GetComponent<CongratsUtil>().ShowSuccess(-1);
+            UserManager.MazeSuccess(_collected, Timer.Remaining);
             Invoke("Back", 5);
         }
         else
