@@ -17,6 +17,8 @@ public class QuestionManager : MonoBehaviour
     private int _answeredCount;
     private int _score;
 
+    private float _start;
+
     [UsedImplicitly]
     public void Init()
     {
@@ -25,11 +27,11 @@ public class QuestionManager : MonoBehaviour
         _enumerator = 0;
         _answeredCount = 0;
         UpdateCurrent();
+        _start = Time.time;
     }
 
     private void CreateAllQuestions()
     {
-        Debug.Log(QuestionParent.transform.childCount);
         var i = 0;
         foreach (Transform child in QuestionParent.transform)
         {
@@ -73,10 +75,10 @@ public class QuestionManager : MonoBehaviour
 
     public void Answer(bool correct)
     {
-        if (correct) _score += 10 * UserManager.Game.Level;
+        if (correct) _score++;
         if (++_answeredCount == _questions.Count)
         {
-            Debug.Log("All questions are answered");
+            UserManager.BilgiYarismasiEnd(_score, Time.time - _start);
         }
     }
 }

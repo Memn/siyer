@@ -78,14 +78,17 @@ public class Game
         return gameData == null ? new Game() : new Game {_gameData = gameData};
     }
 
-    public void UnlockedAchievement(IAchievement achievement)
+    public void UnlockedAchievement(IAchievement achievement, int score)
     {
         var local = Achievements.FirstOrDefault(ach => ach.id == achievement.id);
         if (local != null) return;
         var dto = new AchievementDto(achievement) {completed = true};
         _gameData.Achievements.Add(dto);
+        _gameData.Score += score;
+        Debug.Log("Unlocking: " +achievement.id);
         Save();
     }
+
     public void Sync(IEnumerable<IAchievement> achievements)
     {
         var toBeSaved = false;
@@ -104,7 +107,7 @@ public class Game
             {
                 if (local.completed)
                 {
-                    UserManager.Instance.UnlockAchievement(local.id);
+                    UserManager.Instance.UnlockAchievement(local.id, 0);
                 }
             }
         }

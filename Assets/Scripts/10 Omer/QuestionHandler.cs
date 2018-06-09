@@ -39,7 +39,7 @@ public class QuestionHandler : MonoBehaviour
         {
             choice.GetComponent<Image>().color = Color.red;
             Debug.Log("False");
-            Manager.Answer(true);
+            Manager.Answer(false);
         }
     }
 }

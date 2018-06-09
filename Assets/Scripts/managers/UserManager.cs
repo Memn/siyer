@@ -57,8 +57,8 @@ public class UserManager : MonoBehaviour
         return Game.LevelDuties.Select(duty => new KeyValuePair<bool, string>(Game.IsAchieved(duty.Reward), duty.Title))
                    .ToList();
     }
- 
-    private static void Reward(CommonResources.Building building)
+
+    private static void Reward(CommonResources.Building building, int score)
     {
         var duties = CommonResources.DutyOf(Game.Level);
         var reward = duties.Find(duty => duty.Building == building).Reward;
@@ -68,10 +68,10 @@ public class UserManager : MonoBehaviour
             return;
         }
 
-        Instance.UnlockAchievement(reward);
+        Instance.UnlockAchievement(reward, score);
     }
 
-    public void UnlockAchievement(string id)
+    public void UnlockAchievement(string id, int score)
     {
         var achievement = _game.AchievementOf(id);
         if (achievement == null)
@@ -80,17 +80,24 @@ public class UserManager : MonoBehaviour
             achievement.id = id;
 #if UNITY_EDITOR
             achievement.percentCompleted = 100;
-            _game.UnlockedAchievement(achievement);
+            _game.UnlockedAchievement(achievement, score);
             return;
 #endif
         }
 
         achievement.percentCompleted = 100;
-        achievement.ReportProgress((success) =>
+        achievement.ReportProgress(success =>
         {
             if (success)
             {
-                _game.UnlockedAchievement(achievement);
+                _game.UnlockedAchievement(achievement, score);
+                Social.ReportScore(score, SiyerResources.leaderboard_genel, scoreSuccess =>
+                {
+                    if (scoreSuccess)
+                    {
+                        Debug.Log("Score is updated by:" + score);
+                    }
+                });
                 CheckLevelUp();
             }
 
@@ -106,7 +113,7 @@ public class UserManager : MonoBehaviour
     public static void CheckLevelUp()
     {
         var levelQuests = GetCurrentLevelAchievementCompletions();
-        if ( levelQuests.All(pair => pair.Key))
+        if (levelQuests.All(pair => pair.Key))
         {
             LevelUp();
         }
@@ -114,9 +121,10 @@ public class UserManager : MonoBehaviour
 
     private static void LevelUp()
     {
+        if (Game.Level == 5) return;
         Game.Level++;
-        Instance.UnlockAchievement(CommonResources.Levels(Game.Level));
-        Instance.UnlockAchievement(CommonResources.Stories(Game.Level));
+        Instance.UnlockAchievement(CommonResources.Levels(Game.Level), 250);
+        Instance.UnlockAchievement(CommonResources.Stories(Game.Level), 0);
         FindObjectOfType<BuildingManager>().LockingAdjustments(Game.Achievements);
     }
 
@@ -127,30 +135,42 @@ public class UserManager : MonoBehaviour
 
     public static void StorySuccess(CommonResources.Building building)
     {
-        Instance.UnlockAchievement(CommonResources.IdOf(building));
+        Instance.UnlockAchievement(CommonResources.IdOf(building), 100);
     }
 
     public static void MazeSuccess(int collected, float timerRemaining)
     {
         Debug.Log("Success with " + collected + " collected and remaining time in sec:" + timerRemaining);
-        Reward(CommonResources.Building.Abdulmuttalib);
+        Reward(CommonResources.Building.Abdulmuttalib, (int) (timerRemaining * 5));
     }
 
     public static void KelimelikSuccess(int score, float spentTime)
     {
         Debug.Log("Kelimelik success " + score + " remaining time in sec:" + spentTime);
-        Reward(CommonResources.Building.DarulErkam);
+        Reward(CommonResources.Building.DarulErkam, (int) (score - spentTime / 10));
     }
 
     public static bool TalimhaneSuccess(int score)
     {
         if (score < 6) return false;
-        Reward(CommonResources.Building.EbuTalib);
+        Reward(CommonResources.Building.EbuTalib, score * 50);
         if (score == 10)
         {
-            Instance.UnlockAchievement(CommonResources.Extras(CommonResources.Building.EbuTalib));
+            Instance.UnlockAchievement(CommonResources.Extras(CommonResources.Building.EbuTalib), 250);
         }
-        return true;
 
+        return true;
+    }
+
+    public static bool BilgiYarismasiEnd(int score, float timer)
+    {
+        if (score < 6) return false;
+        Reward(CommonResources.Building.Omer, (int) (score * 50 - (timer / 10)));
+        if (score > 8)
+        {
+            Instance.UnlockAchievement(CommonResources.Extras(CommonResources.Building.Omer), 250);
+        }
+
+        return true;
     }
 }

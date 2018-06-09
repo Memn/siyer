@@ -62,6 +62,7 @@ public class CommonResources : MonoBehaviour
         Hatice = 9,
         Omer = 10,
         Ebubekir = 11,
+        Muhacir
     }
 
     public static readonly Dictionary<Building, Description> Descriptions = new Dictionary<Building, Description>
@@ -355,6 +356,7 @@ public class CommonResources : MonoBehaviour
             case Building.Ebubekir:      return Ebubekir;
             case Building.Hatice:        return Hatice;
             case Building.EbuTalib:      return EbuTalib;
+            case Building.Muhacir:       return Muhacir;
             default:
                 throw new ArgumentOutOfRangeException("building", building, null);
         }
@@ -375,6 +377,24 @@ public class CommonResources : MonoBehaviour
                 return KAHRAMANLAR;
             case 5:
                 return PEYGAMBER_DOSTLARI;
+            default:
+                throw new ArgumentOutOfRangeException(level + "level is not known");
+        }
+    }
+    public static string LevelsText(int level)
+    {
+        switch (level)
+        {
+            case 1:
+                return "MEKKE MUHAFIZLARI";
+            case 2:
+                return "ILIM AVCILARI";
+            case 3:
+                return "CENGAVERLER";
+            case 4:
+                return "KAHRAMANLAR";
+            case 5:
+                return "PEYGAMBER DOSTLARI";
             default:
                 throw new ArgumentOutOfRangeException(level + "level is not known");
         }
