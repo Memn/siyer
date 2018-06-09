@@ -8,6 +8,7 @@ public class IzometrikHarita : MonoBehaviour
     [SerializeField] private Camera _camera;
     public GameObject Finger;
 
+    private AudioSource _source;
 
     private enum Places
     {
@@ -26,16 +27,22 @@ public class IzometrikHarita : MonoBehaviour
 
     private void Start()
     {
+        _source = GetComponent<AudioSource>();
         _textDict = new Dictionary<Places, string>
         {
-            
             {Places.Medine, "Medine: Kur'an’ın kalan kısmının indirildiği yer,\n hicret yurdu"},
             {Places.Ebva, "Ebva: Efendimizin (s.a.v.) annesi,\n Hz. Âmine’nin vefat ettiği belde"},
-            {Places.BeniSaad, "Beni Sa'd: Efendimiz (s.a.v.)  yaklaşık dört \nyıl kadar, burada sütannesinde kalmıştır"},
+            {
+                Places.BeniSaad,
+                "Beni Sa'd: Efendimiz (s.a.v.)  yaklaşık dört \nyıl kadar, burada sütannesinde kalmıştır"
+            },
             {Places.Taif, "Taif: Peygamberimizin (s.a.v.) tebliğ için,\n memleketinden ilk uzaklaştığı yer"},
             {Places.Habesistan, "Habeşistan: Sahabilerin ilk hicret mekânı"},
             {Places.Hira, "Hira: Kur'an-ı Kerîm'in ilk \n ayetinin indirildiği mağara"},
-            {Places.Busra, "Busra: Hem ticari hem dini bakımdan önemli olan\n Busra, Şam yolunda kervanların uğrak yeridir"},
+            {
+                Places.Busra,
+                "Busra: Hem ticari hem dini bakımdan önemli olan\n Busra, Şam yolunda kervanların uğrak yeridir"
+            },
             {Places.Kudus, "Kudüs: Efendimizin Miraca çıkarıldığı yer,\n Müslümanların ilk kıblesi"}
         };
     }
@@ -57,7 +64,6 @@ public class IzometrikHarita : MonoBehaviour
             // Here you can check hitInfo to see which collider has been hit, and act appropriately.
         }
     }
-
 
 
     private void HandleTouchOn(GameObject transformGameObject)
@@ -105,6 +111,12 @@ public class IzometrikHarita : MonoBehaviour
     }
 
     public void EnterGame()
+    {
+        _source.PlayOneShot(_source.clip);
+        Invoke("Enter", 1);
+    }
+
+    private void Enter()
     {
         SceneManagementUtil.Load(SceneManagementUtil.Scenes.AnaEkran);
     }
