@@ -27,7 +27,7 @@ public class LevelManager : MonoBehaviour
     public void ShowLevelQuestsInfo()
     {
         Util.ClearChildren(LevelQuestObjectParent.transform);
-        Level.text = UserManager.Game.Level.ToString();
+        Level.text = CommonResources.LevelsText(UserManager.Game.Level);
         var levelQuests = UserManager.GetCurrentLevelAchievementCompletions();
         
         foreach (var levelQuest in levelQuests)
