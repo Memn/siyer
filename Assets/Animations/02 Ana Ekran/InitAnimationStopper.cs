@@ -9,6 +9,7 @@ public class InitAnimationStopper : MonoBehaviour
     {
         if (!_init) return;
         GetComponent<Animator>().Play("Init");
+        GetComponent<AudioSource>().PlayOneShot(GetComponent<AudioSource>().clip);
         _init = false;
     }
 
