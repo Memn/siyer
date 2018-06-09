@@ -6,12 +6,13 @@ public class QuestionHandler : MonoBehaviour
     public Text QuestionText;
     public GameObject ChoicesParent;
     public GameObject ChoicePrefab;
+    internal QuestionManager Manager;
+    private string _questionAnswer;
 
-    private Question _question;
 
     public void ShowQuestion(Question question)
     {
-        _question = question;
+        _questionAnswer = question.Answer;
         QuestionText.text = question.Text;
         Util.ClearChildren(ChoicesParent.transform);
         Util.Load(ChoicesParent, ChoicePrefab, question.Choices, (choice, choiceText) =>
@@ -28,15 +29,17 @@ public class QuestionHandler : MonoBehaviour
             child.GetComponent<Button>().interactable = false;
         }
 
-        if (_question.Answer == answer)
+        if (_questionAnswer == answer)
         {
             choice.GetComponent<Image>().color = Color.green;
             Debug.Log("Correct");
+            Manager.Answer(true);
         }
         else
         {
             choice.GetComponent<Image>().color = Color.red;
             Debug.Log("False");
+            Manager.Answer(true);
         }
     }
 }
