@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using UnityEngine;
 
 public class SplashScreenManager : MonoBehaviour
 {
@@ -10,14 +11,8 @@ public class SplashScreenManager : MonoBehaviour
         UserManager.Instance.Init();
     }
 
-    private void Start()
-    {
-        
-        if (LoadMainMenuAfter > 0)
-            Invoke("LoadMainMenu", LoadMainMenuAfter);
-    }
-
-    private void LoadMainMenu()
+    [UsedImplicitly]
+    public void LoadMainMenu()
     {
         SceneManagementUtil.Load(SceneManagementUtil.Scenes.Izometrik);
     }
