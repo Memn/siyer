@@ -7,6 +7,9 @@ public class CongratsUtil : MonoBehaviour
 {
     public Sprite[] Success;
     public Sprite[] Fail;
+    public AudioClip SuccessClip;
+    public AudioClip FailClip;
+    
 
     private static Sprite RandomR(IList<Sprite> sprites)
     {
@@ -17,11 +20,13 @@ public class CongratsUtil : MonoBehaviour
     public void ShowSuccess(float f)
     {
         Show(f, Success);
+        GetComponent<AudioSource>().PlayOneShot(SuccessClip);
     }
 
     public void ShowFail(float f)
     {
         Show(f, Fail);
+        GetComponent<AudioSource>().PlayOneShot(FailClip);
     }
 
     private void Show(float f, IList<Sprite> success)

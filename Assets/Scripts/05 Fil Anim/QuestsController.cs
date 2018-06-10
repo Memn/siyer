@@ -28,6 +28,8 @@ public class QuestsController : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
+        FindObjectOfType<MusicManager>().GetComponent<AudioSource>().Stop();
+        FindObjectOfType<DesertMusicManager>().GetComponent<AudioSource>().Stop();
         _videoPlayer = _videoPanel.GetComponent<VideoPlayer>();
         _videoPlayer.loopPointReached += EndVideo;
         var unused = Quests.All(quest => quest.Completed = true);
@@ -95,6 +97,8 @@ public class QuestsController : MonoBehaviour
     [UsedImplicitly]
     public void Back()
     {
+        FindObjectOfType<MusicManager>().GetComponent<AudioSource>().Play();
+        FindObjectOfType<DesertMusicManager>().GetComponent<AudioSource>().Play();
         SceneManagementUtil.Load(SceneManagementUtil.Scenes.AnaEkran);
     }
 

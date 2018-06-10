@@ -13,8 +13,13 @@ public class PuzzleController : MonoBehaviour
     private Stack<PuzzleObject> _selectedPuzzleObjects;
     private string _answer;
 
+    private AudioSource _source;
+    public AudioClip SuccessClip;
+    public AudioClip FailClip;
+
     private void Start()
     {
+        _source = GetComponent<AudioSource>();
         _answer = "";
         _selectedPuzzleObjects = new Stack<PuzzleObject>();
     }
@@ -60,6 +65,7 @@ public class PuzzleController : MonoBehaviour
 
     private void FailCase()
     {
+        _source.PlayOneShot(FailClip);
         foreach (var puzzleObject in _selectedPuzzleObjects)
         {
             puzzleObject.Wrong();
@@ -70,6 +76,7 @@ public class PuzzleController : MonoBehaviour
 
     private void SuccessCase()
     {
+        _source.PlayOneShot(SuccessClip);
         while (_selectedPuzzleObjects.Count > 0)
         {
             var puzzleObject = _selectedPuzzleObjects.Pop();

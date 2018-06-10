@@ -61,6 +61,8 @@ public class Quest : MonoBehaviour
 
     public bool Answered { get; private set; }
 
+    public CongratsUtil Congrats;
+
     public void Answer(int choice)
     {
         Answered = true;
@@ -69,9 +71,24 @@ public class Quest : MonoBehaviour
             var t = _choices.transform.GetChild(i).gameObject;
             if (i != choice)
                 t.GetComponent<Button>().interactable = false;
+            else if (_answer == choice)
+            {
+                t.GetComponent<Image>().color = Color.green;
+                Congrats.ShowSuccess(2);
+                Invoke("Close",3);
+            }
             else
-                t.GetComponent<Image>().color = _answer == choice ? Color.green : Color.red;
+            {
+                t.GetComponent<Image>().color = Color.red;
+                Congrats.ShowFail(2);
+            }
         }
+    }
+
+    private void Close()
+    {
+        var qc = FindObjectOfType<QuestsController>();
+        if (qc && gameObject.activeSelf) qc.CloseQuestion();
     }
 
     public void Dropped(GameObject choice)

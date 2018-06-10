@@ -76,13 +76,12 @@ public class UserManager : MonoBehaviour
         var achievement = _game.AchievementOf(id);
         if (achievement == null)
         {
+            // no store connection yet!
             achievement = Social.CreateAchievement();
             achievement.id = id;
-#if UNITY_EDITOR
             achievement.percentCompleted = 100;
             _game.UnlockedAchievement(achievement, score);
             return;
-#endif
         }
 
         achievement.percentCompleted = 100;

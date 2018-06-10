@@ -110,9 +110,11 @@ public class IzometrikHarita : MonoBehaviour
         }
     }
 
+    public AudioClip Bismillah;
     public void EnterGame()
     {
-        _source.PlayOneShot(_source.clip);
+        _source.Stop();
+        _source.PlayOneShot(Bismillah);
         Invoke("Enter", 1);
     }
 
