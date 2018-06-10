@@ -66,6 +66,11 @@ public class TalimhaneManager : MonoBehaviour
         _arrows.text = Arrows.ToString();
         _points += 10;
         _score.text = _points.ToString();
+        Invoke("Congrat", 1);
+    }
+
+    private void Congrat()
+    {
         Congrats.ShowSuccess(2.0f);
     }
 

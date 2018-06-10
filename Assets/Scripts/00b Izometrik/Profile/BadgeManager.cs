@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class BadgeManager : MonoBehaviour
 {
@@ -41,16 +42,23 @@ public class BadgeManager : MonoBehaviour
         Muhacir,
     }
 
-    public Sprite SrpiteOf(string id)
+    public Sprite SpriteOf(string id)
     {
-        var badge = CommonResources.ToBadge(id);
-        for (var i = 0; i < Order.Length; i++)
+        try
         {
-            if (Order[i] == badge)
+            var badge = CommonResources.ToBadge(id);
+            for (var i = 0; i < Order.Length; i++)
             {
-                return Badges[i];
+                if (Order[i] == badge)
+                {
+                    return Badges[i];
+                }
             }
         }
+        catch (ArgumentOutOfRangeException ignored)
+        {
+        }
+        
 
         return null;
     }

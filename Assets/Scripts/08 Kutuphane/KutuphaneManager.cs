@@ -72,10 +72,14 @@ public class KutuphaneManager : MonoBehaviour
     [UsedImplicitly]
     public void StartPuzzle()
     {
+        if (!_winScreen.activeSelf) return;
         _puzzleScreen.SetActive(true);
-        _winScreen.SetActive(false);
+        _winScreen.GetComponent<CongratsUtil>().Deactivate();
         _map.StartPuzzle();
+
     }
+
+    private bool started;
 
     public void Congrats()
     {

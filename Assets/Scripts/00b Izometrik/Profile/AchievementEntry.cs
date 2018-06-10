@@ -14,7 +14,13 @@ public class AchievementEntry : MonoBehaviour
     public void Init(IAchievement playGamesAchievement)
     {
         var badgeManager = FindObjectOfType<BadgeManager>();
-        AchievementPic.sprite = badgeManager.SrpiteOf(playGamesAchievement.id);
+        var sprite = AchievementPic.sprite = badgeManager.SpriteOf(playGamesAchievement.id);
+        if (sprite == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         AchievementName.text = badgeManager.TitleOf(playGamesAchievement.id);
         Completion.text = playGamesAchievement.completed.ToString();
         if (playGamesAchievement.completed)

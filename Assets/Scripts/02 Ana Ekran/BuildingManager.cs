@@ -2,7 +2,7 @@
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
-
+using UnityEngine.SceneManagement;
 public class BuildingManager : MonoBehaviour
 {
     public Sprite UnderConstruction;
@@ -12,7 +12,8 @@ public class BuildingManager : MonoBehaviour
 
     private BoardHandler _boardHandler;
     private Building[] _buildings;
-
+    
+    
     private void Awake()
     {
         _buildings = GetComponentsInChildren<Building>();

@@ -18,6 +18,7 @@ public class QuestionManager : MonoBehaviour
     private int _score;
 
     private float _start;
+    public CongratsUtil Congrats;
 
     [UsedImplicitly]
     public void Init()
@@ -75,7 +76,14 @@ public class QuestionManager : MonoBehaviour
 
     public void Answer(bool correct)
     {
-        if (correct) _score++;
+        if (correct)
+        {
+            _score++;
+            Congrats.ShowSuccess(2);
+        }
+        else
+            Congrats.ShowFail(2);
+
         if (++_answeredCount == _questions.Count)
         {
             UserManager.BilgiYarismasiEnd(_score, Time.time - _start);

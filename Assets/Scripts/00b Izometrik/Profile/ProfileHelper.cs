@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
 public class ProfileHelper : MonoBehaviour, LoadableHelper
@@ -30,10 +28,12 @@ public class ProfileHelper : MonoBehaviour, LoadableHelper
     public void LoadUser()
     {
         ProfileName.text = Social.localUser.userName;
-        ProfilePic.sprite = Util.Texture2Sprite(Social.localUser.image);
+        ProfilePic.sprite = FindObjectOfType<BadgeManager>().SpriteOf(CommonResources.Levels(UserManager.Game.Level));
+
         var achievements = UserManager.Game.Achievements;
         var completed = achievements.Count(achievement => achievement.completed);
         Achievements.text = string.Format("{0}/{1}", completed, achievements.Length);
+        Score.text = UserManager.Game.Score.ToString();
 
         AchievementsTabs.Init();
         LeaderboardTabs.Init();
@@ -59,7 +59,8 @@ public class ProfileHelper : MonoBehaviour, LoadableHelper
             {
                 var achievementEntry = entry.GetComponent<AchievementEntry>();
                 achievementEntry.Init(member);
-            });        }
+            });
+        }
         else if (tab.name.Equals("Friends"))
         {
             Util.ClearChildren(LeaderboardContainer.transform);

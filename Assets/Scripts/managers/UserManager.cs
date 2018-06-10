@@ -128,9 +128,10 @@ public class UserManager : MonoBehaviour
     }
 
     // ReSharper disable once MemberCanBeMadeStatic.Local
-    private void CheckLocks()
+    public void CheckLocks()
     {
-        FindObjectOfType<BuildingManager>().LockingAdjustments(Game.Achievements);
+        if (FindObjectOfType<BuildingManager>())
+            FindObjectOfType<BuildingManager>().LockingAdjustments(Game.Achievements);
     }
 
     private void Sync()
