@@ -124,7 +124,13 @@ public class UserManager : MonoBehaviour
         if (Game.Level == 5) return;
         Game.Level++;
         Instance.UnlockAchievement(CommonResources.Levels(Game.Level), 250);
-        Instance.UnlockAchievement(CommonResources.Stories(Game.Level), 0);
+        Instance.UnlockAchievement(CommonResources.Stories(Game.Level), 50);
+        Instance.Invoke("CheckLocks", 0.8f);
+    }
+
+    // ReSharper disable once MemberCanBeMadeStatic.Local
+    private void CheckLocks()
+    {
         FindObjectOfType<BuildingManager>().LockingAdjustments(Game.Achievements);
     }
 
