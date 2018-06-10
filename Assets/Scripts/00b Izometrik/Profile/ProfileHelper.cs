@@ -1,11 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
 public class ProfileHelper : MonoBehaviour, LoadableHelper
 {
-    
-
     public Image ProfilePic;
     public Text ProfileName;
     public Text Score;
@@ -31,11 +31,9 @@ public class ProfileHelper : MonoBehaviour, LoadableHelper
     {
         ProfileName.text = Social.localUser.userName;
         ProfilePic.sprite = Util.Texture2Sprite(Social.localUser.image);
-        Social.LoadAchievements(achievements =>
-        {
-            var completed = achievements.Count(achievement => achievement.completed);
-            Achievements.text = string.Format("{0}/{1}", completed, achievements.Length);
-        });
+        var achievements = UserManager.Game.Achievements;
+        var completed = achievements.Count(achievement => achievement.completed);
+        Achievements.text = string.Format("{0}/{1}", completed, achievements.Length);
 
         AchievementsTabs.Init();
         LeaderboardTabs.Init();
@@ -45,20 +43,23 @@ public class ProfileHelper : MonoBehaviour, LoadableHelper
     {
         if (tab.name.Equals("Rozetler"))
         {
+            var badges = UserManager.Game.Badges;
             Util.ClearChildren(AchievementsContainer.transform);
-            Social.LoadAchievements(achievements =>
+            Util.Load(AchievementsContainer, AchievementsEntryPrefab, badges, (entry, member) =>
             {
-                Util.Load(AchievementsContainer, AchievementsEntryPrefab, achievements, (entry, member) =>
-                {
-                    var achievementEntry = entry.GetComponent<AchievementEntry>();
-                    achievementEntry.Init(member);
-                });
+                var achievementEntry = entry.GetComponent<AchievementEntry>();
+                achievementEntry.Init(member);
             });
         }
         else if (tab.name.Equals("Binalar"))
         {
-            Social.ShowAchievementsUI();
-        }
+            var buildings = UserManager.Game.Buildings;
+            Util.ClearChildren(AchievementsContainer.transform);
+            Util.Load(AchievementsContainer, AchievementsEntryPrefab, buildings, (entry, member) =>
+            {
+                var achievementEntry = entry.GetComponent<AchievementEntry>();
+                achievementEntry.Init(member);
+            });        }
         else if (tab.name.Equals("Friends"))
         {
             Util.ClearChildren(LeaderboardContainer.transform);

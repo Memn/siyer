@@ -13,13 +13,19 @@ public class AchievementEntry : MonoBehaviour
 
     public void Init(IAchievement playGamesAchievement)
     {
+        var badgeManager = FindObjectOfType<BadgeManager>();
+        AchievementPic.sprite = badgeManager.SrpiteOf(playGamesAchievement.id);
+        AchievementName.text = badgeManager.TitleOf(playGamesAchievement.id);
+        Completion.text = playGamesAchievement.completed.ToString();
+        if (playGamesAchievement.completed)
+        {
+            AchievementPic.color = Color.white;
+        }
 #if UNITY_ANDROID
-
-        var achievement = playGamesAchievement as PlayGamesAchievement;
-        if (achievement == null) return;
-        AchievementPic.sprite = Util.Texture2Sprite(achievement.image);
-        AchievementName.text = achievement.title;
-        Completion.text = "True";
+        var games = playGamesAchievement as PlayGamesAchievement;
+        if (games == null) return;
+        AchievementPic.sprite = Util.Texture2Sprite(games.image);
+        AchievementName.text = games.title;
 #endif
     }
 }

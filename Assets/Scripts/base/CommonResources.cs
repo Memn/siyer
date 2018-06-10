@@ -5,50 +5,50 @@ using UnityEngine;
 public class CommonResources : MonoBehaviour
 {
     // Binalar
-    private static string Kabe = SiyerResources.achievement_kabe;
-    private static string Abdulmuttalib = SiyerResources.achievement_abdulmuttalibin_evi;
-    private static string HzMuhammed = SiyerResources.achievement_peygamberimizin_evi;
-    private static string DarulErkam = SiyerResources.achievement_darul_erkam;
-    private static string Hamza = SiyerResources.achievement_hz_hamzann_evi;
-    private static string Omer = SiyerResources.achievement_hz_merin_evi;
-    private static string Ebubekir = SiyerResources.achievement_hz_ebubekirin_evi;
-    private static string Hatice = SiyerResources.achievement_hz_haticenin_evi;
-    private static string EbuTalib = SiyerResources.achievement_ebu_talibin_evi;
+    private const string Kabe = SiyerResources.achievement_kabe;
+    private const string Abdulmuttalib = SiyerResources.achievement_abdulmuttalibin_evi;
+    private const string HzMuhammed = SiyerResources.achievement_peygamberimizin_evi;
+    private const string DarulErkam = SiyerResources.achievement_darul_erkam;
+    private const string Hamza = SiyerResources.achievement_hz_hamzann_evi;
+    private const string Omer = SiyerResources.achievement_hz_merin_evi;
+    private const string Ebubekir = SiyerResources.achievement_hz_ebubekirin_evi;
+    private const string Hatice = SiyerResources.achievement_hz_haticenin_evi;
+    private const string EbuTalib = SiyerResources.achievement_ebu_talibin_evi;
 
-    private static string Muhafiz = SiyerResources.achievement_muhafz;
-    private static string Alim = SiyerResources.achievement_alim;
-    private static string Okcubasi = SiyerResources.achievement_okuba;
-    private static string Ustad = SiyerResources.achievement_stad;
-
-
-    private static string MEKKE_MUHAFIZLARI = SiyerResources.achievement_mekke_muhafzlar;
-    private static string ILIM_AVCILARI = SiyerResources.achievement_ilim_avclar;
-    private static string CENGAVERLER = SiyerResources.achievement_cengaverler;
-    private static string KAHRAMANLAR = SiyerResources.achievement_kahramanlar;
-    private static string PEYGAMBER_DOSTLARI = SiyerResources.achievement_peygamber_dostlar;
+    private const string Muhafiz = SiyerResources.achievement_muhafz;
+    private const string Alim = SiyerResources.achievement_alim;
+    private const string Okcubasi = SiyerResources.achievement_okuba;
+    private const string Ustad = SiyerResources.achievement_stad;
 
 
-    private static string Kasif = SiyerResources.achievement_kaif;
-    private static string Kasif_2 = SiyerResources.achievement_kaif_2;
-    private static string Kasif_3 = SiyerResources.achievement_kaif_3;
-    private static string Kasif_4 = SiyerResources.achievement_kaif_4;
-    private static string Kasif_5 = SiyerResources.achievement_kaif_5;
-
-    private static string Talebe = SiyerResources.achievement_talebe;
-    private static string Talebe_2 = SiyerResources.achievement_talebe_2;
-    private static string Talebe_3 = SiyerResources.achievement_talebe_3;
-    private static string Talebe_4 = SiyerResources.achievement_talebe_4;
+    private const string MEKKE_MUHAFIZLARI = SiyerResources.achievement_mekke_muhafzlar;
+    private const string ILIM_AVCILARI = SiyerResources.achievement_ilim_avclar;
+    private const string CENGAVERLER = SiyerResources.achievement_cengaverler;
+    private const string KAHRAMANLAR = SiyerResources.achievement_kahramanlar;
+    private const string PEYGAMBER_DOSTLARI = SiyerResources.achievement_peygamber_dostlar;
 
 
-    private static string Kemankes = SiyerResources.achievement_kemanke;
-    private static string Kemankes_2 = SiyerResources.achievement_kemankes_2;
-    private static string Kemankes_3 = SiyerResources.achievement_kemankes_3;
+    private const string Kasif = SiyerResources.achievement_kaif;
+    private const string Kasif_2 = SiyerResources.achievement_kaif_2;
+    private const string Kasif_3 = SiyerResources.achievement_kaif_3;
+    private const string Kasif_4 = SiyerResources.achievement_kaif_4;
+    private const string Kasif_5 = SiyerResources.achievement_kaif_5;
 
-    private static string Muallim = SiyerResources.achievement_muallim;
-    private static string Muallim_2 = SiyerResources.achievement_muallim_2;
+    private const string Talebe = SiyerResources.achievement_talebe;
+    private const string Talebe_2 = SiyerResources.achievement_talebe_2;
+    private const string Talebe_3 = SiyerResources.achievement_talebe_3;
+    private const string Talebe_4 = SiyerResources.achievement_talebe_4;
 
 
-    private static string Muhacir = SiyerResources.achievement_muhacir;
+    private const string Kemankes = SiyerResources.achievement_kemanke;
+    private const string Kemankes_2 = SiyerResources.achievement_kemankes_2;
+    private const string Kemankes_3 = SiyerResources.achievement_kemankes_3;
+
+    private const string Muallim = SiyerResources.achievement_muallim;
+    private const string Muallim_2 = SiyerResources.achievement_muallim_2;
+
+
+    private const string Muhacir = SiyerResources.achievement_muhacir;
 
 
     public enum Building
@@ -381,6 +381,7 @@ public class CommonResources : MonoBehaviour
                 throw new ArgumentOutOfRangeException(level + "level is not known");
         }
     }
+
     public static string LevelsText(int level)
     {
         switch (level)
@@ -429,5 +430,112 @@ public class CommonResources : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException("building", building, null);
         }
+    }
+
+    public static bool IsBadge(string achievementId)
+    {
+        return !IsBuilding(achievementId);
+    }
+
+    public static bool IsBuilding(string achievementId)
+    {
+        switch (achievementId)
+        {
+            case Kabe:          return true;
+            case Abdulmuttalib: return true;
+            case HzMuhammed:    return true;
+            case DarulErkam:    return true;
+            case Hamza:         return true;
+            case Omer:          return true;
+            case Ebubekir:      return true;
+            case Hatice:        return true;
+            case EbuTalib:      return true;
+            default:            return false;
+        }
+    }
+
+    public static BadgeManager.Badge ToBadge(string id)
+    {
+        switch (id)
+        {
+            case Kabe:               return BadgeManager.Badge.Kabe;
+            case Abdulmuttalib:      return BadgeManager.Badge.Abdulmuttalib;
+            case HzMuhammed:         return BadgeManager.Badge.HzMuhammed;
+            case DarulErkam:         return BadgeManager.Badge.DarulErkam;
+            case Hamza:              return BadgeManager.Badge.Hamza;
+            case Omer:               return BadgeManager.Badge.Omer;
+            case Ebubekir:           return BadgeManager.Badge.Ebubekir;
+            case Hatice:             return BadgeManager.Badge.Hatice;
+            case EbuTalib:           return BadgeManager.Badge.EbuTalib;
+            case Muhafiz:            return BadgeManager.Badge.Muhafiz;
+            case Alim:               return BadgeManager.Badge.Alim;
+            case Okcubasi:           return BadgeManager.Badge.Okcubasi;
+            case Ustad:              return BadgeManager.Badge.Ustad;
+            case MEKKE_MUHAFIZLARI:  return BadgeManager.Badge.MEKKE_MUHAFIZLARI;
+            case ILIM_AVCILARI:      return BadgeManager.Badge.ILIM_AVCILARI;
+            case CENGAVERLER:        return BadgeManager.Badge.CENGAVERLER;
+            case KAHRAMANLAR:        return BadgeManager.Badge.KAHRAMANLAR;
+            case PEYGAMBER_DOSTLARI: return BadgeManager.Badge.PEYGAMBER_DOSTLARI;
+            case Kasif:              
+            case Kasif_2:            
+            case Kasif_3:            
+            case Kasif_4:            
+            case Kasif_5:            return BadgeManager.Badge.Kasif;
+            case Talebe:            
+            case Talebe_2:          
+            case Talebe_3:          
+            case Talebe_4:           return BadgeManager.Badge.Talebe;
+            case Kemankes:           
+            case Kemankes_2:         
+            case Kemankes_3:         return BadgeManager.Badge.Kemankes;
+            case Muallim:            
+            case Muallim_2:          return BadgeManager.Badge.Muallim;
+            case Muhacir:            return BadgeManager.Badge.Muhacir;
+            default:
+                throw new ArgumentOutOfRangeException(id + " id is not known");
+        }
+
+    }
+    public static string TitleOf(string id)
+    {
+        switch (id)
+        {
+            case Kabe:               return "Kabe";
+            case Abdulmuttalib:      return "Abdulmuttalib";
+            case HzMuhammed:         return "HzMuhammed";
+            case DarulErkam:         return "DarulErkam";
+            case Hamza:              return "Hamza";
+            case Omer:               return "Omer";
+            case Ebubekir:           return "Ebubekir";
+            case Hatice:             return "Hatice";
+            case EbuTalib:           return "EbuTalib";
+            case Muhafiz:            return "Muhafiz";
+            case Alim:               return "Alim";
+            case Okcubasi:           return "Okcubasi";
+            case Ustad:              return "Ustad";
+            case MEKKE_MUHAFIZLARI:  return "MEKKE_MUHAFIZLARI";
+            case ILIM_AVCILARI:      return "ILIM_AVCILARI";
+            case CENGAVERLER:        return "CENGAVERLER";
+            case KAHRAMANLAR:        return "KAHRAMANLAR";
+            case PEYGAMBER_DOSTLARI: return "PEYGAMBER_DOSTLARI";
+            case Kasif:              
+            case Kasif_2:            
+            case Kasif_3:            
+            case Kasif_4:            
+            case Kasif_5:            return "Kasif";
+            case Talebe:            
+            case Talebe_2:          
+            case Talebe_3:          
+            case Talebe_4:           return "Talebe";
+            case Kemankes:           
+            case Kemankes_2:         
+            case Kemankes_3:         return "Kemankes";
+            case Muallim:            
+            case Muallim_2:          return "Muallim";
+            case Muhacir:            return "Muhacir";
+            default:
+                throw new ArgumentOutOfRangeException(id + " id is not known");
+        }
+
     }
 }

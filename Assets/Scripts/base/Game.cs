@@ -51,6 +51,17 @@ public class Game
         get { return _gameData.Achievements.ToArray(); }
     }
 
+    public IAchievement[] Badges
+    {
+        // ReSharper disable once CoVariantArrayConversion
+        get { return _gameData.Achievements.FindAll(dto => CommonResources.IsBadge(dto.id)).ToArray(); }
+    } 
+    public IAchievement[] Buildings
+    {
+        // ReSharper disable once CoVariantArrayConversion
+        get { return _gameData.Achievements.FindAll(dto => CommonResources.IsBuilding(dto.id)).ToArray(); }
+    }
+
     public void Save()
     {
         var ds = new DataContractSerializer(typeof(GameData));
