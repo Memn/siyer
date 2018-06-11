@@ -28,6 +28,7 @@ public class QuestsController : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
+        _questIndex = 0;
         FindObjectOfType<MusicManager>().GetComponent<AudioSource>().Stop();
         FindObjectOfType<DesertMusicManager>().GetComponent<AudioSource>().Stop();
         _videoPlayer = _videoPanel.GetComponent<VideoPlayer>();
