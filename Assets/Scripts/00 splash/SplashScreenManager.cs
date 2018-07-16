@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class SplashScreenManager : MonoBehaviour
 {
-    public float LoadMainMenuAfter = 3;
     public AudioClip DesertMusic;
+    public AudioClip BackgroundClip;
 
     private void Awake()
     {
@@ -18,6 +18,14 @@ public class SplashScreenManager : MonoBehaviour
         component.volume = 0.4f;
         component.Play();
         DontDestroyOnLoad(component.gameObject);
+        
+        var musicManager = new GameObject("MusicManager").AddComponent<AudioSource>();
+        musicManager.gameObject.AddComponent<MusicManager>();
+        musicManager.clip = BackgroundClip;
+        musicManager.loop = true;
+        musicManager.volume = 0.1f;
+        musicManager.playOnAwake = false;
+        DontDestroyOnLoad(musicManager.gameObject);
     }
 
     [UsedImplicitly]

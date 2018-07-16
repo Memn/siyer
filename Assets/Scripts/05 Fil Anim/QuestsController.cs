@@ -30,15 +30,23 @@ public class QuestsController : MonoBehaviour
     private void Start()
     {
         _questIndex = 0;
-        FindObjectOfType<MusicManager>().GetComponent<AudioSource>().Stop();
-        FindObjectOfType<DesertMusicManager>().GetComponent<AudioSource>().Stop();
+        StopBackgroundMusic();
         _videoPlayer = _videoPanel.GetComponent<VideoPlayer>();
         _videoPlayer.loopPointReached += EndVideo;
-        var unused = Quests.All(quest => quest.Completed = true);
+//        var unused = Quests.All(quest => quest.Completed = true);
         _autoPlay.GetComponent<VideoPlayer>().loopPointReached += player => NextQuest();
         // Check achievement Conditions
         if (Quests.All(quest => quest.Completed))
             UserManager.StorySuccess(Reward);
+    }
+
+    private static void StopBackgroundMusic()
+    {
+        if (FindObjectOfType<MusicManager>())
+            FindObjectOfType<MusicManager>().GetComponent<AudioSource>().Stop();
+
+        if (FindObjectOfType<DesertMusicManager>())
+            FindObjectOfType<DesertMusicManager>().GetComponent<AudioSource>().Stop();
     }
 
     private void EndVideo(VideoPlayer source)
@@ -101,8 +109,10 @@ public class QuestsController : MonoBehaviour
     [UsedImplicitly]
     public void Back()
     {
-        FindObjectOfType<MusicManager>().GetComponent<AudioSource>().Play();
-        FindObjectOfType<DesertMusicManager>().GetComponent<AudioSource>().Play();
+        if (FindObjectOfType<MusicManager>())
+            FindObjectOfType<MusicManager>().GetComponent<AudioSource>().Play();
+        if (FindObjectOfType<DesertMusicManager>())
+            FindObjectOfType<DesertMusicManager>().GetComponent<AudioSource>().Play();
         SceneManagementUtil.Load(SceneManagementUtil.Scenes.AnaEkran);
     }
 
@@ -112,7 +122,6 @@ public class QuestsController : MonoBehaviour
         CloseQuestion();
         StopQuest();
         _questIndex++;
-        print(_questIndex);
         InitiateQuest();
     }
 

@@ -14,20 +14,15 @@ public class InitAnimationStopper : MonoBehaviour
     }
 
     public AudioClip BackgroundClip;
+
     [UsedImplicitly]
     private void Stop()
     {
         GetComponent<Animator>().cullingMode = AnimatorCullingMode.CullCompletely;
         FindObjectOfType<LevelManager>().ShowLevelQuestsInfo();
 
-        if (FindObjectOfType<MusicManager>()) return;
-        var component = new GameObject("MusicManager").AddComponent<AudioSource>();
-        component.gameObject.AddComponent<MusicManager>();
-        component.clip = BackgroundClip;
-        component.loop = true;
-        component.volume = 0.1f;
-        component.playOnAwake = false;
-        DontDestroyOnLoad(component.gameObject);
-        component.Play();
+        if (!FindObjectOfType<MusicManager>()) return;
+        if (FindObjectOfType<MusicManager>().GetComponent<AudioSource>().isPlaying) return;
+        FindObjectOfType<MusicManager>().GetComponent<AudioSource>().Play();
     }
 }
