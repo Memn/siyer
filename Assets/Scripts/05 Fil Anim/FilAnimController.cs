@@ -12,6 +12,7 @@ public class FilAnimController : MonoBehaviour
 
     [SerializeField] private GameObject _quest;
     [SerializeField] private GameObject _skipButton;
+    [SerializeField] private GameObject _autoPlay;
     [SerializeField] private RawImage _rawImage;
 
     [SerializeField] private Button _nextButton;
@@ -69,6 +70,10 @@ public class FilAnimController : MonoBehaviour
         if (_nextButton.interactable)
         {
             _nextButton.image.color = color;
+            _autoPlay.SetActive(true);
+            var auto = _autoPlay.GetComponent<VideoPlayer>();
+            auto.loopPointReached += player => NextVideo();
+            auto.Play();
         }
 
         if (_previousButton.interactable)

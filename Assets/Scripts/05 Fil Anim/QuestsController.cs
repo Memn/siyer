@@ -19,6 +19,7 @@ public class QuestsController : MonoBehaviour
     [SerializeField] private GameObject _questButton;
     [SerializeField] private GameObject _playPauseButton;
 
+    [SerializeField] private GameObject _autoPlay;
 
     [SerializeField] private GameObject _videoPanel;
     private VideoPlayer _videoPlayer;
@@ -34,6 +35,7 @@ public class QuestsController : MonoBehaviour
         _videoPlayer = _videoPanel.GetComponent<VideoPlayer>();
         _videoPlayer.loopPointReached += EndVideo;
         var unused = Quests.All(quest => quest.Completed = true);
+        _autoPlay.GetComponent<VideoPlayer>().loopPointReached += player => NextQuest();
         // Check achievement Conditions
         if (Quests.All(quest => quest.Completed))
             UserManager.StorySuccess(Reward);
@@ -54,6 +56,7 @@ public class QuestsController : MonoBehaviour
         if (_nextButton.interactable)
         {
             _nextButton.image.color = color;
+            StartCoroutine(AutoPlay());
         }
 
         if (_previousButton.interactable)
@@ -109,6 +112,7 @@ public class QuestsController : MonoBehaviour
         CloseQuestion();
         StopQuest();
         _questIndex++;
+        print(_questIndex);
         InitiateQuest();
     }
 
@@ -118,6 +122,7 @@ public class QuestsController : MonoBehaviour
         CloseQuestion();
         StopQuest();
         _questIndex--;
+        print(_questIndex);
         InitiateQuest();
     }
 
@@ -130,6 +135,8 @@ public class QuestsController : MonoBehaviour
         }
 
         _videoPanel.GetComponent<Animator>().Play("VideoIdle");
+        _autoPlay.GetComponent<VideoPlayer>().Stop();
+        _autoPlay.SetActive(false);
     }
 
     public void InitiateQuest()
@@ -181,5 +188,20 @@ public class QuestsController : MonoBehaviour
         _videoPanel.GetComponent<RawImage>().texture = _videoPlayer.texture;
         _videoPanel.GetComponent<Animator>().SetTrigger("VideoStart");
         _videoPlayer.Play();
+    }
+
+    private IEnumerator AutoPlay()
+    {
+        _autoPlay.SetActive(true);
+        var autoPlayer = _autoPlay.GetComponent<VideoPlayer>();
+        autoPlayer.Prepare();
+
+        while (!autoPlayer.isPrepared)
+        {
+            yield return null;
+        }
+
+        _autoPlay.GetComponent<RawImage>().texture = autoPlayer.texture;
+        autoPlayer.Play();
     }
 }
