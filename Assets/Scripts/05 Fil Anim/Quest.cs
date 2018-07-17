@@ -23,7 +23,11 @@ public class Quest : MonoBehaviour
     private GameObject _choices;
 
     public bool Completed;
-    public string DriveId;
+
+    internal string DriveId
+    {
+        get { return Util.FindDriveId(gameObject.name); }
+    }
 
 
     private void Start()

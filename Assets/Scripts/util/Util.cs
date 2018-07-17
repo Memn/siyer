@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SocialPlatforms.Impl;
@@ -74,7 +75,7 @@ public class Util : MonoBehaviour
     public static readonly string SaveFilePath = Path.Combine(Application.persistentDataPath, "game.data");
     public static readonly string VideosFilePath = Path.Combine(Application.streamingAssetsPath, "videos");
 
-    
+
     public static string Achievement2Str(Achievement achievement)
     {
         return JsonUtility.ToJson(achievement, true);
@@ -83,5 +84,46 @@ public class Util : MonoBehaviour
     public static Achievement Str2Achievement(string achievement)
     {
         return JsonUtility.FromJson<Achievement>(achievement);
+    }
+
+    private static DriveWrapper _dw;
+
+    public static string FindDriveId(string gameObjectName)
+    {
+        if (_dw == null)
+        {
+            var path_to = Path.Combine(Application.streamingAssetsPath, "video-files.json");
+            using (var r = new StreamReader(path_to))
+            {
+                var json = r.ReadToEnd();
+                _dw = JsonUtility.FromJson<DriveWrapper>(json);
+            }
+        }
+
+        var index = 0;
+        if (gameObjectName.EndsWith(")"))
+            index = (int) char.GetNumericValue(gameObjectName[gameObjectName.Length - 2]);
+        
+        switch (SceneManagementUtil.ActiveScene)
+        {
+            case SceneManagementUtil.Scenes.Kabe: return _dw.fil[index];
+            case SceneManagementUtil.Scenes.HzMuhammed: return _dw.hakem[index];
+            case SceneManagementUtil.Scenes.Hamza: return _dw.hamza[index];
+            case SceneManagementUtil.Scenes.Hatice: return _dw.kamer[index];
+            case SceneManagementUtil.Scenes.Ebubekir: return _dw.hicret[index];
+            // fall-through
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    [UsedImplicitly]
+    private class DriveWrapper
+    {
+        public List<string> fil;
+        public List<string> hakem;
+        public List<string> hamza;
+        public List<string> kamer;
+        public List<string> hicret;
     }
 }

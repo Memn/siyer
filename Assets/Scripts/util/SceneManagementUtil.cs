@@ -27,6 +27,11 @@ public class SceneManagementUtil : MonoBehaviour
         get { return SceneManager.GetActiveScene().name; }
     }
 
+    public static Scenes ActiveScene
+    {
+        get { return (Scenes) SceneManager.GetActiveScene().buildIndex; }
+    }
+
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
         if (scene.buildIndex == (int) Scenes.AnaEkran)
