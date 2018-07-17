@@ -72,7 +72,9 @@ public class Util : MonoBehaviour
     }
 
     public static readonly string SaveFilePath = Path.Combine(Application.persistentDataPath, "game.data");
+    public static readonly string VideosFilePath = Path.Combine(Application.streamingAssetsPath, "videos");
 
+    
     public static string Achievement2Str(Achievement achievement)
     {
         return JsonUtility.ToJson(achievement, true);

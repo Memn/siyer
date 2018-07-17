@@ -1,5 +1,7 @@
 ﻿using System.Collections;
+using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,6 +20,8 @@ public class QuestsController : MonoBehaviour
     [SerializeField] private Button _previousButton;
     [SerializeField] private GameObject _questButton;
     [SerializeField] private GameObject _playPauseButton;
+    public GameObject DownloadScreen;
+
 
     [SerializeField] private GameObject _autoPlay;
 
@@ -87,7 +91,7 @@ public class QuestsController : MonoBehaviour
 
         _nextButton.interactable = _questIndex < Quests.Length - 1;
         _previousButton.interactable = _questIndex > 0;
-        _playPauseButton.SetActive(Quests[_questIndex].isVideo);
+        _playPauseButton.SetActive(Quests[_questIndex].VideoClipAvailable);
         _questButton.SetActive(Quests[_questIndex].HasQuestion && !Quests[_questIndex].Answered);
     }
 
@@ -138,7 +142,7 @@ public class QuestsController : MonoBehaviour
     private void StopQuest()
     {
         var quest = Quests[_questIndex];
-        if (quest.isVideo)
+        if (quest.VideoClipAvailable)
         {
             _videoPlayer.Stop();
         }
@@ -150,19 +154,56 @@ public class QuestsController : MonoBehaviour
 
     public void InitiateQuest()
     {
-        UpdateButtonConditions();
-        var quest = Quests[_questIndex];
-        if (quest.isVideo)
+        if (VideosAvailable())
         {
-            StartCoroutine(PlayVideo(quest.VideoClip));
+            UpdateButtonConditions();
+            var quest = Quests[_questIndex];
+            StartCoroutine(PlayVideo(quest));
+        }
+        else
+        {
+            DownloadScreen.SetActive(true);
         }
     }
+
+    private bool VideosAvailable()
+    {
+        return Quests.All(quest => quest.VideoClipAvailable);
+    }
+
+    [UsedImplicitly]
+    public void Download()
+    {
+        Quests.All(quest => DownloadQuest(quest));
+    }
+
+    public bool DownloadQuest(Quest quest)
+    {
+        if (!quest.VideoClipAvailable)
+        {
+            StartCoroutine(DownloadFile(quest));
+        }
+
+        return true;
+    }
+
+    private IEnumerator DownloadFile(Quest quest)
+    {
+        using (var www = new WWW(quest.Url))
+        {
+            Debug.Log("Downloading...");
+            yield return www;
+            Debug.Log("Download finished..");
+            File.WriteAllBytes(quest.VideoLocation, www.bytes);
+        }
+    }
+
 
     [UsedImplicitly]
     public void CloseQuestion()
     {
         var quest = Quests[_questIndex];
-        if (quest.isVideo && !_videoPlayer.isPlaying)
+        if (quest.VideoClipAvailable && !_videoPlayer.isPlaying)
         {
             _videoPlayer.Play();
         }
@@ -175,7 +216,7 @@ public class QuestsController : MonoBehaviour
     public void OpenQuestion()
     {
         var quest = Quests[_questIndex];
-        if (quest.isVideo && _videoPlayer.isPlaying)
+        if (quest.VideoClipAvailable && _videoPlayer.isPlaying)
         {
             _videoPlayer.Pause();
         }
@@ -184,9 +225,17 @@ public class QuestsController : MonoBehaviour
         _questButton.SetActive(false);
     }
 
-    private IEnumerator PlayVideo(VideoClip questVideoClip)
+    private IEnumerator PlayVideo(Quest quest)
     {
-        _videoPlayer.clip = questVideoClip;
+        if (quest.isVideo)
+            _videoPlayer.clip = quest.VideoClip;
+        else
+        {
+            _videoPlayer.source = VideoSource.Url;
+            Debug.Log(quest.VideoLocation);
+            _videoPlayer.url = quest.VideoLocation;
+        }
+
         _videoPlayer.Prepare();
 
         while (!_videoPlayer.isPrepared)

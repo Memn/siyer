@@ -1,6 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.IO;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using UnityEngine.WSA;
 
 public class Quest : MonoBehaviour
 {
@@ -20,6 +23,7 @@ public class Quest : MonoBehaviour
     private GameObject _choices;
 
     public bool Completed;
+    public string DriveId;
 
 
     private void Start()
@@ -61,6 +65,21 @@ public class Quest : MonoBehaviour
 
     public bool Answered { get; private set; }
 
+    public string VideoLocation
+    {
+        get
+        {
+            var filename = SceneManagementUtil.SceneName + gameObject.name + ".mp4";
+            return Path.Combine(Util.VideosFilePath, filename);
+        }
+    }
+
+    public bool VideoClipAvailable
+    {
+        get { return File.Exists(VideoLocation) || isVideo; }
+    }
+
+
     public CongratsUtil Congrats;
 
     public void Answer(int choice)
@@ -75,7 +94,7 @@ public class Quest : MonoBehaviour
             {
                 t.GetComponent<Image>().color = Color.green;
                 Congrats.ShowSuccess(2);
-                Invoke("Close",3);
+                Invoke("Close", 3);
             }
             else
             {
@@ -103,5 +122,10 @@ public class Quest : MonoBehaviour
     {
         foreach (var handler in _choices.GetComponentsInChildren<DragHandler>())
             Destroy(handler);
+    }
+
+    public string Url
+    {
+        get { return "https://docs.google.com/uc?export=download&id=" + DriveId; }
     }
 }

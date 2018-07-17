@@ -22,6 +22,11 @@ public class SceneManagementUtil : MonoBehaviour
         Ebubekir = 11,
     };
 
+    public static string SceneName
+    {
+        get { return SceneManager.GetActiveScene().name; }
+    }
+
     void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
         if (scene.buildIndex == (int) Scenes.AnaEkran)
