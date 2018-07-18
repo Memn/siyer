@@ -1,34 +1,48 @@
-﻿using System.Collections;
-using System.IO;
+﻿using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Video;
-using UnityEngine.WSA;
 
 public class Quest : MonoBehaviour
 {
-    public VideoClip VideoClip;
     public bool FillInTheBlanks;
-
-    private Image _image;
-
 
     private const string BlankEscape = "${blank}";
     private const string BlankLiteral = "...............";
 
+    public bool HasQuestion = true;
+    public bool Completed;
+    public CongratsUtil Congrats;
+    [SerializeField] private int _answer;
+
     private Text _questionText;
     private string _originalQuestionText;
-    [SerializeField] private int _answer;
-    public bool HasQuestion = true;
     private GameObject _choices;
-
-    public bool Completed;
 
     internal string DriveId
     {
         get { return Util.FindDriveId(gameObject.name); }
     }
 
+    public bool Answered { get; private set; }
+
+    public string VideoLocation
+    {
+        get
+        {
+            var filename = SceneManagementUtil.SceneName + gameObject.name + ".mp4";
+            return Path.Combine(Util.VideosFilePath, filename);
+        }
+    }
+
+    public bool VideoClipAvailable
+    {
+        get { return File.Exists(VideoLocation); }
+    }
+
+    public string Url
+    {
+        get { return "https://docs.google.com/uc?export=download&id=" + DriveId; }
+    }
 
     private void Start()
     {
@@ -60,31 +74,6 @@ public class Quest : MonoBehaviour
             }
         }
     }
-
-
-    public bool isVideo
-    {
-        get { return VideoClip != null; }
-    }
-
-    public bool Answered { get; private set; }
-
-    public string VideoLocation
-    {
-        get
-        {
-            var filename = SceneManagementUtil.SceneName + gameObject.name + ".mp4";
-            return Path.Combine(Util.VideosFilePath, filename);
-        }
-    }
-
-    public bool VideoClipAvailable
-    {
-        get { return File.Exists(VideoLocation) || isVideo; }
-    }
-
-
-    public CongratsUtil Congrats;
 
     public void Answer(int choice)
     {
@@ -126,10 +115,5 @@ public class Quest : MonoBehaviour
     {
         foreach (var handler in _choices.GetComponentsInChildren<DragHandler>())
             Destroy(handler);
-    }
-
-    public string Url
-    {
-        get { return "https://docs.google.com/uc?export=download&id=" + DriveId; }
     }
 }

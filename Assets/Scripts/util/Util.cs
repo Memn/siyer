@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -104,6 +105,7 @@ public class Util : MonoBehaviour
         if (gameObjectName.EndsWith(")"))
             index = (int) char.GetNumericValue(gameObjectName[gameObjectName.Length - 2]);
         
+        // ReSharper disable once SwitchStatementMissingSomeCases
         switch (SceneManagementUtil.ActiveScene)
         {
             case SceneManagementUtil.Scenes.Kabe: return _dw.fil[index];
@@ -116,6 +118,15 @@ public class Util : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
     }
+    
+    public static IEnumerator DownloadFile(string url, string saveTo)
+    {
+        using (var www = new WWW(url))
+        {
+            yield return www;
+            File.WriteAllBytes(saveTo, www.bytes);
+        }
+    }
 
     [UsedImplicitly]
     private class DriveWrapper
@@ -126,4 +137,6 @@ public class Util : MonoBehaviour
         public List<string> kamer;
         public List<string> hicret;
     }
+    
+    
 }

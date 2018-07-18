@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Security.Policy;
@@ -27,7 +28,29 @@ public class QuestsController : MonoBehaviour
 
     [SerializeField] private GameObject _videoPanel;
     private VideoPlayer _videoPlayer;
-    public CommonResources.Building Reward = CommonResources.Building.Abdulmuttalib;
+
+    private static CommonResources.Building Reward
+    {
+        get
+        {
+            // ReSharper disable once SwitchStatementMissingSomeCases
+            switch (SceneManagementUtil.ActiveScene)
+            {
+                case SceneManagementUtil.Scenes.Kabe:
+                    return CommonResources.Building.Abdulmuttalib;
+                case SceneManagementUtil.Scenes.HzMuhammed:
+                    return CommonResources.Building.DarulErkam;
+                case SceneManagementUtil.Scenes.Hamza:
+                    return CommonResources.Building.EbuTalib;
+                case SceneManagementUtil.Scenes.Hatice:
+                    return CommonResources.Building.Omer;
+                case SceneManagementUtil.Scenes.Ebubekir:
+                    return CommonResources.Building.Muhacir;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+    }
 
 
     // Use this for initialization
@@ -57,7 +80,7 @@ public class QuestsController : MonoBehaviour
     {
         if (_videoPlayer.isPlaying)
             _videoPlayer.Pause();
-//        Quests[_questIndex].Completed = true;
+        Quests[_questIndex].Completed = true;
         EndQuest();
     }
 
@@ -154,7 +177,7 @@ public class QuestsController : MonoBehaviour
 
     public void InitiateQuest()
     {
-        if (VideosAvailable())
+        if (Quests.All(quest => quest.VideoClipAvailable))
         {
             UpdateButtonConditions();
             var quest = Quests[_questIndex];
@@ -166,35 +189,46 @@ public class QuestsController : MonoBehaviour
         }
     }
 
-    private bool VideosAvailable()
-    {
-        return Quests.All(quest => quest.VideoClipAvailable);
-    }
-
     [UsedImplicitly]
     public void Download()
     {
-        Quests.All(quest => DownloadQuest(quest));
+        StartCoroutine(CheckDownloadEnd());
+        // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
+        Quests.All(quest =>
+        {
+            if (!quest.VideoClipAvailable)
+            {
+                StartCoroutine(Util.DownloadFile(quest.Url, quest.VideoLocation));
+            }
+
+            return true;
+        });
     }
 
-    public bool DownloadQuest(Quest quest)
+    private IEnumerator CheckDownloadEnd()
     {
-        if (!quest.VideoClipAvailable)
+        while (Quests.Any(quest => !quest.VideoClipAvailable))
         {
-            StartCoroutine(DownloadFile(quest));
+            yield return null;
         }
 
-        return true;
-    }
-
-    private IEnumerator DownloadFile(Quest quest)
-    {
-        using (var www = new WWW(quest.Url))
+        foreach (Transform child in DownloadScreen.transform)
         {
-            Debug.Log("Downloading...");
-            yield return www;
-            Debug.Log("Download finished..");
-            File.WriteAllBytes(quest.VideoLocation, www.bytes);
+            if (child.name == "Info")
+            {
+                child.GetComponent<Text>().text = "Indirme islemi bitti";
+            }
+
+            if (child.name == "Loading")
+            {
+                print("Loading child");
+                child.gameObject.SetActive(false);
+            }
+
+            if (child.name == "Close")
+            {
+                child.gameObject.SetActive(true);
+            }
         }
     }
 
@@ -227,14 +261,9 @@ public class QuestsController : MonoBehaviour
 
     private IEnumerator PlayVideo(Quest quest)
     {
-        if (quest.isVideo)
-            _videoPlayer.clip = quest.VideoClip;
-        else
-        {
-            _videoPlayer.source = VideoSource.Url;
-            Debug.Log(quest.VideoLocation);
-            _videoPlayer.url = quest.VideoLocation;
-        }
+        _videoPlayer.source = VideoSource.Url;
+        Debug.Log(quest.VideoLocation);
+        _videoPlayer.url = quest.VideoLocation;
 
         _videoPlayer.Prepare();
 
