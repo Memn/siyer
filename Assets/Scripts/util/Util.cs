@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
+using System.Threading;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
@@ -104,7 +106,7 @@ public class Util : MonoBehaviour
         var index = 0;
         if (gameObjectName.EndsWith(")"))
             index = (int) char.GetNumericValue(gameObjectName[gameObjectName.Length - 2]);
-        
+
         // ReSharper disable once SwitchStatementMissingSomeCases
         switch (SceneManagementUtil.ActiveScene)
         {
@@ -118,10 +120,11 @@ public class Util : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
     }
-    
-    public static IEnumerator DownloadFile(string url, string saveTo)
+
+    public static IEnumerator DownloadFile(string id, string saveTo)
     {
-        using (var www = new WWW(url))
+//        Debug.Log(string.Format("Downloading from {0} to {1}", id, saveTo));
+        using (var www = new WWW(UrlForGoogleId(id)))
         {
             yield return www;
             File.WriteAllBytes(saveTo, www.bytes);
@@ -137,6 +140,84 @@ public class Util : MonoBehaviour
         public List<string> kamer;
         public List<string> hicret;
     }
-    
-    
+
+
+    private static readonly string QuestsFile = Path.Combine(Application.streamingAssetsPath, "quests.json");
+
+    private static QuestsWrapper _qw;
+
+    public static Quest2[] InitQuests()
+    {
+        if (_qw == null)
+            using (var reader = new StreamReader(Path.Combine(Application.streamingAssetsPath, QuestsFile)))
+                _qw = JsonUtility.FromJson<QuestsWrapper>(reader.ReadToEnd());
+
+        // ReSharper disable once SwitchStatementMissingSomeCases
+        switch (SceneManagementUtil.ActiveScene)
+        {
+            case SceneManagementUtil.Scenes.Kabe: return _qw.fil;
+            case SceneManagementUtil.Scenes.HzMuhammed: return _qw.hakem;
+            case SceneManagementUtil.Scenes.Hamza: return _qw.hamza;
+            case SceneManagementUtil.Scenes.Hatice: return _qw.kamer;
+            case SceneManagementUtil.Scenes.Ebubekir: return _qw.hicret;
+            // fall-through
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private static string UrlForGoogleId(string id)
+    {
+        return "https://docs.google.com/uc?export=download&id=" + id;
+    }
+
+    private class QuestsWrapper
+    {
+        public Quest2[] fil;
+        public Quest2[] hakem;
+        public Quest2[] hamza;
+        public Quest2[] kamer;
+        public Quest2[] hicret;
+    }
+
+    [Serializable]
+    public class Quest2
+    {
+        public Question Question;
+        public string Url;
+        public bool Completed;
+    }
+
+
+    public static void SaveQuest(SceneManagementUtil.Scenes activeScene, global::Quest2 quest2, int questIndex)
+    {
+        Quest2 quest;
+        // ReSharper disable once SwitchStatementMissingSomeCases
+        switch (SceneManagementUtil.ActiveScene)
+        {
+            case SceneManagementUtil.Scenes.Kabe:
+                quest = _qw.fil[questIndex];
+                break;
+            case SceneManagementUtil.Scenes.HzMuhammed:
+                quest = _qw.hakem[questIndex];
+                break;
+            case SceneManagementUtil.Scenes.Hamza:
+                quest = _qw.hamza[questIndex];
+                break;
+            case SceneManagementUtil.Scenes.Hatice:
+                quest = _qw.kamer[questIndex];
+                break;
+            case SceneManagementUtil.Scenes.Ebubekir:
+                quest = _qw.hicret[questIndex];
+                break;
+            // fall-through
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
+        quest.Question = quest2.Question;
+        quest.Completed = quest2.Completed;
+
+        File.WriteAllText(QuestsFile, JsonUtility.ToJson(_qw, true));
+    }
 }

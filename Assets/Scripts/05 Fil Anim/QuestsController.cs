@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Policy;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
@@ -13,21 +14,19 @@ using UnityEngine.Video;
  */
 public class QuestsController : MonoBehaviour
 {
-    private static int _questIndex;
+    private int _questIndex = 0;
 
-    public Quest[] Quests;
+    private Quest2[] Quests;
+    public GameObject QuestsParent;
+    public GameObject QuestPrefab;
+    public CongratsUtil Congrats;
 
     [SerializeField] private Button _nextButton;
     [SerializeField] private Button _previousButton;
     [SerializeField] private GameObject _questButton;
-    [SerializeField] private GameObject _playPauseButton;
     public GameObject DownloadScreen;
 
-
-    [SerializeField] private GameObject _autoPlay;
-
-    [SerializeField] private GameObject _videoPanel;
-    private VideoPlayer _videoPlayer;
+    private VideoHandler _videoHandler;
 
     private static CommonResources.Building Reward
     {
@@ -52,19 +51,36 @@ public class QuestsController : MonoBehaviour
         }
     }
 
-
     // Use this for initialization
     private void Start()
     {
-        _questIndex = 0;
+        _videoHandler = GetComponent<VideoHandler>();
+        InitQuests();
         StopBackgroundMusic();
-        _videoPlayer = _videoPanel.GetComponent<VideoPlayer>();
-        _videoPlayer.loopPointReached += EndVideo;
-//        var unused = Quests.All(quest => quest.Completed = true);
-        _autoPlay.GetComponent<VideoPlayer>().loopPointReached += player => NextQuest();
-        // Check achievement Conditions
-        if (Quests.All(quest => quest.Completed))
-            UserManager.StorySuccess(Reward);
+    }
+
+    private void InitQuests()
+    {
+        var i = 0;
+        var initQuests = Util.InitQuests();
+        Quests = new Quest2[initQuests.Length];
+        foreach (var quest in initQuests)
+        {
+            var memberObj = Instantiate(QuestPrefab, Vector3.zero, Quaternion.identity, QuestsParent.transform);
+            memberObj.GetComponent<RectTransform>().localScale = Vector3.one;
+            memberObj.GetComponent<RectTransform>().SetAsFirstSibling();
+            memberObj.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(225, 55, 0);
+            memberObj.gameObject.SetActive(false);
+            memberObj.name = string.Format("Quest({0})", i);
+            var q = memberObj.GetComponent<Quest2>();
+            q.Question = quest.Question;
+            q.Url = quest.Url;
+            q.Completed = quest.Completed;
+            q.DecorateQuestion();
+            Quests[i++] = q;
+        }
+
+        _questIndex = 0;
     }
 
     private static void StopBackgroundMusic()
@@ -76,22 +92,16 @@ public class QuestsController : MonoBehaviour
             FindObjectOfType<DesertMusicManager>().GetComponent<AudioSource>().Stop();
     }
 
-    private void EndVideo(VideoPlayer source)
+    internal void EndQuest()
     {
-        if (_videoPlayer.isPlaying)
-            _videoPlayer.Pause();
         Quests[_questIndex].Completed = true;
-        EndQuest();
-    }
-
-    private void EndQuest()
-    {
+        Util.SaveQuest(SceneManagementUtil.ActiveScene, Quests[_questIndex], _questIndex);
         Color color;
         if (!ColorUtility.TryParseHtmlString("#92FF00FF", out color)) return;
         if (_nextButton.interactable)
         {
             _nextButton.image.color = color;
-            StartCoroutine(AutoPlay());
+            StartCoroutine(_videoHandler.AutoPlay());
         }
 
         if (_previousButton.interactable)
@@ -101,7 +111,9 @@ public class QuestsController : MonoBehaviour
 
         // Check achievement Conditions
         if (Quests.All(quest => quest.Completed))
+        {
             UserManager.StorySuccess(Reward);
+        }
     }
 
     private void UpdateButtonConditions()
@@ -114,23 +126,8 @@ public class QuestsController : MonoBehaviour
 
         _nextButton.interactable = _questIndex < Quests.Length - 1;
         _previousButton.interactable = _questIndex > 0;
-        _playPauseButton.SetActive(Quests[_questIndex].VideoClipAvailable);
-        _questButton.SetActive(Quests[_questIndex].HasQuestion && !Quests[_questIndex].Answered);
-    }
-
-    [UsedImplicitly]
-    public void PlayPause()
-    {
-        if (_videoPlayer.isPlaying)
-        {
-            _videoPlayer.Pause();
-            _playPauseButton.GetComponent<Animator>().SetTrigger("Pause");
-        }
-        else
-        {
-            _videoPlayer.Play();
-            _playPauseButton.GetComponent<Animator>().SetTrigger("Play");
-        }
+        _videoHandler.PlayPauseButton.SetActive(Quests[_questIndex].VideoClipAvailable);
+        _questButton.SetActive(Quests[_questIndex].IsQuestionActive);
     }
 
     [UsedImplicitly]
@@ -147,7 +144,7 @@ public class QuestsController : MonoBehaviour
     public void NextQuest()
     {
         CloseQuestion();
-        StopQuest();
+        _videoHandler.Stop();
         _questIndex++;
         InitiateQuest();
     }
@@ -156,23 +153,9 @@ public class QuestsController : MonoBehaviour
     public void PreviousQuest()
     {
         CloseQuestion();
-        StopQuest();
+        _videoHandler.Stop();
         _questIndex--;
-        print(_questIndex);
         InitiateQuest();
-    }
-
-    private void StopQuest()
-    {
-        var quest = Quests[_questIndex];
-        if (quest.VideoClipAvailable)
-        {
-            _videoPlayer.Stop();
-        }
-
-        _videoPanel.GetComponent<Animator>().Play("VideoIdle");
-        _autoPlay.GetComponent<VideoPlayer>().Stop();
-        _autoPlay.SetActive(false);
     }
 
     public void InitiateQuest()
@@ -181,7 +164,7 @@ public class QuestsController : MonoBehaviour
         {
             UpdateButtonConditions();
             var quest = Quests[_questIndex];
-            StartCoroutine(PlayVideo(quest));
+            StartCoroutine(_videoHandler.PlayVideo(quest));
         }
         else
         {
@@ -221,7 +204,7 @@ public class QuestsController : MonoBehaviour
 
             if (child.name == "Loading")
             {
-                print("Loading child");
+       //         print("Loading child");
                 child.gameObject.SetActive(false);
             }
 
@@ -232,15 +215,11 @@ public class QuestsController : MonoBehaviour
         }
     }
 
-
     [UsedImplicitly]
     public void CloseQuestion()
     {
         var quest = Quests[_questIndex];
-        if (quest.VideoClipAvailable && !_videoPlayer.isPlaying)
-        {
-            _videoPlayer.Play();
-        }
+        _videoHandler.Play();
 
         quest.gameObject.SetActive(false);
         quest.transform.parent.gameObject.SetActive(false);
@@ -250,45 +229,9 @@ public class QuestsController : MonoBehaviour
     public void OpenQuestion()
     {
         var quest = Quests[_questIndex];
-        if (quest.VideoClipAvailable && _videoPlayer.isPlaying)
-        {
-            _videoPlayer.Pause();
-        }
+        _videoHandler.Pause();
 
         quest.gameObject.SetActive(true);
         _questButton.SetActive(false);
-    }
-
-    private IEnumerator PlayVideo(Quest quest)
-    {
-        _videoPlayer.source = VideoSource.Url;
-        Debug.Log(quest.VideoLocation);
-        _videoPlayer.url = quest.VideoLocation;
-
-        _videoPlayer.Prepare();
-
-        while (!_videoPlayer.isPrepared)
-        {
-            yield return null;
-        }
-
-        _videoPanel.GetComponent<RawImage>().texture = _videoPlayer.texture;
-        _videoPanel.GetComponent<Animator>().SetTrigger("VideoStart");
-        _videoPlayer.Play();
-    }
-
-    private IEnumerator AutoPlay()
-    {
-        _autoPlay.SetActive(true);
-        var autoPlayer = _autoPlay.GetComponent<VideoPlayer>();
-        autoPlayer.Prepare();
-
-        while (!autoPlayer.isPrepared)
-        {
-            yield return null;
-        }
-
-        _autoPlay.GetComponent<RawImage>().texture = autoPlayer.texture;
-        autoPlayer.Play();
     }
 }

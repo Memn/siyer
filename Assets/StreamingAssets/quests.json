@@ -1,0 +1,302 @@
+{
+    "fil": [
+        {
+            "Question": {
+                "Text": "Fil Vakası ne zaman gerçekleşti?",
+                "Choices": [
+                    "Peygamber Efendimiz’in doğumundan (s.a.v.) önce",
+                    "Peygamber Efendimiz’in vefatından (s.a.v.) sonra"
+                ],
+                "_answer": 0,
+                "Answered": false
+            },
+            "Url": "1xbX1PRd8YlGHkpaZkyVE6DdI6VvXOD5-",
+            "Completed": false
+        },
+        {
+            "Question": {
+                "Text": "Fil hadisesinden anlamalıyız ki; Kabe'nin sahibi Allah'tır ve onu daima koruyacaktır.",
+                "Choices": [
+                    "Yanlış",
+                    "Doğru"
+                ],
+                "_answer": 1,
+                "Answered": false
+            },
+            "Url": "1fbOq6O5LNrTDCzNnazPAW4jlq2DBdZCc",
+            "Completed": false
+        },
+        {
+            "Question": {
+                "Text": "Fil olayının gerçekleştiği yıllarda, Kureyş kabilesinin reisi ve Peygamberimizin Dedesi ${blank}'di.",
+                "Choices": [
+                    "Hz. Abdullah",
+                    "Abdulmuttalib",
+                    "Ebu Talib"
+                ],
+                "_answer": 1,
+                "Answered": false
+            },
+            "Url": "18pF1037ZtseTKJJZOaXk49uDn89-wClU",
+            "Completed": false
+        },
+        {
+            "Question": {
+                "Text": "Fil hadisesinden anlamalıyız ki; Kabe'nin sahibi Allah'tır ve onu daima koruyacaktır.",
+                "Choices": [
+                    "Doğru",
+                    "Yanlış"
+                ],
+                "_answer": 0,
+                "Answered": false
+            },
+            "Url": "1m00Nsrqjb0N8rbjdrhiaFbjMNT7S3IqA",
+            "Completed": false
+        }
+    ],
+    "hakem": [
+        {
+            "Question": {
+                "Text": "I) Kureyşliler bu malzemeleri gemiden satın aldılar.\nII) Gemi bir ticaret gemisiydi.\nIII) Kureyşliler Kabe'nin onarım planını yaparken, bir bizans gemisi, Mekke iskelesinde karaya oturdu.\nIV) İçinde Kabeyi tamir edecekleri tüm malzemeler tamı tamına mevcuttu.\nYukarıdaki cümleleri anlamlı bir paragraf olacak şekilde sıralayınız.\n",
+                "Choices": [
+                    "II-III-IV-I",
+                    "I-III-IV-II",
+                    "III-II-IV-I"
+                ],
+                "_answer": 2,
+                "Answered": false
+            },
+            "Url": "1omKELgCcHntyRo9raZEopZsPHe66MbD5",
+            "Completed": false
+        },
+        {
+            "Question": {
+                "Text": "\"Peygamber Efendimiz (s.a.v.) ................................. buyurmuş ve bu taşı öpmüştür.\" noktalı kısma uygun hadis-i şerif aşağıdakilerden hangisidir?",
+                "Choices": [
+                    "Hacerülesved cennettendir.",
+                    "Şüphe vereni terket",
+                    "Önce deveni bağla sonra tevekkül et"
+                ],
+                "_answer": 0,
+                "Answered": false
+            },
+            "Url": "1XHDKmR4_urN9rOyi-HwaUQVkHOdfBTzu",
+            "Completed": false
+        },
+        {
+            "Question": {
+                "Text": "Aşağıdakilerden hangisi Efendimizin doğruluk-güvenilirlik ile alakalı sözlerindendir?",
+                "Choices": [
+                    "Allah güzeldir, güzelliği sever.",
+                    "Nerede olursan ol, Allahtan kork",
+                    "Kafir bile olsa mazlumun ahını almaktan sakının",
+                    "Müslüman elinden, dilinden diğer müslümanların emin olduğu kimsedir."
+                ],
+                "_answer": 3,
+                "Answered": false
+            },
+            "Url": "1GEv8NNqQx2qjS7-37i2o6jqeoRCqaeJ0",
+            "Completed": false
+        }
+    ],
+    "hamza": [
+        {
+            "Question": {
+                "Text": "Aşağıdakilerden hangisi doğrudur?",
+                "Choices": [
+                    "Ebu Cehil, cehaletin babası manasına gelir.",
+                    "Ebu Cehil peygamberimizin amcasıdır.",
+                    "Ebu Cehil son yıllarını pişmanlıkla geçirmiştir.",
+                    "Hiçbiri"
+                ],
+                "_answer": 0,
+                "Answered": false
+            },
+            "Url": "1Y7Sc23wH8slNcrysH7JVOEudTzantgGE",
+            "Completed": false
+        },
+        {
+            "Question": {
+                "Text": "Hz. Hamza, Ebu Cehil'in Efendimize yaptığı hakaret ve işkenceleri üzerine, şahadet getirerek iman etmiştir.",
+                "Choices": [
+                    "Doğru",
+                    "Yanlış"
+                ],
+                "_answer": 0,
+                "Answered": false
+            },
+            "Url": "1C_rmH1Naa1dTi2istMCOqgCaEKh91t80",
+            "Completed": false
+        },
+        {
+            "Question": {
+                "Text": "Aşağıdakilerden hangisi yanlıştır?",
+                "Choices": [
+                    "Efendimiz, kendisine yapılan hakaret ve zulümlere, sessiz kalıp sabırlı olmayı seçmiştir.",
+                    "Efendimiz, tebliğ vazifesinden hiçbir şartta vazgeçmemiş, hep tebliğ ciddiyetinde yaşamıştır",
+                    "Ebu Cehil'e, yaptığı zulümlerden dolayı tebliğ yasaklanmıştır."
+                ],
+                "_answer": 2,
+                "Answered": false
+            },
+            "Url": "18ziNwSMoxoBYbtxXTZyHiIXmlQ9PoZvb",
+            "Completed": false
+        },
+        {
+            "Question": {
+                "Text": "I) Seyyidüşşuhedadır.\nII) Peygamberimizin hem amcası hem süt kardeşidir.\nIII) Avcılığı çok sever\nYukarıdaki maddelerde belirtilen özellikler hangi zâta aittir?",
+                "Choices": [
+                    "Hz. Hamza",
+                    "Hz. Abdulmuttalib",
+                    "Ebû Tâlib",
+                    "Hz. Ömer"
+                ],
+                "_answer": 0,
+                "Answered": false
+            },
+            "Url": "1rukzbtOxXYP_YeZlfiPIE4MdIP3pHZ9F",
+            "Completed": false
+        }
+    ],
+    "kamer": [
+        {
+            "Question": {
+                "Text": "Rabbimizin, Peygamber olarak seçtiği kulları için, kâinata koyduğu değişmez kanunları anlık değiştirmesine mucize denir.",
+                "Choices": [
+                    "Doğru",
+                    "Yanlış"
+                ],
+                "_answer": 0,
+                "Answered": false
+            },
+            "Url": "1Ke3SIZVsezDa-rTIZr3BjPowUTZzO-vA",
+            "Completed": false
+        },
+        {
+            "Question": {
+                "Text": "\"Allâh Rasûlü (s.a.v) Rabbine duâ etmiş ve Ay ikiye bölünmüş, bu mûcize her taraftan görülmüştü. \nMüşrikler, bizzat gördükleri bu apaçık mûcizeye rağmen yine de îmâna gelmekten imtinâ ettiler.\nHattâ Ebû Cehil, .....................................................\" \n\nParagrafı hangi şık doğru bir şekilde tamamlar?",
+                "Choices": [
+                    "İman etti ve müslüman oldu.",
+                    "«Bu bir sihirdir!» diyerek bu mûcizeyi de inkâr etti.",
+                    "Artık şaşkına döndü ve Peygamberimize karşı mücadeleden vazgeçti."
+                ],
+                "_answer": 1,
+                "Answered": false
+            },
+            "Url": "1OWPu9uf2TDUMK1nsz-KUS7-6oLUZVls_",
+            "Completed": false
+        },
+        {
+            "Question": {
+                "Text": "Ahmet, Efendimizin hayatını okurken mucizelerinden çok etkilenmişti. \nÖzellikle kâinattaki her çeşit varlığın ona bağlı olması, onun peygamberliğine şahadet etmesi muhteşemdi. \nAkşam babası gelince, ona bu mucizelerden bahsetmek istedi. \nAşağıdakilerden hangisi Ahmet'in babasına anlattığı mucizelerden değildir?",
+                "Choices": [
+                    "Hurma kütüğünün Efendimizden ayrılınca ağlaması",
+                    "Efendimizin tek işaretiyle ayın ikiye bölünmesi",
+                    "Taşların Efendimizin elinde sesli bir şekilde zikretmesi",
+                    "Efendimizin sıkıntılara karşı mükemmel sabrı"
+                ],
+                "_answer": 3,
+                "Answered": false
+            },
+            "Url": "1KeTRC46Kp7ZTg3tuNrEgS0qMQsKbe65C",
+            "Completed": false
+        },
+        {
+            "Question": {
+                "Text": "",
+                "Choices": [],
+                "_answer": 0,
+                "Answered": false
+            },
+            "Url": "1lUq3yFZMqulTI93U9B-OprPK5G1MUgOz",
+            "Completed": false
+        },
+        {
+            "Question": {
+                "Text": "",
+                "Choices": [],
+                "_answer": 0,
+                "Answered": false
+            },
+            "Url": "1xLb6J4qu5WPOnCCJLbBauP0Hl7h1v2Z6",
+            "Completed": false
+        }
+    ],
+    "hicret": [
+        {
+            "Question": {
+                "Text": "I) Hicret, bir yerden bir yere gitmek manasına gelir.\nII) İslamiyette ilk hicret Habeşistan'a olmuştur.\nIII) Habeşistan'a Efendimiz de hicret etmiştir.\nIV) Habeş kralı Necaşi, sahabeleri çok güzel karşılamıştır.\nV) Medine'ye hicret, Efendimizi vatanından ayrıldığı için üzmüştür.\nVI) Hicretten sonra, Efendimiz Mekke ve Medine müslümanları arasında kardeşlik kurmuştur. \nYukarıdaki hicret ile alakalı maddelerden kaç tanesi doğrudur?",
+                "Choices": [
+                    "3",
+                    "4",
+                    "5",
+                    "6"
+                ],
+                "_answer": 2,
+                "Answered": false
+            },
+            "Url": "1a8Rtm8H5gGTl3qIpM6J_5HZY3jANp4c9",
+            "Completed": false
+        },
+        {
+            "Question": {
+                "Text": "",
+                "Choices": [],
+                "_answer": 0,
+                "Answered": false
+            },
+            "Url": "1zmGN7S-EbH4pVKPbztLv9YQxtUuCO1OQ",
+            "Completed": false
+        },
+        {
+            "Question": {
+                "Text": "",
+                "Choices": [],
+                "_answer": 0,
+                "Answered": false
+            },
+            "Url": "1wpDCLT5QsJ2wWAlDylaE5Uw6m1F1Fuqr",
+            "Completed": false
+        },
+        {
+            "Question": {
+                "Text": "",
+                "Choices": [],
+                "_answer": 0,
+                "Answered": false
+            },
+            "Url": "1m1KuEzFJk2rJ4VUT0-Ed1I5GihKaZ5i6",
+            "Completed": false
+        },
+        {
+            "Question": {
+                "Text": "",
+                "Choices": [],
+                "_answer": 0,
+                "Answered": false
+            },
+            "Url": "17Sxo54LkcE_Vdbev4N8ebiYKnSU4DRnz",
+            "Completed": false
+        },
+        {
+            "Question": {
+                "Text": "",
+                "Choices": [],
+                "_answer": 0,
+                "Answered": false
+            },
+            "Url": "1B1fT35k4nMYCORQDMxWxDzD3zpWSojMQ",
+            "Completed": false
+        },
+        {
+            "Question": {
+                "Text": "",
+                "Choices": [],
+                "_answer": 0,
+                "Answered": false
+            },
+            "Url": "1sytvi6-QcFo0j8HjGip9YmbKGF6_eNLq",
+            "Completed": false
+        }
+    ]
+}
