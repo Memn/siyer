@@ -84,9 +84,12 @@ public class QuestionManager : MonoBehaviour
         else
             Congrats.ShowFail(2);
 
-        if (++_answeredCount == _questions.Count)
-        {
-            UserManager.BilgiYarismasiEnd(_score, Time.time - _start);
-        }
+        if (++_answeredCount != _questions.Count) return;
+        if (!(_score < 6)) return;
+        var timer = Time.time - _start;
+        UserManager.Reward(CommonResources.Building.Omer, (int) (_score * 50 - (timer / 10)));
+        // Bonus
+        if (_score > 8)
+            UserManager.Instance.UnlockAchievement(CommonResources.Extras(CommonResources.Building.Omer), 250);
     }
 }

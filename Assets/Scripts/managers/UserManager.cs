@@ -4,6 +4,7 @@ using GooglePlayGames;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class UserManager : MonoBehaviour
 {
@@ -36,8 +37,8 @@ public class UserManager : MonoBehaviour
         Social.localUser.Authenticate(success =>
         {
             Debug.Log(!success
-                          ? "Failed to authenticate, continuing with local save."
-                          : "Authenticated, checking achievements to sync with local");
+                ? "Failed to authenticate, continuing with local save."
+                : "Authenticated, checking achievements to sync with local");
 
             if (!success) return;
             _game.Sync(Social.localUser);
@@ -55,10 +56,10 @@ public class UserManager : MonoBehaviour
     public static IEnumerable<KeyValuePair<bool, string>> GetCurrentLevelAchievementCompletions()
     {
         return Game.LevelDuties.Select(duty => new KeyValuePair<bool, string>(Game.IsAchieved(duty.Reward), duty.Title))
-                   .ToList();
+            .ToList();
     }
 
-    private static void Reward(CommonResources.Building building, int score)
+    internal static void Reward(CommonResources.Building building, int score)
     {
         var duties = CommonResources.DutyOf(Game.Level);
         var reward = duties.Find(duty => duty.Building == building).Reward;
@@ -80,7 +81,8 @@ public class UserManager : MonoBehaviour
             achievement = Social.CreateAchievement();
             achievement.id = id;
             achievement.percentCompleted = 100;
-            _game.UnlockedAchievement(achievement, score);
+            _game.UnlockedAchievement(achievement);
+            ReportScore(score);
             return;
         }
 
@@ -89,18 +91,28 @@ public class UserManager : MonoBehaviour
         {
             if (success)
             {
-                _game.UnlockedAchievement(achievement, score);
-                Social.ReportScore(score, SiyerResources.leaderboard_genel, scoreSuccess =>
-                {
-                    if (scoreSuccess)
-                    {
-                        Debug.Log("Score is updated by:" + score);
-                    }
-                });
+                _game.UnlockedAchievement(achievement);
+                ReportScore(score);
                 CheckLevelUp();
             }
 
             Debug.Log(id + " unlocked successfully or not: " + success);
+        });
+    }
+
+    internal static void ReportScore(int score)
+    {
+        Game.ReportScore(score);
+        Social.ReportScore(score, SiyerResources.leaderboard_genel, scoreSuccess =>
+        {
+            if (!scoreSuccess)
+            {
+#if !UNITY_ANDROID && !UNITY_EDITOR
+            var tmp_leaderboard = Social.CreateLeaderboard();
+            tmp_leaderboard.id = SiyerResources.leaderboard_genel;  
+            ReportScore(score);
+#endif
+            }
         });
     }
 
@@ -113,9 +125,7 @@ public class UserManager : MonoBehaviour
     {
         var levelQuests = GetCurrentLevelAchievementCompletions();
         if (levelQuests.All(pair => pair.Key))
-        {
             LevelUp();
-        }
     }
 
     private static void LevelUp()
@@ -137,46 +147,5 @@ public class UserManager : MonoBehaviour
     private void Sync()
     {
         _game.Sync(Social.localUser);
-    }
-
-    public static void StorySuccess(CommonResources.Building building)
-    {
-        Instance.UnlockAchievement(CommonResources.IdOf(building), 100);
-    }
-
-    public static void MazeSuccess(int collected, float timerRemaining)
-    {
-        Debug.Log("Success with " + collected + " collected and remaining time in sec:" + timerRemaining);
-        Reward(CommonResources.Building.Abdulmuttalib, (int) (timerRemaining * 5));
-    }
-
-    public static void KelimelikSuccess(int score, float spentTime)
-    {
-        Debug.Log("Kelimelik success " + score + " remaining time in sec:" + spentTime);
-        Reward(CommonResources.Building.DarulErkam, (int) (score - spentTime / 10));
-    }
-
-    public static bool TalimhaneSuccess(int score)
-    {
-        if (score < 6) return false;
-        Reward(CommonResources.Building.EbuTalib, score * 50);
-        if (score == 10)
-        {
-            Instance.UnlockAchievement(CommonResources.Extras(CommonResources.Building.EbuTalib), 250);
-        }
-
-        return true;
-    }
-
-    public static bool BilgiYarismasiEnd(int score, float timer)
-    {
-        if (score < 6) return false;
-        Reward(CommonResources.Building.Omer, (int) (score * 50 - (timer / 10)));
-        if (score > 8)
-        {
-            Instance.UnlockAchievement(CommonResources.Extras(CommonResources.Building.Omer), 250);
-        }
-
-        return true;
     }
 }

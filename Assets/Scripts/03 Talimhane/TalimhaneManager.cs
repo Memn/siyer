@@ -99,7 +99,15 @@ public class TalimhaneManager : MonoBehaviour
 
     public void EndOfGame()
     {
-        var success = UserManager.TalimhaneSuccess(_points / 10);
+        var score = _points / 10;
+        var success = !(score < 6);
+        if (success)
+        {
+            UserManager.Reward(CommonResources.Building.EbuTalib, score * 50);
+            if (score == 10)
+                UserManager.Instance.UnlockAchievement(CommonResources.Extras(CommonResources.Building.EbuTalib), 250);
+        }
+        
         Debug.Log("Success: " + success);
     }
 }

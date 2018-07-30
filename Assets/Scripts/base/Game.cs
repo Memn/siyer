@@ -55,7 +55,8 @@ public class Game
     {
         // ReSharper disable once CoVariantArrayConversion
         get { return _gameData.Achievements.FindAll(dto => CommonResources.IsBadge(dto.id)).ToArray(); }
-    } 
+    }
+
     public IAchievement[] Buildings
     {
         // ReSharper disable once CoVariantArrayConversion
@@ -89,14 +90,14 @@ public class Game
         return gameData == null ? new Game() : new Game {_gameData = gameData};
     }
 
-    public void UnlockedAchievement(IAchievement achievement, int score)
+    public void UnlockedAchievement(IAchievement achievement)
     {
         var local = Achievements.FirstOrDefault(ach => ach.id == achievement.id);
         if (local != null) return;
         var dto = new AchievementDto(achievement) {completed = true};
         _gameData.Achievements.Add(dto);
-        _gameData.Score += score;
-        Debug.Log("Unlocking: " +achievement.id);
+//        _gameData.Score += score;
+        Debug.Log("Unlocking: " + achievement.id);
         Save();
     }
 
@@ -160,5 +161,12 @@ public class Game
     {
         var achievement = Achievements.FirstOrDefault(ac => ac.id == id);
         return achievement != null && achievement.completed;
+    }
+
+    public void ReportScore(int score)
+    {
+        Debug.Log(string.Format("Updating Score: {0} to {1}", _gameData.Score, _gameData.Score + score));
+        _gameData.Score += score;
+        Save();
     }
 }

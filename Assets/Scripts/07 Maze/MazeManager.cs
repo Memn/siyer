@@ -44,7 +44,10 @@ public class MazeManager : MonoBehaviour
         if (success)
         {
             Congrats.GetComponent<CongratsUtil>().ShowSuccess(-1);
-            UserManager.MazeSuccess(_collected, Timer.Remaining);
+            var timerRemaining = Timer.Remaining;
+            Debug.Log("Success with " + _collected + " collected and remaining time in sec:" + timerRemaining);
+            UserManager.Reward(CommonResources.Building.Abdulmuttalib, (int) (timerRemaining * 5));
+
             Invoke("Back", 5);
         }
         else

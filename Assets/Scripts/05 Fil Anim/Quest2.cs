@@ -60,15 +60,18 @@ public class Quest2 : MonoBehaviour
         var index = int.Parse(choice.name.Substring(7, choice.name.Length - 8));
 
         if (index == Question._answer)
+        {
             choice.GetComponent<AnswerHandler>().Right();
+            UserManager.ReportScore(50);
+        }
         else
             choice.GetComponent<AnswerHandler>().Wrong();
+
         foreach (var button in choice.transform.parent.gameObject.GetComponentsInChildren<Button>())
         {
             button.interactable = false;
         }
 
         Question.Answered = true;
-        
     }
 }

@@ -59,7 +59,9 @@ public class KutuphaneManager : MonoBehaviour
 
         if (!_enumerator.MoveNext())
         {
-            UserManager.KelimelikSuccess(int.Parse(Scoreboard.text), _spentTime);
+            var score = int.Parse(Scoreboard.text);
+            Debug.Log("Kelimelik success " + score + " remaining time in sec:" + _spentTime);
+            UserManager.Reward(CommonResources.Building.DarulErkam, (int) (score - _spentTime / 10));
             EndOfLevel();
             return;
         }
