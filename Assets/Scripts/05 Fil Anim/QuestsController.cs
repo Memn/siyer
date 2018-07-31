@@ -2,12 +2,9 @@
 using System.Collections;
 using System.IO;
 using System.Linq;
-using System.Security.Policy;
 using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.Playables;
 using UnityEngine.UI;
-using UnityEngine.Video;
 
 /*
  * This class manages all quests and switching between them.
@@ -17,8 +14,6 @@ public class QuestsController : MonoBehaviour
     private int _questIndex = 0;
 
     private Quest2[] Quests;
-    public GameObject QuestsParent;
-    public GameObject QuestPrefab;
     public CongratsUtil Congrats;
 
     [SerializeField] private Button _nextButton;
@@ -55,32 +50,9 @@ public class QuestsController : MonoBehaviour
     private void Start()
     {
         _videoHandler = GetComponent<VideoHandler>();
-        InitQuests();
-        StopBackgroundMusic();
-    }
-
-    private void InitQuests()
-    {
-        var i = 0;
-        var initQuests = Util.InitQuests();
-        Quests = new Quest2[initQuests.Length];
-        foreach (var quest in initQuests)
-        {
-            var memberObj = Instantiate(QuestPrefab, Vector3.zero, Quaternion.identity, QuestsParent.transform);
-            memberObj.GetComponent<RectTransform>().localScale = Vector3.one;
-            memberObj.GetComponent<RectTransform>().SetAsFirstSibling();
-            memberObj.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(225, 55, 0);
-            memberObj.gameObject.SetActive(false);
-            memberObj.name = string.Format("Quest({0})", i);
-            var q = memberObj.GetComponent<Quest2>();
-            q.Question = quest.Question;
-            q.Url = quest.Url;
-            q.Completed = quest.Completed;
-            q.DecorateQuestion();
-            Quests[i++] = q;
-        }
-
+        Quests = GetComponent<QuestsConstructor>().Construct();
         _questIndex = 0;
+        StopBackgroundMusic();
     }
 
     private static void StopBackgroundMusic()
@@ -105,9 +77,7 @@ public class QuestsController : MonoBehaviour
         }
 
         if (_previousButton.interactable)
-        {
             _previousButton.image.color = color;
-        }
 
         // Check achievement Conditions
         if (Quests.All(quest => quest.Completed))
@@ -165,9 +135,7 @@ public class QuestsController : MonoBehaviour
             StartCoroutine(_videoHandler.PlayVideo(quest));
         }
         else
-        {
             DownloadScreen.SetActive(true);
-        }
     }
 
     [UsedImplicitly]
@@ -189,28 +157,15 @@ public class QuestsController : MonoBehaviour
     private IEnumerator CheckDownloadEnd()
     {
         while (Quests.Any(quest => !quest.VideoClipAvailable))
-        {
             yield return null;
-        }
 
         foreach (Transform child in DownloadScreen.transform)
-        {
             if (child.name == "Info")
-            {
                 child.GetComponent<Text>().text = "Indirme islemi bitti";
-            }
-
-            if (child.name == "Loading")
-            {
-       //         print("Loading child");
+            else if (child.name == "Loading")
                 child.gameObject.SetActive(false);
-            }
-
-            if (child.name == "Close")
-            {
+            else if (child.name == "Close")
                 child.gameObject.SetActive(true);
-            }
-        }
     }
 
     [UsedImplicitly]

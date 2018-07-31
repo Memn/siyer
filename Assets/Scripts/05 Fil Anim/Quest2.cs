@@ -23,8 +23,8 @@ public class Quest2 : MonoBehaviour
     {
         get
         {
-            var filename = SceneManagementUtil.SceneName + gameObject.name + ".mp4";
-            return Path.Combine(Util.VideosFilePath, filename);
+            var filename = Util.QuestName() + gameObject.name + ".mp4";
+            return Path.Combine(Application.persistentDataPath, filename);
         }
     }
 

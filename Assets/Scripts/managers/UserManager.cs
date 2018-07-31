@@ -2,6 +2,7 @@
 using GooglePlayGames;
 #endif
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 
@@ -28,8 +29,12 @@ public class UserManager : MonoBehaviour
     public void Init()
     {
         _game = Game.Load();
+        // Load Quests if not have
+        if (!File.Exists(Util.QuestsFile))
+            StartCoroutine(Util.DownloadFile(Util.QuestsReference, Util.QuestsFile));
 
 #if UNITY_ANDROID && !UNITY_EDITOR
+        Debug.Log("Play Games Activation started");
         PlayGamesPlatform.Activate();
         PlayGamesPlatform.DebugLogEnabled = true;
 #endif
