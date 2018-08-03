@@ -1,5 +1,6 @@
 ﻿#if UNITY_ANDROID && !UNITY_EDITOR
 using GooglePlayGames;
+using GooglePlayGames.BasicApi;
 #endif
 using System.Collections.Generic;
 using System.IO;
@@ -21,11 +22,6 @@ public class UserManager : MonoBehaviour
         get { return Instance._game; }
     }
 
-    private void Awake()
-    {
-        DontDestroyOnLoad(gameObject);
-    }
-
     public void Init()
     {
         _game = Game.Load();
@@ -35,6 +31,8 @@ public class UserManager : MonoBehaviour
 
 #if UNITY_ANDROID && !UNITY_EDITOR
         Debug.Log("Play Games Activation started");
+        var config = new PlayGamesClientConfiguration.Builder().Build();
+        PlayGamesPlatform.InitializeInstance(config);
         PlayGamesPlatform.Activate();
         PlayGamesPlatform.DebugLogEnabled = true;
 #endif
@@ -55,6 +53,11 @@ public class UserManager : MonoBehaviour
             });
         });
         Debug.Log("Game Init is completed..");
+    }
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
     }
 
     public static IEnumerable<KeyValuePair<bool, string>> GetCurrentLevelAchievementCompletions()
