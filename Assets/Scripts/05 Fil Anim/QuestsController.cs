@@ -81,7 +81,18 @@ public class QuestsController : MonoBehaviour
 
         // Check achievement Conditions
         if (Quests.All(quest => quest.Completed))
+        {
             UserManager.Instance.UnlockAchievement(CommonResources.IdOf(Reward), 100);
+            if (_nextButton.interactable) return;
+            Invoke("Back", 1.5f);
+        }
+        else if (!_nextButton.interactable)
+        {
+            CloseQuestion();
+            _videoHandler.Stop();
+            _questIndex = Array.FindIndex(Quests, quest => !quest.Completed);
+            InitiateQuest();
+        }
     }
 
     private void UpdateButtonConditions()
