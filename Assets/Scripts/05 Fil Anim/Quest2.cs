@@ -12,6 +12,7 @@ public class Quest2 : MonoBehaviour
     public string Url;
     internal Question Question;
     internal bool Completed;
+    public CongratsUtil Congrats;
 
 
     internal bool VideoClipAvailable
@@ -49,7 +50,8 @@ public class Quest2 : MonoBehaviour
         {
             choice.name = string.Format("Choice({0})", index);
             choice.GetComponentInChildren<Text>().text = Question.Choices[index];
-            choice.gameObject.AddComponent<AnswerHandler>();
+            var ah = choice.gameObject.AddComponent<AnswerHandler>();
+            ah.Congrats = Congrats;
             choice.gameObject.GetComponent<Button>().onClick.AddListener(() => CheckAnswer(choice));
             index++;
         }

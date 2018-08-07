@@ -6,6 +6,7 @@ public class QuestsConstructor : MonoBehaviour
 {
     public GameObject QuestsParent;
     public GameObject QuestPrefab;
+    public CongratsUtil Congrats;
 
     public Quest2[] Construct()
     {
@@ -29,6 +30,7 @@ public class QuestsConstructor : MonoBehaviour
         memberObj.gameObject.SetActive(false);
         memberObj.name = string.Format("Quest({0})", i);
         var q = memberObj.GetComponent<Quest2>();
+        q.Congrats = Congrats;
         q.Question = quest.Question;
         q.Url = quest.Url;
         q.Completed = quest.Completed;

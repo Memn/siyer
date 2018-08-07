@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class CongratsUtil : MonoBehaviour
@@ -9,7 +10,7 @@ public class CongratsUtil : MonoBehaviour
     public AudioClip SuccessClip;
     public AudioClip FailClip;
     public GameObject Back;
-    
+    private UnityAction _action;
 
     private static Sprite RandomR(IList<Sprite> sprites)
     {
@@ -17,24 +18,26 @@ public class CongratsUtil : MonoBehaviour
         return sprites[r];
     }
 
-    public void ShowSuccess(float f)
+    public void ShowSuccess(float closeAfter, UnityAction action =null)
     {
-        Show(f, Success);
+        _action = action;
+        Show(closeAfter, Success);
         GetComponent<AudioSource>().PlayOneShot(SuccessClip);
     }
 
-    public void ShowFail(float f)
+    public void ShowFail(float closeAfter, UnityAction action =null)
     {
-        Show(f, Fail);
+        _action = action;
+        Show(closeAfter, Fail);
         GetComponent<AudioSource>().PlayOneShot(FailClip);
     }
 
-    private void Show(float f, IList<Sprite> success)
+    private void Show(float closeAfter, IList<Sprite> success)
     {
         Back.SetActive(true);
         gameObject.SetActive(true);
         GetComponent<Image>().sprite = RandomR(success);
-        if (f > 0) Invoke("CloseAfter", f);
+        if (closeAfter > 0) Invoke("CloseAfter", closeAfter);
         
     }
 
@@ -42,6 +45,8 @@ public class CongratsUtil : MonoBehaviour
     {
         Back.SetActive(false);
         gameObject.SetActive(false);
+        if (_action != null)
+            _action();
     }
 
     public void Deactivate()
