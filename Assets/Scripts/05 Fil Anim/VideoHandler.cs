@@ -35,7 +35,7 @@ public class VideoHandler : MonoBehaviour
         _controller.EndQuest();
     }
 
-    internal IEnumerator PlayVideo(Quest2 quest)
+    internal IEnumerator PlayVideo(Quest quest)
     {
         _videoPlayer.source = VideoSource.Url;
         _videoPlayer.url = quest.VideoLocation;

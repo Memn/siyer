@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
-public class Quest2 : MonoBehaviour
+public class Quest : MonoBehaviour
 {
     public string Url;
     internal Question Question;
@@ -65,6 +65,7 @@ public class Quest2 : MonoBehaviour
         {
             choice.GetComponent<AnswerHandler>().Right();
             UserManager.ReportScore(50);
+            FindObjectOfType<QuestsController>().SaveQuest();
         }
         else
             choice.GetComponent<AnswerHandler>().Wrong();

@@ -8,11 +8,11 @@ public class QuestsConstructor : MonoBehaviour
     public GameObject QuestPrefab;
     public CongratsUtil Congrats;
 
-    public Quest2[] Construct()
+    public Quest[] Construct()
     {
         var i = 0;
         var initQuests = Util.InitQuests();
-        var quests = new Quest2[initQuests.Length];
+        var quests = new Quest[initQuests.Length];
         foreach (var quest in initQuests)
         {
             quests[i++] = CreateQuest(i, quest);
@@ -21,7 +21,7 @@ public class QuestsConstructor : MonoBehaviour
         return quests;
     }
 
-    private Quest2 CreateQuest(int i, Util.Quest2 quest)
+    private Quest CreateQuest(int i, Util.QuestDto quest)
     {
         var memberObj = Instantiate(QuestPrefab, Vector3.zero, Quaternion.identity, QuestsParent.transform);
         memberObj.GetComponent<RectTransform>().localScale = Vector3.one;
@@ -29,7 +29,7 @@ public class QuestsConstructor : MonoBehaviour
         memberObj.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(225, 55, 0);
         memberObj.gameObject.SetActive(false);
         memberObj.name = string.Format("Quest({0})", i);
-        var q = memberObj.GetComponent<Quest2>();
+        var q = memberObj.GetComponent<Quest>();
         q.Congrats = Congrats;
         q.Question = quest.Question;
         q.Url = quest.Url;

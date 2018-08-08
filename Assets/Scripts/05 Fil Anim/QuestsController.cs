@@ -13,7 +13,7 @@ public class QuestsController : MonoBehaviour
 {
     private int _questIndex = 0;
 
-    private Quest2[] Quests;
+    private Quest[] Quests;
     public CongratsUtil Congrats;
 
     [SerializeField] private Button _nextButton;
@@ -67,7 +67,7 @@ public class QuestsController : MonoBehaviour
     internal void EndQuest()
     {
         Quests[_questIndex].Completed = true;
-        Util.SaveQuest(SceneManagementUtil.ActiveScene, Quests[_questIndex], _questIndex);
+        SaveQuest();
         Color color;
         if (!ColorUtility.TryParseHtmlString("#92FF00FF", out color)) return;
         if (_nextButton.interactable)
@@ -93,6 +93,11 @@ public class QuestsController : MonoBehaviour
             _questIndex = Array.FindIndex(Quests, quest => !quest.Completed);
             InitiateQuest();
         }
+    }
+
+    internal void SaveQuest()
+    {
+        Util.SaveQuest(Quests[_questIndex], _questIndex);
     }
 
     private void UpdateButtonConditions()

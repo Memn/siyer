@@ -2,14 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Networking;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class Util : MonoBehaviour
 {
@@ -52,10 +47,11 @@ public class Util : MonoBehaviour
 
     private static QuestsWrapper _qw;
 
-    public static Quest2[] InitQuests()
+    public static QuestDto[] InitQuests()
     {
         if (_qw == null)
         {
+            // wait for quests file to download.
             while (!File.Exists(QuestsFile))
             {
             }
@@ -84,17 +80,18 @@ public class Util : MonoBehaviour
         return "https://docs.google.com/uc?export=download&id=" + id;
     }
 
+    [UsedImplicitly]
     private class QuestsWrapper
     {
-        public Quest2[] fil;
-        public Quest2[] hakem;
-        public Quest2[] hamza;
-        public Quest2[] kamer;
-        public Quest2[] hicret;
+        public QuestDto[] fil;
+        public QuestDto[] hakem;
+        public QuestDto[] hamza;
+        public QuestDto[] kamer;
+        public QuestDto[] hicret;
     }
 
     [Serializable]
-    public class Quest2
+    public class QuestDto
     {
         public Question Question;
         public string Url;
@@ -102,40 +99,41 @@ public class Util : MonoBehaviour
     }
 
 
-    public static void SaveQuest(SceneManagementUtil.Scenes activeScene, global::Quest2 quest2, int questIndex)
+    public static void SaveQuest(Quest quest, int questIndex)
     {
-        Quest2 quest;
+        QuestDto questDto;
         // ReSharper disable once SwitchStatementMissingSomeCases
         switch (SceneManagementUtil.ActiveScene)
         {
             case SceneManagementUtil.Scenes.Kabe:
-                quest = _qw.fil[questIndex];
+                questDto = _qw.fil[questIndex];
                 break;
             case SceneManagementUtil.Scenes.HzMuhammed:
-                quest = _qw.hakem[questIndex];
+                questDto = _qw.hakem[questIndex];
                 break;
             case SceneManagementUtil.Scenes.Hamza:
-                quest = _qw.hamza[questIndex];
+                questDto = _qw.hamza[questIndex];
                 break;
             case SceneManagementUtil.Scenes.Hatice:
-                quest = _qw.kamer[questIndex];
+                questDto = _qw.kamer[questIndex];
                 break;
             case SceneManagementUtil.Scenes.Ebubekir:
-                quest = _qw.hicret[questIndex];
+                questDto = _qw.hicret[questIndex];
                 break;
             // fall-through
             default:
                 throw new ArgumentOutOfRangeException();
         }
 
-        quest.Question = quest2.Question;
-        quest.Completed = quest2.Completed;
+        questDto.Question = quest.Question;
+        questDto.Completed = quest.Completed;
 
         File.WriteAllText(QuestsFile, JsonUtility.ToJson(_qw, true));
     }
 
     public static string QuestName()
     {
+        // ReSharper disable once SwitchStatementMissingSomeCases
         switch (SceneManagementUtil.ActiveScene)
         {
             case SceneManagementUtil.Scenes.Kabe: return "fil";
