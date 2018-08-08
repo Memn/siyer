@@ -37,7 +37,7 @@ public class Quest : MonoBehaviour
     internal void DecorateQuestion()
     {
         if (!IsQuestionActive) return;
-        transform.Find("QuestionText").GetComponent<Text>().text = Question.Text;
+        transform.Find("QuestionText").GetComponent<Text>().text = Question.Text.Replace("${blank}",".........");
         var choices = transform.Find("Choices");
         var choicePrefab = choices.transform.Find("Choice");
         for (var i = 0; i < Question.Choices.Length - 1; i++)
