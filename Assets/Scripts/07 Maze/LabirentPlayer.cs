@@ -18,25 +18,12 @@ public class LabirentPlayer : MonoBehaviour
     private void OnCollisionEnter(Collision coll)
     {
         if (coll.gameObject.tag.Equals("Floor"))
-        {
             if (_audioSource != null && HitSound != null && coll.relativeVelocity.y > .5f)
-            {
                 _audioSource.PlayOneShot(HitSound, coll.relativeVelocity.magnitude);
-            }
-        }
-        else
-        {
-            if (_audioSource != null && HitSound != null && coll.relativeVelocity.magnitude > 2f)
-            {
-//                _audioSource.PlayOneShot(HitSound, coll.relativeVelocity.magnitude);
-            }
-        }
-        
+
         if (!coll.gameObject.tag.Equals("Goal")) return;
         if (_audioSource != null && CoinSound != null)
-        {
             _audioSource.PlayOneShot(CoinSound);
-        }
 
         Destroy(coll.gameObject);
         Manager.CoinCollected();

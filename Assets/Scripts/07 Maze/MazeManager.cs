@@ -32,7 +32,7 @@ public class MazeManager : MonoBehaviour
     {
         _collected++;
         _remaining--;
-        CollectedText.text = _collected.ToString();
+        CollectedText.text = (_collected * 10).ToString();
         RemainingText.text = _remaining.ToString();
         if (_remaining == 0) EndOfGame(true);
     }
@@ -46,7 +46,7 @@ public class MazeManager : MonoBehaviour
             Congrats.GetComponent<CongratsUtil>().ShowSuccess(-1);
             var timerRemaining = Timer.Remaining;
             Debug.Log("Success with " + _collected + " collected and remaining time in sec:" + timerRemaining);
-            UserManager.Reward(CommonResources.Building.Abdulmuttalib, (int) (timerRemaining * 5));
+            UserManager.Reward(CommonResources.Building.Abdulmuttalib, (int) (timerRemaining * 4) + _collected * 10);
 
             Invoke("Back", 5);
         }
