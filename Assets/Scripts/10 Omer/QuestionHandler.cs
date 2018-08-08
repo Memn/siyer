@@ -32,13 +32,11 @@ public class QuestionHandler : MonoBehaviour
         if (_questionAnswer == answer)
         {
             choice.GetComponent<Image>().color = Color.green;
-            Debug.Log("Correct");
             Manager.Answer(true);
         }
         else
         {
             choice.GetComponent<Image>().color = Color.red;
-            Debug.Log("False");
             Manager.Answer(false);
         }
     }

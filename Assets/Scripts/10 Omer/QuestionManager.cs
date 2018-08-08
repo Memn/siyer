@@ -85,11 +85,24 @@ public class QuestionManager : MonoBehaviour
             Congrats.ShowFail(2);
 
         if (++_answeredCount != _questions.Count) return;
-        if (!(_score < 6)) return;
-        var timer = Time.time - _start;
-        UserManager.Reward(CommonResources.Building.Omer, (int) (_score * 50 - (timer / 10)));
-        // Bonus
-        if (_score > 8)
-            UserManager.Instance.UnlockAchievement(CommonResources.Extras(CommonResources.Building.Omer), 250);
+        EndOfGame(_score >= 6);
+    }
+
+    private void EndOfGame(bool success)
+    {
+        if (success)
+        {
+            var timer = Time.time - _start;
+            UserManager.Reward(CommonResources.Building.Omer, (int) (_score * 50 - (timer / 10)));
+            // Bonus
+            if (_score > 8)
+                UserManager.Instance.UnlockAchievement(CommonResources.Extras(CommonResources.Building.Omer), 250);
+        }
+        Invoke("Back", 2);
+    }
+
+    public void Back()
+    {
+        SceneManagementUtil.Load(SceneManagementUtil.Scenes.AnaEkran);
     }
 }

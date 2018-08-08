@@ -74,7 +74,7 @@ public class QuestionRepoHandler : MonoBehaviour
                 },
                 new Question
                 {
-                    _answer = 0,
+                    _answer = 2,
                     Text =
                         "Ahmet, arkadaşı Orhan'la yemek yiyecekti. Yemeğe başlamadan önce Orhan besmele çekmeyi unutmuş, Ahmet ise onu uyarmak için sesli bir şekilde besmele çekmişti. Hep birlikte gülüşerek yemeğe başladılar.\n" +
                         "Yukarıdaki hâdisede Ahmet, Efendimizin hangi tavsiyesini uygulamıştır?",
