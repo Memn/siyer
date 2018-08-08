@@ -11,24 +11,24 @@ public class AchievementEntry : MonoBehaviour
     public Text AchievementName;
     public Text Completion;
 
-    public void Init(IAchievement playGamesAchievement)
+    public void Init(IAchievement achievement)
     {
         var badgeManager = FindObjectOfType<BadgeManager>();
-        var sprite = AchievementPic.sprite = badgeManager.SpriteOf(playGamesAchievement.id);
+        var sprite = AchievementPic.sprite = badgeManager.SpriteOf(achievement.id);
         if (sprite == null)
         {
             Destroy(gameObject);
             return;
         }
 
-        AchievementName.text = badgeManager.TitleOf(playGamesAchievement.id);
-        Completion.text = playGamesAchievement.completed.ToString();
-        if (playGamesAchievement.completed)
+        AchievementName.text = badgeManager.TitleOf(achievement.id);
+        Completion.text = achievement.completed.ToString();
+        if (achievement.completed)
         {
             AchievementPic.color = Color.white;
         }
 #if UNITY_ANDROID
-        var games = playGamesAchievement as PlayGamesAchievement;
+        var games = achievement as PlayGamesAchievement;
         if (games == null) return;
         AchievementPic.sprite = Util.Texture2Sprite(games.image);
         AchievementName.text = games.title;
