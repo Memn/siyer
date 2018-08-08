@@ -108,6 +108,6 @@ public class TalimhaneManager : MonoBehaviour
                 UserManager.Instance.UnlockAchievement(CommonResources.Extras(CommonResources.Building.EbuTalib), 250);
         }
         
-        Debug.Log("Success: " + success);
+        Invoke("Back", 2);
     }
 }
