@@ -3,17 +3,17 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
 using UnityEngine.SceneManagement;
+using Debug = System.Diagnostics.Debug;
+
 public class BuildingManager : MonoBehaviour
 {
     public Sprite UnderConstruction;
     public SpriteRenderer Background;
     public GameObject Board;
 
-
     private BoardHandler _boardHandler;
     private Building[] _buildings;
-    
-    
+
     private void Awake()
     {
         _buildings = GetComponentsInChildren<Building>();
@@ -47,6 +47,10 @@ public class BuildingManager : MonoBehaviour
             // init case
             if (building.Resource == CommonResources.Building.Kabe)
             {
+                var kabe = gameAchievements.FirstOrDefault(achievement => building.BuildingID == achievement.id);
+                Debug.Assert(kabe != null, "Building kabe is null");
+                if (!kabe.completed)
+                    UserManager.Instance.UnlockAchievement(building.BuildingID, 100);                           
                 building.Achieved = true;
                 continue;
             }

@@ -347,21 +347,20 @@ public class CommonResources : MonoBehaviour
     {
         switch (building)
         {
-            case Building.Kabe:          return Kabe;
+            case Building.Kabe: return Kabe;
             case Building.Abdulmuttalib: return Abdulmuttalib;
-            case Building.HzMuhammed:    return HzMuhammed;
-            case Building.DarulErkam:    return DarulErkam;
-            case Building.Hamza:         return Hamza;
-            case Building.Omer:          return Omer;
-            case Building.Ebubekir:      return Ebubekir;
-            case Building.Hatice:        return Hatice;
-            case Building.EbuTalib:      return EbuTalib;
-            case Building.Muhacir:       return Muhacir;
+            case Building.HzMuhammed: return HzMuhammed;
+            case Building.DarulErkam: return DarulErkam;
+            case Building.Hamza: return Hamza;
+            case Building.Omer: return Omer;
+            case Building.Ebubekir: return Ebubekir;
+            case Building.Hatice: return Hatice;
+            case Building.EbuTalib: return EbuTalib;
+            case Building.Muhacir: return Muhacir;
             default:
                 throw new ArgumentOutOfRangeException("building", building, null);
         }
     }
-
 
     public static string Levels(int level)
     {
@@ -424,9 +423,9 @@ public class CommonResources : MonoBehaviour
         switch (building)
         {
             case Building.Abdulmuttalib: return Muhafiz;
-            case Building.DarulErkam:    return Alim;
-            case Building.EbuTalib:      return Okcubasi;
-            case Building.Omer:          return Ustad;
+            case Building.DarulErkam: return Alim;
+            case Building.EbuTalib: return Okcubasi;
+            case Building.Omer: return Ustad;
             default:
                 throw new ArgumentOutOfRangeException("building", building, null);
         }
@@ -441,101 +440,142 @@ public class CommonResources : MonoBehaviour
     {
         switch (achievementId)
         {
-            case Kabe:          return true;
+            case Kabe: return true;
             case Abdulmuttalib: return true;
-            case HzMuhammed:    return true;
-            case DarulErkam:    return true;
-            case Hamza:         return true;
-            case Omer:          return true;
-            case Ebubekir:      return true;
-            case Hatice:        return true;
-            case EbuTalib:      return true;
-            default:            return false;
+            case HzMuhammed: return true;
+            case DarulErkam: return true;
+            case Hamza: return true;
+            case Omer: return true;
+            case Ebubekir: return true;
+            case Hatice: return true;
+            case EbuTalib: return true;
+            default: return false;
         }
+    }
+
+    public static List<string> AllAchievements()
+    {
+        var allAchievements = new List<string>
+        {
+            Kabe,
+            Abdulmuttalib,
+            HzMuhammed,
+            DarulErkam,
+            Hamza,
+            Omer,
+            Ebubekir,
+            Hatice,
+            EbuTalib,
+            Muhafiz,
+            Alim,
+            Okcubasi,
+            Ustad,
+            MEKKE_MUHAFIZLARI,
+            ILIM_AVCILARI,
+            CENGAVERLER,
+            KAHRAMANLAR,
+            PEYGAMBER_DOSTLARI,
+            Kasif,
+            Kasif_2,
+            Kasif_3,
+            Kasif_4,
+            Kasif_5,
+            Talebe,
+            Talebe_2,
+            Talebe_3,
+            Talebe_4,
+            Kemankes,
+            Kemankes_2,
+            Kemankes_3,
+            Muallim,
+            Muallim_2,
+            Muhacir
+        };
+
+        return allAchievements;
     }
 
     public static BadgeManager.Badge ToBadge(string id)
     {
         switch (id)
         {
-            case Kabe:               return BadgeManager.Badge.Kabe;
-            case Abdulmuttalib:      return BadgeManager.Badge.Abdulmuttalib;
-            case HzMuhammed:         return BadgeManager.Badge.HzMuhammed;
-            case DarulErkam:         return BadgeManager.Badge.DarulErkam;
-            case Hamza:              return BadgeManager.Badge.Hamza;
-            case Omer:               return BadgeManager.Badge.Omer;
-            case Ebubekir:           return BadgeManager.Badge.Ebubekir;
-            case Hatice:             return BadgeManager.Badge.Hatice;
-            case EbuTalib:           return BadgeManager.Badge.EbuTalib;
-            case Muhafiz:            return BadgeManager.Badge.Muhafiz;
-            case Alim:               return BadgeManager.Badge.Alim;
-            case Okcubasi:           return BadgeManager.Badge.Okcubasi;
-            case Ustad:              return BadgeManager.Badge.Ustad;
-            case MEKKE_MUHAFIZLARI:  return BadgeManager.Badge.MEKKE_MUHAFIZLARI;
-            case ILIM_AVCILARI:      return BadgeManager.Badge.ILIM_AVCILARI;
-            case CENGAVERLER:        return BadgeManager.Badge.CENGAVERLER;
-            case KAHRAMANLAR:        return BadgeManager.Badge.KAHRAMANLAR;
+            case Kabe: return BadgeManager.Badge.Kabe;
+            case Abdulmuttalib: return BadgeManager.Badge.Abdulmuttalib;
+            case HzMuhammed: return BadgeManager.Badge.HzMuhammed;
+            case DarulErkam: return BadgeManager.Badge.DarulErkam;
+            case Hamza: return BadgeManager.Badge.Hamza;
+            case Omer: return BadgeManager.Badge.Omer;
+            case Ebubekir: return BadgeManager.Badge.Ebubekir;
+            case Hatice: return BadgeManager.Badge.Hatice;
+            case EbuTalib: return BadgeManager.Badge.EbuTalib;
+            case Muhafiz: return BadgeManager.Badge.Muhafiz;
+            case Alim: return BadgeManager.Badge.Alim;
+            case Okcubasi: return BadgeManager.Badge.Okcubasi;
+            case Ustad: return BadgeManager.Badge.Ustad;
+            case MEKKE_MUHAFIZLARI: return BadgeManager.Badge.MEKKE_MUHAFIZLARI;
+            case ILIM_AVCILARI: return BadgeManager.Badge.ILIM_AVCILARI;
+            case CENGAVERLER: return BadgeManager.Badge.CENGAVERLER;
+            case KAHRAMANLAR: return BadgeManager.Badge.KAHRAMANLAR;
             case PEYGAMBER_DOSTLARI: return BadgeManager.Badge.PEYGAMBER_DOSTLARI;
-            case Kasif:              
-            case Kasif_2:            
-            case Kasif_3:            
-            case Kasif_4:            
-            case Kasif_5:            return BadgeManager.Badge.Kasif;
-            case Talebe:            
-            case Talebe_2:          
-            case Talebe_3:          
-            case Talebe_4:           return BadgeManager.Badge.Talebe;
-            case Kemankes:           
-            case Kemankes_2:         
-            case Kemankes_3:         return BadgeManager.Badge.Kemankes;
-            case Muallim:            
-            case Muallim_2:          return BadgeManager.Badge.Muallim;
-            case Muhacir:            return BadgeManager.Badge.Muhacir;
+            case Kasif:
+            case Kasif_2:
+            case Kasif_3:
+            case Kasif_4:
+            case Kasif_5: return BadgeManager.Badge.Kasif;
+            case Talebe:
+            case Talebe_2:
+            case Talebe_3:
+            case Talebe_4: return BadgeManager.Badge.Talebe;
+            case Kemankes:
+            case Kemankes_2:
+            case Kemankes_3: return BadgeManager.Badge.Kemankes;
+            case Muallim:
+            case Muallim_2: return BadgeManager.Badge.Muallim;
+            case Muhacir: return BadgeManager.Badge.Muhacir;
             default:
                 throw new ArgumentOutOfRangeException(id + " id is not known");
         }
-
     }
+
     public static string TitleOf(string id)
     {
         switch (id)
         {
-            case Kabe:               return "Kabe";
-            case Abdulmuttalib:      return "Abdulmuttalib";
-            case HzMuhammed:         return "HzMuhammed";
-            case DarulErkam:         return "DarulErkam";
-            case Hamza:              return "Hamza";
-            case Omer:               return "Omer";
-            case Ebubekir:           return "Ebubekir";
-            case Hatice:             return "Hatice";
-            case EbuTalib:           return "EbuTalib";
-            case Muhafiz:            return "Muhafiz";
-            case Alim:               return "Alim";
-            case Okcubasi:           return "Okcubasi";
-            case Ustad:              return "Ustad";
-            case MEKKE_MUHAFIZLARI:  return "MEKKE_MUHAFIZLARI";
-            case ILIM_AVCILARI:      return "ILIM_AVCILARI";
-            case CENGAVERLER:        return "CENGAVERLER";
-            case KAHRAMANLAR:        return "KAHRAMANLAR";
+            case Kabe: return "Kabe";
+            case Abdulmuttalib: return "Abdulmuttalib";
+            case HzMuhammed: return "HzMuhammed";
+            case DarulErkam: return "DarulErkam";
+            case Hamza: return "Hamza";
+            case Omer: return "Omer";
+            case Ebubekir: return "Ebubekir";
+            case Hatice: return "Hatice";
+            case EbuTalib: return "EbuTalib";
+            case Muhafiz: return "Muhafiz";
+            case Alim: return "Alim";
+            case Okcubasi: return "Okcubasi";
+            case Ustad: return "Ustad";
+            case MEKKE_MUHAFIZLARI: return "MEKKE_MUHAFIZLARI";
+            case ILIM_AVCILARI: return "ILIM_AVCILARI";
+            case CENGAVERLER: return "CENGAVERLER";
+            case KAHRAMANLAR: return "KAHRAMANLAR";
             case PEYGAMBER_DOSTLARI: return "PEYGAMBER_DOSTLARI";
-            case Kasif:              
-            case Kasif_2:            
-            case Kasif_3:            
-            case Kasif_4:            
-            case Kasif_5:            return "Kasif";
-            case Talebe:            
-            case Talebe_2:          
-            case Talebe_3:          
-            case Talebe_4:           return "Talebe";
-            case Kemankes:           
-            case Kemankes_2:         
-            case Kemankes_3:         return "Kemankes";
-            case Muallim:            
-            case Muallim_2:          return "Muallim";
-            case Muhacir:            return "Muhacir";
+            case Kasif:
+            case Kasif_2:
+            case Kasif_3:
+            case Kasif_4:
+            case Kasif_5: return "Kasif";
+            case Talebe:
+            case Talebe_2:
+            case Talebe_3:
+            case Talebe_4: return "Talebe";
+            case Kemankes:
+            case Kemankes_2:
+            case Kemankes_3: return "Kemankes";
+            case Muallim:
+            case Muallim_2: return "Muallim";
+            case Muhacir: return "Muhacir";
             default:
                 throw new ArgumentOutOfRangeException(id + " id is not known");
         }
-
     }
 }

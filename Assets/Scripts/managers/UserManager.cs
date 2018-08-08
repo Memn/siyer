@@ -81,18 +81,15 @@ public class UserManager : MonoBehaviour
 
     public void UnlockAchievement(string id, int score)
     {
+#if UNITY_EDITOR
+        var achievement = _game.AchievementOf(id) as AchievementDto;
+        System.Diagnostics.Debug.Assert(achievement != null, "achievement != null");
+        achievement.percentCompleted = 100;
+        achievement.completed = true;
+        _game.UnlockedAchievement(achievement);
+        ReportScore(score);
+#else
         var achievement = _game.AchievementOf(id);
-        if (achievement == null)
-        {
-            // no store connection yet!
-            achievement = Social.CreateAchievement();
-            achievement.id = id;
-            achievement.percentCompleted = 100;
-            _game.UnlockedAchievement(achievement);
-            ReportScore(score);
-            return;
-        }
-
         achievement.percentCompleted = 100;
         achievement.ReportProgress(success =>
         {
@@ -102,25 +99,23 @@ public class UserManager : MonoBehaviour
                 ReportScore(score);
                 CheckLevelUp();
             }
-
             Debug.Log(id + " unlocked successfully or not: " + success);
         });
+#endif
     }
 
     internal static void ReportScore(int score)
     {
         Game.ReportScore(score);
+#if !UNITY_EDITOR
         Social.ReportScore(score, SiyerResources.leaderboard_genel, scoreSuccess =>
         {
             if (!scoreSuccess)
             {
-#if !UNITY_ANDROID && !UNITY_EDITOR
-            var tmp_leaderboard = Social.CreateLeaderboard();
-            tmp_leaderboard.id = SiyerResources.leaderboard_genel;  
-            ReportScore(score);
-#endif
+                Debug.Log("Error, when reporting score!");
             }
         });
+#endif
     }
 
     public static void SyncUserLater(float time)

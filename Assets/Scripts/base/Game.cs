@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,7 +13,8 @@ public class Game
     // For persistence of the game 
     // a copy of user object
 
-    private GameData _gameData = new GameData();
+    private GameData _gameData;
+
 
     // User
     public string UserName
@@ -76,7 +78,8 @@ public class Game
     public static Game Load()
     {
         Debug.Log(("Checking " + Util.SaveFilePath + " for saves."));
-        if (!File.Exists(Util.SaveFilePath)) return new Game();
+        if (!File.Exists(Util.SaveFilePath))
+            return new Game {_gameData = new GameData {Achievements = InitAllAchievements()}};
 
         var file = File.Open(Util.SaveFilePath, FileMode.Open);
         var reader = XmlDictionaryReader.CreateTextReader(file, new XmlDictionaryReaderQuotas());
@@ -87,7 +90,20 @@ public class Game
         reader.Close();
         file.Close();
         Debug.Log(gameData == null ? "Game loading failed" : "Game Loaded Successfully");
-        return gameData == null ? new Game() : new Game {_gameData = gameData};
+        return gameData == null
+            ? new Game {_gameData = new GameData {Achievements = InitAllAchievements()}}
+            : new Game {_gameData = gameData};
+    }
+
+    private static List<AchievementDto> InitAllAchievements()
+    {
+        return CommonResources.AllAchievements().Select(id =>
+        {
+            var achievement = Social.CreateAchievement();
+            achievement.id = id;
+            achievement.percentCompleted = 0;
+            return new AchievementDto(achievement);
+        }).ToList();
     }
 
     public void UnlockedAchievement(IAchievement achievement)
