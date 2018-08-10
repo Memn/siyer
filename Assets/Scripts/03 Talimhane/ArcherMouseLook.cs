@@ -21,7 +21,6 @@ public class ArcherMouseLook : MonoBehaviour
     {
         set
         {
-//            Debug.Log("Hold value changed to: " + value);
             _holding = value;
         }
     }

@@ -40,7 +40,7 @@ public class ElvenArrowBody : MonoBehaviour
                 transform.parent.GetComponent<ElvenArrow>().HitStraw();
                 break;
             default:
-                Debug.LogError("Unknown target name!" + other.name);
+                LogUtil.Error("Unknown target name!" + other.name);
                 break;
         }
     }

@@ -84,7 +84,12 @@ public class QuestionManager : MonoBehaviour
         else
             Congrats.ShowFail(2);
 
-        if (++_answeredCount != _questions.Count) return;
+        if (++_answeredCount != _questions.Count)
+        {
+            Invoke("Next", 3);
+            return;
+        }
+
         EndOfGame(_score >= 6);
     }
 
@@ -92,13 +97,22 @@ public class QuestionManager : MonoBehaviour
     {
         if (success)
         {
-            var timer = Time.time - _start;
-            UserManager.Reward(CommonResources.Building.Omer, (int) (_score * 50 - (timer / 10)));
+            var duties = CommonResources.DutyOf(UserManager.Game.Level);
+            var reward = duties.Find(duty => duty.Building == CommonResources.Building.Omer).Reward;
+            
+            if (!UserManager.Game.IsAchieved(reward))
+            {
+                var timer = Time.time - _start;
+                UserManager.Reward(CommonResources.Building.Omer, (int) (_score * 50 - (timer / 10)));
+            }
+
             // Bonus
-            if (_score > 8)
-                UserManager.Instance.UnlockAchievement(CommonResources.Extras(CommonResources.Building.Omer), 250);
+            var bonus = CommonResources.Extras(CommonResources.Building.Omer);
+            if (_score > 8 && !UserManager.Game.IsAchieved(bonus))
+                UserManager.Instance.UnlockAchievement(bonus, 250);
         }
-        Invoke("Back", 2);
+
+        Invoke("Back", 3);
     }
 
     public void Back()

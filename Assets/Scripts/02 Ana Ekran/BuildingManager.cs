@@ -1,9 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
-using UnityEngine.SceneManagement;
-using Debug = System.Diagnostics.Debug;
 
 public class BuildingManager : MonoBehaviour
 {
@@ -40,22 +37,19 @@ public class BuildingManager : MonoBehaviour
         Background.color = Color.white;
     }
 
-    public void LockingAdjustments(IAchievement[] gameAchievements)
+    public void LockingAdjustments()
     {
         foreach (var building in _buildings)
         {
             // init case
             if (building.Resource == CommonResources.Building.Kabe)
             {
-                var kabe = gameAchievements.FirstOrDefault(achievement => building.BuildingID == achievement.id);
-                Debug.Assert(kabe != null, "Building kabe is null");
-                if (!kabe.completed)
-                    UserManager.Instance.UnlockAchievement(building.BuildingID, 100);                           
+                UserManager.Instance.UnlockAchievement(building.BuildingID, 100);
                 building.Achieved = true;
                 continue;
             }
 
-            var first = gameAchievements.FirstOrDefault(achievement => building.BuildingID == achievement.id);
+            var first = UserManager.Game.AchievementOf(building.BuildingID);
             var completed = first != null && first.completed;
             building.Achieved = completed;
             building.GetComponent<SpriteRenderer>().sprite = completed ? building.ActualPhoto : UnderConstruction;

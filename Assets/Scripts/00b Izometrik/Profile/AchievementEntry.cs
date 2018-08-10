@@ -9,7 +9,9 @@ public class AchievementEntry : MonoBehaviour
 {
     public Image AchievementPic;
     public Text AchievementName;
-    public Text Completion;
+    public Image Completion;
+    public Sprite Completed;
+    public Sprite NotCompleted;
 
     public void Init(IAchievement achievement)
     {
@@ -22,7 +24,17 @@ public class AchievementEntry : MonoBehaviour
         }
 
         AchievementName.text = badgeManager.TitleOf(achievement.id);
-        Completion.text = achievement.completed.ToString();
+        if (achievement.completed)
+        {
+            Completion.sprite = Completed;
+            Completion.color = Color.green;
+        }
+        else
+        {
+            Completion.sprite = NotCompleted;
+            Completion.color = Color.red;
+        }
+
         if (achievement.completed)
         {
             AchievementPic.color = Color.white;

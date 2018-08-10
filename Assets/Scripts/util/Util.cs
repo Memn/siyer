@@ -35,6 +35,7 @@ public class Util : MonoBehaviour
 
     public static IEnumerator DownloadFile(string id, string saveTo)
     {
+        LogUtil.Log("Downloading file from Google drive with id:" + id);
         using (var www = new WWW(UrlForGoogleId(id)))
         {
             yield return www;

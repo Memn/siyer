@@ -56,7 +56,7 @@ public class ZoomController : MonoBehaviour
                 if (!_camera.orthographic) return;
                 // ... change the orthographic size based on the change in distance between the touches.
                 _camera.orthographicSize += deltaMagnitudeDiff * _orthoZoomSpeed;
-                Debug.Log("Ortho changed to:" + _camera.orthographicSize);
+                LogUtil.Log("Ortho changed to:" + _camera.orthographicSize);
 //                _camera.orthographicSize = Mathf.Max(_camera.orthographicSize, _orthoMinSize);
                 _camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize, _orthoMinSize, _orthoMaxSize);
 

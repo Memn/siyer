@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Debug = System.Diagnostics.Debug;
 
 public class LevelManager : MonoBehaviour
 {
@@ -20,16 +21,17 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         _game = UserManager.Game;
-        BuildingManager.LockingAdjustments(_game.Achievements);
-        UserManager.CheckLevelUp();
+        UserManager.Instance.UnlockAchievement(CommonResources.Levels(1), 100);
+        BuildingManager.LockingAdjustments();
+        UserManager.CheckLevelUp(true);
     }
 
     public void ShowLevelQuestsInfo()
     {
         Util.ClearChildren(LevelQuestObjectParent.transform);
         Level.text = CommonResources.LevelsText(UserManager.Game.Level);
-        var levelQuests = UserManager.GetCurrentLevelAchievementCompletions();
-        
+        var levelQuests = UserManager.Game.CurrentLevelAchievementCompletions;
+
         foreach (var levelQuest in levelQuests)
         {
             var memberObj = Instantiate(LevelQuestPrefab, Vector3.zero, Quaternion.identity);
@@ -43,6 +45,5 @@ public class LevelManager : MonoBehaviour
 
         ShowLevelQuestsInfoButton.SetActive(false);
         LevelQuestsInfoScreen.SetActive(true);
-        
     }
 }

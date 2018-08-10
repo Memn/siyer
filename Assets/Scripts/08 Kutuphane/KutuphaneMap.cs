@@ -95,7 +95,7 @@ public class KutuphaneMap : MonoBehaviour
     public void Help()
     {
         var hint = _words.First();
-        Debug.Log(hint);
+        LogUtil.Log(hint);
         if (hint.Length > _givenHint)
             Controller.Hint(hint[_givenHint++]);
     }

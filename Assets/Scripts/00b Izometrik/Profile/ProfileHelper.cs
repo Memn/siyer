@@ -30,7 +30,7 @@ public class ProfileHelper : MonoBehaviour, LoadableHelper
         ProfileName.text = Social.localUser.userName;
         ProfilePic.sprite = FindObjectOfType<BadgeManager>().SpriteOf(CommonResources.Levels(UserManager.Game.Level));
 
-        var achievements = UserManager.Game.Achievements;
+        var achievements = UserManager.Game.Achievements.ToArray();
         var completed = achievements.Count(achievement => achievement.completed);
         Achievements.text = string.Format("{0}/{1}", completed, achievements.Length);
         Score.text = UserManager.Game.Score.ToString();
@@ -80,7 +80,7 @@ public class ProfileHelper : MonoBehaviour, LoadableHelper
         }
         else
         {
-            Debug.Log("Loading " + tab.name);
+            LogUtil.Log("Loading " + tab.name);
         }
     }
 }

@@ -2,7 +2,6 @@
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 #endif
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -24,35 +23,23 @@ public class UserManager : MonoBehaviour
 
     public void Init()
     {
-        _game = Game.Load();
+        _game = GameSaveLoadHelper.Load();
         // Load Quests if not have
         if (!File.Exists(Util.QuestsFile))
+        {
+            LogUtil.Log("Quests File is missing trying to download...");
             StartCoroutine(Util.DownloadFile(Util.QuestsReference, Util.QuestsFile));
-
+        }
+        
 #if UNITY_ANDROID && !UNITY_EDITOR
-        Debug.Log("Play Games Activation started");
+        LogUtil.Log("Play Games Activation started");
         var config = new PlayGamesClientConfiguration.Builder().Build();
         PlayGamesPlatform.InitializeInstance(config);
         PlayGamesPlatform.Activate();
-        PlayGamesPlatform.DebugLogEnabled = true;
+        PlayGamesPlatform.DebugLogEnabled = LogUtil.Debugging;
 #endif
-        Social.localUser.Authenticate(success =>
-        {
-            Debug.Log(!success
-                ? "Failed to authenticate, continuing with local save."
-                : "Authenticated, checking achievements to sync with local");
 
-            if (!success) return;
-            _game.Sync(Social.localUser);
-            Social.LoadAchievements(achievements =>
-            {
-                if (achievements.Length == 0)
-                    Debug.Log("Error: no achievements found");
-                else
-                    _game.Sync(achievements);
-            });
-        });
-        Debug.Log("Game Init is completed..");
+        Social.localUser.Authenticate(success => GameSocialHelper.SyncUser(_game, success));
     }
 
     private void Awake()
@@ -60,74 +47,59 @@ public class UserManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public static IEnumerable<KeyValuePair<bool, string>> GetCurrentLevelAchievementCompletions()
-    {
-        return Game.LevelDuties.Select(duty => new KeyValuePair<bool, string>(Game.IsAchieved(duty.Reward), duty.Title))
-            .ToList();
-    }
-
     internal static void Reward(CommonResources.Building building, int score)
     {
-        var duties = CommonResources.DutyOf(Game.Level);
-        var reward = duties.Find(duty => duty.Building == building).Reward;
-        if (reward == null)
-        {
-            Debug.Log("Reward not specified.");
-            return;
-        }
-
+        var reward = Game.RewardOf(building);
+        System.Diagnostics.Debug.Assert(reward != null, "reward != null");
         Instance.UnlockAchievement(reward, score);
     }
 
     public void UnlockAchievement(string id, int score)
     {
-#if UNITY_EDITOR
         var achievement = _game.AchievementOf(id) as AchievementDto;
         System.Diagnostics.Debug.Assert(achievement != null, "achievement != null");
+        if (achievement.completed) return;
         achievement.percentCompleted = 100;
+        LogUtil.Log(id + " unlocking...");
+#if UNITY_EDITOR
         achievement.completed = true;
-        _game.UnlockedAchievement(achievement);
+        GameSocialHelper.Unlock(_game, achievement);
         ReportScore(score);
 #else
-        var achievement = _game.AchievementOf(id);
-        achievement.percentCompleted = 100;
+        LogUtil.Log(id + " reporting unlock ");
         achievement.ReportProgress(success =>
         {
             if (success)
-            {
-                _game.UnlockedAchievement(achievement);
+            {          
+                GameSocialHelper.Unlock(_game, achievement);
                 ReportScore(score);
-                CheckLevelUp();
+                CheckLevelUp(true);
             }
-            Debug.Log(id + " unlocked successfully or not: " + success);
+            LogUtil.Log(id + " unlocked successfully or not: " + success);
         });
 #endif
     }
 
     internal static void ReportScore(int score)
     {
-        Game.ReportScore(score);
+        GameSocialHelper.ReportScore(Game, score);
 #if !UNITY_EDITOR
         Social.ReportScore(score, SiyerResources.leaderboard_genel, scoreSuccess =>
         {
             if (!scoreSuccess)
             {
-                Debug.Log("Error, when reporting score!");
+                LogUtil.Log("Error, when reporting score!");
             }
         });
 #endif
     }
 
-    public static void SyncUserLater(float time)
+    public static void CheckLevelUp(bool save)
     {
-        Instance.Invoke("Sync", time);
-    }
-
-    public static void CheckLevelUp()
-    {
-        var levelQuests = GetCurrentLevelAchievementCompletions();
-        if (levelQuests.All(pair => pair.Key))
-            LevelUp();
+        if (!Game.CurrentLevelAchievementCompletions.All(achievementCompletions => achievementCompletions.Key)) return;
+        LevelUp();
+        if (save)
+            GameSaveLoadHelper.Save(Game);
     }
 
     private static void LevelUp()
@@ -139,15 +111,9 @@ public class UserManager : MonoBehaviour
         Instance.Invoke("CheckLocks", 0.8f);
     }
 
-    // ReSharper disable once MemberCanBeMadeStatic.Local
     public void CheckLocks()
     {
         if (FindObjectOfType<BuildingManager>())
-            FindObjectOfType<BuildingManager>().LockingAdjustments(Game.Achievements);
-    }
-
-    private void Sync()
-    {
-        _game.Sync(Social.localUser);
+            FindObjectOfType<BuildingManager>().LockingAdjustments();
     }
 }
