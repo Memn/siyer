@@ -5,6 +5,8 @@ using System.IO;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
+using UnityScript.Steps;
 
 public class Util : MonoBehaviour
 {
@@ -33,11 +35,13 @@ public class Util : MonoBehaviour
 
     public static readonly string SaveFilePath = Path.Combine(Application.persistentDataPath, "game.data");
 
-    public static IEnumerator DownloadFile(string id, string saveTo)
+    public static IEnumerator DownloadFile(string id, string saveTo, UnityAction<WWW> action = null)
     {
         LogUtil.Log("Downloading file from Google drive with id:" + id);
         using (var www = new WWW(UrlForGoogleId(id)))
         {
+            if (action != null)
+                action(www);
             yield return www;
             File.WriteAllBytes(saveTo, www.bytes);
         }
@@ -76,7 +80,7 @@ public class Util : MonoBehaviour
         }
     }
 
-    private static string UrlForGoogleId(string id)
+    public static string UrlForGoogleId(string id)
     {
         return "https://docs.google.com/uc?export=download&id=" + id;
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using JetBrains.Annotations;
@@ -126,7 +127,7 @@ public class QuestsController : MonoBehaviour
         else
             Back();
     }
-    
+
     [UsedImplicitly]
     public void Back()
     {
@@ -167,6 +168,9 @@ public class QuestsController : MonoBehaviour
             DownloadScreen.SetActive(true);
     }
 
+    public Text DownloadPercentage;
+    private readonly Dictionary<Quest, float> _downloadPercentages = new Dictionary<Quest, float>();
+
     [UsedImplicitly]
     public void Download()
     {
@@ -176,11 +180,24 @@ public class QuestsController : MonoBehaviour
         {
             if (!quest.VideoClipAvailable)
             {
-                StartCoroutine(Util.DownloadFile(quest.Url, quest.VideoLocation));
+                StartCoroutine(Util.DownloadFile(quest.Url, quest.VideoLocation, www =>
+                {
+                    _downloadPercentages.Add(quest, 0f);
+                    StartCoroutine(Progress(www, quest));
+                }));
             }
-
             return true;
         });
+    }
+
+    private IEnumerator Progress(WWW www, Quest quest)
+    {
+        while (www != null && !www.isDone)
+        {
+            _downloadPercentages[quest] = www.progress;
+            DownloadPercentage.text = _downloadPercentages.Values.Average().ToString("F1") + " %";
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
     private IEnumerator CheckDownloadEnd()
