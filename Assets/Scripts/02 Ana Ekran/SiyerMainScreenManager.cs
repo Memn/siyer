@@ -41,9 +41,9 @@ public class SiyerMainScreenManager : MonoBehaviour
     [UsedImplicitly]
     public void Back()
     {
-        SceneManagementUtil.Load(SceneManagementUtil.Scenes.Izometrik);
-        if (!FindObjectOfType<MusicManager>()) return;
+        if (FindObjectOfType<MusicManager>()) 
             FindObjectOfType<MusicManager>().GetComponent<AudioSource>().Stop();
+        SceneManagementUtil.Load(SceneManagementUtil.Scenes.Izometrik);
     }
 
     private void HandleTouchOn(GameObject transformGameObject)
