@@ -559,20 +559,20 @@ public class CommonResources : MonoBehaviour
             case CENGAVERLER: return "CENGAVERLER";
             case KAHRAMANLAR: return "KAHRAMANLAR";
             case PEYGAMBER_DOSTLARI: return "PEYGAMBER_DOSTLARI";
-            case Kasif:
-            case Kasif_2:
-            case Kasif_3:
-            case Kasif_4:
-            case Kasif_5: return "Kasif";
-            case Talebe:
-            case Talebe_2:
-            case Talebe_3:
-            case Talebe_4: return "Talebe";
-            case Kemankes:
-            case Kemankes_2:
-            case Kemankes_3: return "Kemankes";
-            case Muallim:
-            case Muallim_2: return "Muallim";
+            case Kasif:   return "Kasif 1";
+            case Kasif_2: return "Kasif 2";
+            case Kasif_3: return "Kasif 3";
+            case Kasif_4: return "Kasif 4";
+            case Kasif_5: return "Kasif 5";
+            case Talebe: return "Talebe 1";
+            case Talebe_2: return "Talebe 2";
+            case Talebe_3: return "Talebe 3";
+            case Talebe_4: return "Talebe 4";
+            case Kemankes:return "Kemankes 1";
+            case Kemankes_2:return "Kemankes 2";
+            case Kemankes_3: return "Kemankes 3";
+            case Muallim: return "Muallim 1";
+            case Muallim_2: return "Muallim 2";
             case Muhacir: return "Muhacir";
             default:
                 throw new ArgumentOutOfRangeException(id + " id is not known");
