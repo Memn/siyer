@@ -15,6 +15,7 @@ public class QuestsController : MonoBehaviour
 
     private Quest[] Quests;
     public CongratsUtil Congrats;
+    public GameObject WarningScreen;
 
     [SerializeField] private Button _nextButton;
     [SerializeField] private Button _previousButton;
@@ -114,6 +115,18 @@ public class QuestsController : MonoBehaviour
         _questButton.SetActive(Quests[_questIndex].IsQuestionActive);
     }
 
+    [UsedImplicitly]
+    public void ConditionalBack()
+    {
+        if (!Quests.All(quest => quest.Completed))
+        {
+            WarningScreen.SetActive(true);
+            _videoHandler.Pause();
+        }
+        else
+            Back();
+    }
+    
     [UsedImplicitly]
     public void Back()
     {
