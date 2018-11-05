@@ -49,12 +49,12 @@ public class Game
         get { return _gameData.Achievements.FindAll(dto => CommonResources.IsBuilding(dto.id)); }
     }
 
-    public IEnumerable<KeyValuePair<bool, string>> CurrentLevelAchievementCompletions
+    public IEnumerable<KeyValuePair<bool, CommonResources.Duty>> CurrentLevelAchievementCompletions
     {
         get
         {
             var duties = CommonResources.DutyOf(Level);
-            return duties.Select(duty => new KeyValuePair<bool, string>(IsAchieved(duty.Reward), duty.Title));
+            return duties.Select(duty => new KeyValuePair<bool, CommonResources.Duty>(IsAchieved(duty.Reward), duty));
         }
     }
 

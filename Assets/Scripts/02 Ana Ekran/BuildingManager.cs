@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ public class BuildingManager : MonoBehaviour
     public Sprite UnderConstruction;
     public SpriteRenderer Background;
     public GameObject Board;
+    public GameObject Sign;
 
     private BoardHandler _boardHandler;
     private Building[] _buildings;
@@ -54,6 +56,31 @@ public class BuildingManager : MonoBehaviour
             building.Achieved = completed;
             building.GetComponent<SpriteRenderer>().sprite = completed ? building.ActualPhoto : UnderConstruction;
             building.GetComponent<SpriteRenderer>().color = completed ? Color.white : Color.gray;
+        }
+        AddSign(UserManager.Game.CurrentLevelAchievementCompletions);
+    }
+
+    private void AddSign(IEnumerable<KeyValuePair<bool, CommonResources.Duty>> currentDuties)
+    {
+        const string isaretciName = "Isaretci";
+        foreach (var build in _buildings)
+           foreach (Transform child in build.transform)
+               if(child.gameObject.name == isaretciName)
+                   Destroy(child.gameObject);
+        var leftDuty = currentDuties.First(pair => !pair.Key).Value;
+        var building = _buildings.First(b => b.Resource == leftDuty.Building);
+        var memberObj = Instantiate(Sign, Vector3.zero, Quaternion.identity);
+        memberObj.name = isaretciName;
+        memberObj.transform.SetParent(building.transform);
+        if (building.Resource == CommonResources.Building.Kabe)
+        {
+            memberObj.transform.localScale = Vector3.one * 5;
+            memberObj.transform.localPosition = new Vector3(1, 4, 0);                        
+        }
+        else
+        {
+            memberObj.transform.localScale = Vector3.one * 15;
+            memberObj.transform.localPosition = new Vector3(5, 10, 0);            
         }
     }
 }

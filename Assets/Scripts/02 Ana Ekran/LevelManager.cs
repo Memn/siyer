@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Debug = System.Diagnostics.Debug;
@@ -22,8 +24,8 @@ public class LevelManager : MonoBehaviour
     {
         _game = UserManager.Game;
         UserManager.Instance.UnlockAchievement(CommonResources.Levels(1), 100);
-        BuildingManager.LockingAdjustments();
         UserManager.CheckLevelUp(true);
+        BuildingManager.LockingAdjustments();
     }
 
     public void ShowLevelQuestsInfo()
@@ -32,12 +34,13 @@ public class LevelManager : MonoBehaviour
         Level.text = CommonResources.LevelsText(UserManager.Game.Level);
         var levelQuests = UserManager.Game.CurrentLevelAchievementCompletions;
 
+        var list = new List<CommonResources.Duty>();
         foreach (var levelQuest in levelQuests)
         {
             var memberObj = Instantiate(LevelQuestPrefab, Vector3.zero, Quaternion.identity);
             memberObj.transform.SetParent(LevelQuestObjectParent.transform);
             memberObj.transform.localScale = Vector3.one;
-            memberObj.GetComponentInChildren<Text>().text = levelQuest.Value;
+            memberObj.GetComponentInChildren<Text>().text = levelQuest.Value.Title;
             var image = memberObj.GetComponentInChildren<Image>();
             image.sprite = levelQuest.Key ? _completed : _notCompleted;
             image.color = levelQuest.Key ? Color.green : Color.red;
