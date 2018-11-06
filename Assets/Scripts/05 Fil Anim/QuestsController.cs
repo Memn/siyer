@@ -169,7 +169,7 @@ public class QuestsController : MonoBehaviour
     }
 
     public Text DownloadPercentage;
-    private readonly Dictionary<Quest, float> _downloadPercentages = new Dictionary<Quest, float>();
+    private readonly Dictionary<Quest, int> _downloadPercentages = new Dictionary<Quest, int>();
 
     [UsedImplicitly]
     public void Download()
@@ -182,22 +182,40 @@ public class QuestsController : MonoBehaviour
             {
                 StartCoroutine(Util.DownloadFile(quest.Url, quest.VideoLocation, www =>
                 {
-                    _downloadPercentages.Add(quest, 0f);
+                    _downloadPercentages.Add(quest, 0);
                     StartCoroutine(Progress(www, quest));
                 }));
             }
+
             return true;
         });
     }
 
     private IEnumerator Progress(WWW www, Quest quest)
     {
-        while (www != null && !www.isDone)
+        var done = false;
+        while (!done)
         {
-            _downloadPercentages[quest] = www.progress;
-            DownloadPercentage.text = _downloadPercentages.Values.Average().ToString("F1") + " %";
+            try
+            {
+                var progress = (int) (www.progress * 100f);
+                UpdateDownloadProgressLabel(quest, progress);
+            }
+            catch (ArgumentNullException e)
+            {
+                UpdateDownloadProgressLabel(quest, 100);
+                done = true;
+            }
+
             yield return new WaitForSeconds(0.1f);
         }
+    }
+
+    private void UpdateDownloadProgressLabel(Quest quest, int progress)
+    {
+        if (progress <= _downloadPercentages[quest]) return;
+        _downloadPercentages[quest] = progress;
+        DownloadPercentage.text = (int) _downloadPercentages.Values.Average() + " %";
     }
 
     private IEnumerator CheckDownloadEnd()
