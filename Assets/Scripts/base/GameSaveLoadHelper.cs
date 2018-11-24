@@ -7,30 +7,31 @@ using UnityEngine;
 
 public class GameSaveLoadHelper
 {
-    public static void Save(Game game)
+    public static void Save(Game game, string fileName = "game.data")
     {
-        LogUtil.Log("Trying to save to: " + Util.SaveFilePath);
+        var saveFilePath = Path.Combine(Application.persistentDataPath, fileName);
+        LogUtil.Log("Trying to save to: " + saveFilePath);
         var ds = new DataContractSerializer(typeof(GameData));
-        var file = File.Open(Util.SaveFilePath, FileMode.OpenOrCreate);
+        var file = File.Open(saveFilePath, FileMode.OpenOrCreate);
         var writer = XmlDictionaryWriter.CreateTextWriter(file);
         ds.WriteObject(writer, game._gameData);
         writer.Close();
         file.Close();
         LogUtil.Log("Saved successfully.");
-
     }
 
-    public static Game Load()
+    public static Game Load(string fileName = "game.data")
     {
-        LogUtil.Log("Checking " + Util.SaveFilePath + " for saves.");
-        if (!File.Exists(Util.SaveFilePath))
+        var loadFilePath = Path.Combine(Application.persistentDataPath, fileName);
+        LogUtil.Log("Checking " + loadFilePath + " for saves.");
+        if (!File.Exists(loadFilePath))
             return new Game {_gameData = new GameData {Achievements = InitAllAchievements()}};
 
-        var file = File.Open(Util.SaveFilePath, FileMode.Open);
+        var file = File.Open(loadFilePath, FileMode.Open);
         var reader = XmlDictionaryReader.CreateTextReader(file, new XmlDictionaryReaderQuotas());
 
         var ds = new DataContractSerializer(typeof(GameData));
-        LogUtil.Log("Loading game from " + Util.SaveFilePath);
+        LogUtil.Log("Loading game from " + loadFilePath);
         var gameData = ds.ReadObject(reader) as GameData;
         reader.Close();
         file.Close();
@@ -39,7 +40,7 @@ public class GameSaveLoadHelper
             ? new Game {_gameData = new GameData {Achievements = InitAllAchievements()}}
             : new Game {_gameData = gameData};
     }
-    
+
     private static List<AchievementDto> InitAllAchievements()
     {
         return CommonResources.AllAchievements().Select(id =>
@@ -49,5 +50,13 @@ public class GameSaveLoadHelper
             achievement.percentCompleted = 0;
             return new AchievementDto(achievement);
         }).ToList();
+    }
+
+    public static void ClearCache(string fileName = "game.data")
+    {
+        var saveFilePath = Path.Combine(Application.persistentDataPath, fileName);
+        LogUtil.Log("Trying to clear: " + saveFilePath);
+        File.Delete(saveFilePath);
+        LogUtil.Log("Clean successful.");
     }
 }

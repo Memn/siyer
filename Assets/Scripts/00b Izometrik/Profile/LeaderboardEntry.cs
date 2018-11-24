@@ -4,14 +4,19 @@ using UnityEngine.UI;
 
 public class LeaderboardEntry : MonoBehaviour
 {
-    public Image ProfilePic;
     public Text ProfileName;
+    public GameObject Scoring;
     public Text Score;
-    public Text Achievements;
 
-    public void Init(IUserProfile member)
+    public void Init(dreamloLeaderBoard.Score member)
     {
-        ProfilePic.sprite = Util.Texture2Sprite(member.image);
-        ProfileName.text = member.userName;
+        ProfileName.text = member.playerName;
+        Score.text = member.score.ToString();
+    }
+
+    public void Init(string message)
+    {
+        ProfileName.text = message;
+        Scoring.SetActive(false);
     }
 }

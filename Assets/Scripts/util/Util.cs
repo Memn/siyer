@@ -26,14 +26,19 @@ public class Util : MonoBehaviour
             memberObj.transform.localScale = Vector3.one;
         }
     }
+    public static void LoadSingle<T>(GameObject parent, GameObject prefab, T member, UnityAction<GameObject, T> action)
+    {
+            var memberObj = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+            action(memberObj, member);
+            memberObj.transform.SetParent(parent.transform);
+            memberObj.transform.localScale = Vector3.one;
+    }
 
     public static void ClearChildren(Transform parent)
     {
         foreach (Transform child in parent)
             Destroy(child.gameObject);
     }
-
-    public static readonly string SaveFilePath = Path.Combine(Application.persistentDataPath, "game.data");
 
     public static IEnumerator DownloadFile(string id, string saveTo, UnityAction<WWW> action = null)
     {

@@ -1,5 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using GooglePlayGames;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
 public class ProfileHelper : MonoBehaviour, LoadableHelper
@@ -39,6 +43,15 @@ public class ProfileHelper : MonoBehaviour, LoadableHelper
         LeaderboardTabs.Init();
     }
 
+    private enum LeaderboardStates
+    {
+        None,
+        Friends,
+        General
+    }
+
+    private LeaderboardStates _current = LeaderboardStates.None;
+
     public void Load(Selectable tab)
     {
         if (tab.name.Equals("Rozetler"))
@@ -63,24 +76,54 @@ public class ProfileHelper : MonoBehaviour, LoadableHelper
         }
         else if (tab.name.Equals("Friends"))
         {
-            Util.ClearChildren(LeaderboardContainer.transform);
-            Social.localUser.LoadFriends((successful) =>
+            if (_current == LeaderboardStates.Friends)
+                return;
+            _current = LeaderboardStates.Friends;
+            Social.localUser.LoadFriends(successful =>
             {
                 if (successful)
-                {
-                    Util.Load(LeaderboardContainer, LeaderboardEntryPrefab, Social.localUser.friends,
-                              (entry, member) => { entry.GetComponent<LeaderboardEntry>().Init(member); });
-                }
+                    LoadFriends(Social.localUser.friends);
             });
         }
         else if (tab.name.Equals("General"))
         {
-            Util.ClearChildren(LeaderboardContainer.transform);
-            Social.ShowLeaderboardUI();
+            if (_current == LeaderboardStates.General)
+                return;
+            _current = LeaderboardStates.General;
+            LogUtil.Log("Loading all scores.");
+            UserManager.LoadScores(LoadLeaderboard);
         }
         else
         {
             LogUtil.Log("Loading " + tab.name);
         }
+    }
+
+    private void LoadFriends(IEnumerable<IUserProfile> localUserFriends)
+    {
+        LogUtil.Log("Loading friend scores.");
+        UserManager.LoadScores(scores =>
+        {
+            var friendScores =
+                scores.Where(score => localUserFriends.Any(friend => friend.userName == score.playerName));
+            LoadLeaderboard(friendScores);
+        });
+    }
+
+
+    private void LoadLeaderboard(IEnumerable<dreamloLeaderBoard.Score> scores)
+    {
+        Util.ClearChildren(LeaderboardContainer.transform);
+        if (!scores.Any())
+        {
+            Util.LoadSingle(LeaderboardContainer, LeaderboardEntryPrefab, "Gösterilecek kişi bulunamadı",
+                (entry, member) => entry.GetComponent<LeaderboardEntry>().Init(member));
+        }
+        else
+            Util.Load(LeaderboardContainer, LeaderboardEntryPrefab, scores, (entry, member) =>
+            {
+                var leaderboardEntry = entry.GetComponent<LeaderboardEntry>();
+                leaderboardEntry.Init(member);
+            });
     }
 }
