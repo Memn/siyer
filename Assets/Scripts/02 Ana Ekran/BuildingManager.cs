@@ -67,7 +67,10 @@ public class BuildingManager : MonoBehaviour
            foreach (Transform child in build.transform)
                if(child.gameObject.name == isaretciName)
                    Destroy(child.gameObject);
-        var leftDuty = currentDuties.First(pair => !pair.Key).Value;
+        var leftDutyPair = currentDuties.FirstOrDefault(pair => !pair.Key);
+        if (leftDutyPair.Equals(default(KeyValuePair<bool, CommonResources.Duty>))) 
+            return; // if no duty left
+        var leftDuty = leftDutyPair.Value;
         var building = _buildings.First(b => b.Resource == leftDuty.Building);
         var memberObj = Instantiate(Sign, Vector3.zero, Quaternion.identity);
         memberObj.name = isaretciName;
