@@ -28,7 +28,7 @@ public class GameSocialHelper
             // save old user
             GameSaveLoadHelper.Save(game, game.UserName + ".data");
             // clear cache
-            GameSaveLoadHelper.ClearCache();
+            Util.ClearCache("game.data");
             // if user exists loads user data, if not loads Game from scratch.
             game = GameSaveLoadHelper.Load(game.UserName + ".data");
             _save = true;

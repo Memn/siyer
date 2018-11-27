@@ -52,11 +52,4 @@ public class GameSaveLoadHelper
         }).ToList();
     }
 
-    public static void ClearCache(string fileName = "game.data")
-    {
-        var saveFilePath = Path.Combine(Application.persistentDataPath, fileName);
-        LogUtil.Log("Trying to clear: " + saveFilePath);
-        File.Delete(saveFilePath);
-        LogUtil.Log("Clean successful.");
-    }
 }
