@@ -99,6 +99,7 @@ public class QuestsController : MonoBehaviour
 
     internal void SaveQuest()
     {
+        LogUtil.Log(string.Format("Saving quest: {0}", Quests[_questIndex]));
         Util.SaveQuest(Quests[_questIndex], _questIndex);
     }
 
@@ -180,11 +181,15 @@ public class QuestsController : MonoBehaviour
         {
             if (!quest.VideoClipAvailable)
             {
-                StartCoroutine(Util.DownloadFile(quest.Url, quest.VideoLocation, www =>
-                {
-                    _downloadPercentages.Add(quest, 0);
-                    StartCoroutine(Progress(www, quest));
-                }));
+                StartCoroutine(Util.DownloadFile(quest.Url,
+                    callback => File.WriteAllBytes(quest.VideoLocation, callback.bytes),
+                    progress =>
+                    {
+                        _downloadPercentages.Add(quest, 0);
+                        StartCoroutine(Progress(progress, quest));
+                    },
+                    error => DownloadError()
+                ));
             }
 
             return true;
@@ -225,7 +230,18 @@ public class QuestsController : MonoBehaviour
 
         foreach (Transform child in DownloadScreen.transform)
             if (child.name == "Info")
-                child.GetComponent<Text>().text = "Indirme islemi bitti";
+                child.GetComponent<Text>().text = "İndirme işlemi bitti";
+            else if (child.name == "Loading")
+                child.gameObject.SetActive(false);
+            else if (child.name == "Close")
+                child.gameObject.SetActive(true);
+    }
+
+    private void DownloadError()
+    {
+        foreach (Transform child in DownloadScreen.transform)
+            if (child.name == "Info")
+                child.GetComponent<Text>().text = "İnternet bağlantınızı kontrol ediniz!";
             else if (child.name == "Loading")
                 child.gameObject.SetActive(false);
             else if (child.name == "Close")

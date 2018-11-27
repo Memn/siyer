@@ -34,7 +34,17 @@ public class UserManager : MonoBehaviour
         if (!File.Exists(Util.QuestsFile))
         {
             LogUtil.Log("Quests File is missing trying to download...");
-            StartCoroutine(Util.DownloadFile(Util.QuestsReference, Util.QuestsFile));
+            StartCoroutine(Util.DownloadFile(Util.QuestsReference, www =>
+            {
+                // Save File
+                File.WriteAllBytes(Util.QuestsFile, www.bytes);
+            }));
+        }
+        else
+        {
+            LogUtil.Log("Checking quests file is sync or not!");
+            Util.LoadQuestsFile();
+            StartCoroutine(Util.DownloadFile(Util.QuestsReference, Util.SyncQuests));
         }
 
 #if UNITY_ANDROID && !UNITY_EDITOR
