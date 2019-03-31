@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 /*
@@ -17,6 +18,7 @@ public class QuestsController : MonoBehaviour
     private Quest[] Quests;
     public CongratsUtil Congrats;
     public GameObject WarningScreen;
+    public GameObject WarningInternal;
 
     [SerializeField] private Button _nextButton;
     [SerializeField] private Button _previousButton;
@@ -129,6 +131,26 @@ public class QuestsController : MonoBehaviour
             Back();
     }
 
+    private UnityAction _proceed;
+
+    public void ConditionalChangeQuest(Quest quest, UnityAction action)
+    {
+        _proceed = action;
+        if (!quest.Completed)
+        {
+            WarningInternal.SetActive(true);
+            _videoHandler.Pause();
+        }
+        else
+            action();
+    }
+
+    [UsedImplicitly]
+    public void Proceed()
+    {
+        _proceed();
+    }
+
     [UsedImplicitly]
     public void Back()
     {
@@ -143,18 +165,24 @@ public class QuestsController : MonoBehaviour
     public void NextQuest()
     {
         CloseQuestion();
-        _videoHandler.Stop();
-        _questIndex++;
-        InitiateQuest();
+        ConditionalChangeQuest(Quests[_questIndex], () =>
+        {
+            _videoHandler.Stop();
+            _questIndex++;
+            InitiateQuest();
+        });
     }
 
     [UsedImplicitly]
     public void PreviousQuest()
     {
         CloseQuestion();
-        _videoHandler.Stop();
-        _questIndex--;
-        InitiateQuest();
+        ConditionalChangeQuest(Quests[_questIndex], () =>
+        {
+            _videoHandler.Stop();
+            _questIndex--;
+            InitiateQuest();
+        });
     }
 
     public void InitiateQuest()
