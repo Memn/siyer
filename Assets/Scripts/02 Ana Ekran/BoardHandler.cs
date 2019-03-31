@@ -10,6 +10,7 @@ public class BoardHandler : MonoBehaviour
 
     private CommonResources.Building _targetScene;
     private Button _go;
+    public GameObject Sign;
 
     private void Awake()
     {
@@ -30,7 +31,6 @@ public class BoardHandler : MonoBehaviour
                 case "Enter":
                     _go = child.GetComponent<Button>();
                     break;
-
             }
         }
     }
@@ -44,7 +44,7 @@ public class BoardHandler : MonoBehaviour
         _info.text = building.Info;
         _targetScene = building.Resource;
         _go.interactable = building.Achieved;
-
+        Sign.SetActive(building.Achieved);
     }
 
     [UsedImplicitly]
