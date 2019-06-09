@@ -12,6 +12,7 @@ using Debug = System.Diagnostics.Debug;
 
 public class UserManager : MonoBehaviour
 {
+    private User _user;
     private Game _game;
     private dreamloLeaderBoard _dreamloLeaderBoard;
     private static UserManager _instance;

@@ -1,14 +1,25 @@
-﻿using JetBrains.Annotations;
+﻿using System.Collections;
+using System.Collections.Generic;
+using JetBrains.Annotations;
+using managers;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SplashScreenManager : MonoBehaviour
 {
     public AudioClip DesertMusic;
     public AudioClip BackgroundClip;
+    public GameObject MergeRequestPanel;
+    public UserSelector UserSelector;
+    private bool _mergeRequestAnswer;
+    private User _selectedUser;
+    private bool _ready = true;
 
     private void Awake()
     {
-        UserManager.Instance.Init();
+        UserManagement.Instance.Init(callback => StartCoroutine(UserMergeSelection(callback)),
+            (users, callback) => StartCoroutine(SelectUser(users, callback))
+        );
         if (FindObjectOfType<DesertMusicManager>())
             return;
         var component = new GameObject("DesertMusicManager").AddComponent<AudioSource>();
@@ -18,7 +29,7 @@ public class SplashScreenManager : MonoBehaviour
         component.volume = 0.4f;
         component.Play();
         DontDestroyOnLoad(component.gameObject);
-        
+
         var musicManager = new GameObject("MusicManager").AddComponent<AudioSource>();
         musicManager.gameObject.AddComponent<MusicManager>();
         musicManager.clip = BackgroundClip;
@@ -28,9 +39,45 @@ public class SplashScreenManager : MonoBehaviour
         DontDestroyOnLoad(musicManager.gameObject);
     }
 
-    [UsedImplicitly]
-    public void LoadMainMenu()
+    private IEnumerator SelectUser(List<User> users, UnityAction<User> callback)
     {
+        _ready = false;
+        UserSelector.Open(users, SelectionCompleted(users));
+        yield return new WaitUntil(() => !UserSelector.IsOpen);
+        _ready = true;
+        callback(_selectedUser);
+    }
+
+    private UnityAction<string> SelectionCompleted(List<User> users)
+    {
+        return id =>
+        {
+            _selectedUser = users.Find(user => user._id.Equals(id));
+            UserSelector.Close();
+        };
+    }
+
+
+    private IEnumerator UserMergeSelection(UnityAction<bool> callback)
+    {
+        _ready = false;
+        MergeRequestPanel.SetActive(true);
+        yield return new WaitUntil(() => !MergeRequestPanel.activeSelf);
+        _ready = true;
+        callback(_mergeRequestAnswer);
+    }
+
+    [UsedImplicitly]
+    public void AnswerMergeRequest(bool answer)
+    {
+        _mergeRequestAnswer = answer;
+        MergeRequestPanel.SetActive(false);
+    }
+
+    [UsedImplicitly]
+    public IEnumerator LoadMainMenu()
+    {
+        yield return new WaitUntil(() => _ready);
         SceneManagementUtil.Load(SceneManagementUtil.Scenes.Izometrik);
     }
 }
