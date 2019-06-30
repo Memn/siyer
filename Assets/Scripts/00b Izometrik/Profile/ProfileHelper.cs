@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using GooglePlayGames;
 using managers;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
@@ -105,7 +103,7 @@ public class ProfileHelper : MonoBehaviour, LoadableHelper
     }
 
 
-    private void LoadLeaderboard(IEnumerable<dreamloLeaderBoard.Score> scores)
+    private void LoadLeaderboard(IEnumerable<User> scores)
     {
         Util.ClearChildren(LeaderboardContainer.transform);
         if (!scores.Any())

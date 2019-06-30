@@ -8,10 +8,10 @@ public class LeaderboardEntry : MonoBehaviour
     public GameObject Scoring;
     public Text Score;
 
-    public void Init(dreamloLeaderBoard.Score member)
+    public void Init(User member)
     {
-        ProfileName.text = member.playerName;
-        Score.text = member.score.ToString();
+        ProfileName.text = member.Username;
+        Score.text = member.Score.ToString();
     }
 
     public void Init(string message)
