@@ -1,4 +1,5 @@
 ﻿using JetBrains.Annotations;
+using managers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -46,7 +47,8 @@ public class MazeManager : MonoBehaviour
             Congrats.GetComponent<CongratsUtil>().ShowSuccess(-1);
             var timerRemaining = Timer.Remaining;
             LogUtil.Log("Success with " + _collected + " collected and remaining time in sec:" + timerRemaining);
-            UserManager.Reward(CommonResources.Building.Abdulmuttalib, (int) (timerRemaining * 4) + _collected * 10);
+            ProgressManager.Instance.Reward(CommonResources.Building.Abdulmuttalib,
+                (int) (timerRemaining * 4) + _collected * 10);
 
             Invoke("Back", 5);
         }

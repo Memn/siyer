@@ -15,8 +15,8 @@ public class UserSelector : MonoBehaviour
         Util.Load(Container, UserPrefab, users, (entry, member) =>
         {
             var usernameField = entry.GetComponentInChildren<Text>();
-            usernameField.text = member._username;
-            entry.GetComponent<Button>().onClick.AddListener(() => callback(member._id));
+            usernameField.text = member.Username;
+            entry.GetComponent<Button>().onClick.AddListener(() => callback(member.Id));
         });
         Panel.SetActive(true);
     }

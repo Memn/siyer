@@ -1,21 +1,15 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
 
-[DataContract(Name = "Achievements")]
+[Serializable]
 public class AchievementDto : IAchievement
 {
-    [DataMember(Name = "id")] private string _id;
-
-    [DataMember(Name = "percentCompleted")]
-    private double _percentCompleted;
-
-    [DataMember(Name = "completed")] private bool _completed;
-    [DataMember(Name = "hidden")] private bool _hidden;
-
-    [DataMember(Name = "lastReportedDate")]
-    private DateTime _lastReportedDate;
+    [SerializeField] private string _id;
+    [SerializeField] private double _percentCompleted;
+    [SerializeField] private bool _completed;
+    [SerializeField] private bool _hidden;
+    [SerializeField] private DateTime _lastReportedDate;
 
     internal AchievementDto(IAchievement achievement)
     {

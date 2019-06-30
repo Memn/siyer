@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using managers;
 using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
@@ -64,7 +65,7 @@ public class Quest : MonoBehaviour
         if (index == Question._answer)
         {
             choice.GetComponent<AnswerHandler>().Right();
-            UserManager.ReportScore(50);
+            ProgressManager.Instance.ReportScore(50);
             FindObjectOfType<QuestsController>().SaveQuest();
         }
         else

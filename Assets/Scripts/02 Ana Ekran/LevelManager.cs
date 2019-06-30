@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using managers;
 using UnityEngine;
 using UnityEngine.UI;
-using Debug = System.Diagnostics.Debug;
 
 public class LevelManager : MonoBehaviour
 {
-    private Game _game;
-
     // 1. Kabe 
     // 2. ..
     public BuildingManager BuildingManager;
@@ -22,17 +18,16 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        _game = UserManager.Game;
-        UserManager.Instance.UnlockAchievement(CommonResources.Levels(1), 100);
-        UserManager.CheckLevelUp(true);
+        ProgressManager.Instance.UnlockAchievement(CommonResources.Levels(1), 100);
+        ProgressManager.Instance.CheckLevelUp(true);
         BuildingManager.LockingAdjustments();
     }
 
     public void ShowLevelQuestsInfo()
     {
         Util.ClearChildren(LevelQuestObjectParent.transform);
-        Level.text = CommonResources.LevelsText(UserManager.Game.Level);
-        var levelQuests = UserManager.Game.CurrentLevelAchievementCompletions;
+        Level.text = CommonResources.LevelsText(ScoreManager.Instance.Level);
+        var levelQuests = AchievementsManager.Instance.CurrentLevelAchievementCompletions;
 
         var list = new List<CommonResources.Duty>();
         foreach (var levelQuest in levelQuests)

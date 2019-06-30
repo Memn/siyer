@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using JetBrains.Annotations;
+using managers;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -86,7 +87,7 @@ public class QuestsController : MonoBehaviour
         // Check achievement Conditions
         if (Quests.All(quest => quest.Completed))
         {
-            UserManager.Instance.UnlockAchievement(CommonResources.IdOf(Reward), 100);
+            ProgressManager.Instance.UnlockAchievement(CommonResources.IdOf(Reward), 100);
             if (_nextButton.interactable) return;
             Invoke("Back", 1.5f);
         }

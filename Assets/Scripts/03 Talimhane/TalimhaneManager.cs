@@ -1,4 +1,5 @@
 ﻿using JetBrains.Annotations;
+using managers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -103,9 +104,9 @@ public class TalimhaneManager : MonoBehaviour
         var success = !(score < 6);
         if (success)
         {
-            UserManager.Reward(CommonResources.Building.EbuTalib, score * 50);
+            ProgressManager.Instance.Reward(CommonResources.Building.EbuTalib, score * 50);
             if (score == 10)
-                UserManager.Instance.UnlockAchievement(CommonResources.Extras(CommonResources.Building.EbuTalib), 250);
+                ProgressManager.Instance.UnlockAchievement(CommonResources.Extras(CommonResources.Building.EbuTalib), 250);
         }
         
         Invoke("Back", 2);

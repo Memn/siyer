@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using JetBrains.Annotations;
+using managers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,7 +24,7 @@ public class KutuphaneManager : MonoBehaviour
     private void Start()
     {
         _map = GetComponent<KutuphaneMap>();
-        _dict = WordUtil.FindDictionaryByLevel(UserManager.Game.Level);
+        _dict = WordUtil.FindDictionaryByLevel(ScoreManager.Instance.Level);
         _enumerator = _dict.GetEnumerator();
         UpdateScore(0);
         StartGame();
@@ -61,7 +62,7 @@ public class KutuphaneManager : MonoBehaviour
         {
             var score = int.Parse(Scoreboard.text);
             LogUtil.Log("Kelimelik success " + score + " remaining time in sec:" + _spentTime);
-            UserManager.Reward(CommonResources.Building.DarulErkam, (int) (score - _spentTime / 10));
+            ProgressManager.Instance.Reward(CommonResources.Building.DarulErkam, (int) (score - _spentTime / 10));
             EndOfLevel();
             return;
         }
@@ -78,7 +79,6 @@ public class KutuphaneManager : MonoBehaviour
         _puzzleScreen.SetActive(true);
         _winScreen.GetComponent<CongratsUtil>().Deactivate();
         _map.StartPuzzle();
-
     }
 
     private bool started;

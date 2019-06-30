@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using JetBrains.Annotations;
+using managers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,7 +24,7 @@ public class QuestionManager : MonoBehaviour
     [UsedImplicitly]
     public void Init()
     {
-        _questions = QuestionRepoHandler.Questions(UserManager.Game.Level);
+        _questions = QuestionRepoHandler.Questions(ScoreManager.Instance.Level);
         CreateAllQuestions();
         _enumerator = 0;
         _answeredCount = 0;
@@ -97,19 +98,19 @@ public class QuestionManager : MonoBehaviour
     {
         if (success)
         {
-            var duties = CommonResources.DutyOf(UserManager.Game.Level);
+            var duties = CommonResources.DutyOf(ScoreManager.Instance.Level);
             var reward = duties.Find(duty => duty.Building == CommonResources.Building.Omer).Reward;
-            
-            if (!UserManager.Game.IsAchieved(reward))
+
+            if (!AchievementsManager.Instance.IsAchieved(reward))
             {
                 var timer = Time.time - _start;
-                UserManager.Reward(CommonResources.Building.Omer, (int) (_score * 50 - (timer / 10)));
+                ProgressManager.Instance.Reward(CommonResources.Building.Omer, (int) (_score * 50 - (timer / 10)));
             }
 
             // Bonus
             var bonus = CommonResources.Extras(CommonResources.Building.Omer);
-            if (_score > 8 && !UserManager.Game.IsAchieved(bonus))
-                UserManager.Instance.UnlockAchievement(bonus, 250);
+            if (_score > 8 && !AchievementsManager.Instance.IsAchieved(bonus))
+                ProgressManager.Instance.UnlockAchievement(bonus, 250);
         }
 
         Invoke("Back", 3);

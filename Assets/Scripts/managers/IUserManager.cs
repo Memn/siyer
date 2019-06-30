@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using managers;
 using UnityEngine.Events;
 
 public interface IUserManager
@@ -12,4 +13,5 @@ public interface IUserManager
 //    void SyncUser();
 //    void ReportScore();
 //    void UnlockAchievement();
+    void Save();
 }

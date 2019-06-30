@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GooglePlayGames;
+using managers;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
@@ -32,12 +33,12 @@ public class ProfileHelper : MonoBehaviour, LoadableHelper
     public void LoadUser()
     {
         ProfileName.text = Social.localUser.userName;
-        ProfilePic.sprite = FindObjectOfType<BadgeManager>().SpriteOf(CommonResources.Levels(UserManager.Game.Level));
+        ProfilePic.sprite = FindObjectOfType<BadgeManager>().SpriteOf(CommonResources.Levels(ScoreManager.Instance.Level));
 
-        var achievements = UserManager.Game.Achievements.ToArray();
+        var achievements = AchievementsManager.Instance.Achievements.ToArray();
         var completed = achievements.Count(achievement => achievement.completed);
         Achievements.text = string.Format("{0}/{1}", completed, achievements.Length);
-        Score.text = UserManager.Game.Score.ToString();
+        Score.text = ScoreManager.Instance.Score.ToString();
 
         AchievementsTabs.Init();
         LeaderboardTabs.Init();
@@ -56,7 +57,7 @@ public class ProfileHelper : MonoBehaviour, LoadableHelper
     {
         if (tab.name.Equals("Rozetler"))
         {
-            var badges = UserManager.Game.Badges;
+            var badges = AchievementsManager.Instance.Badges;
             Util.ClearChildren(AchievementsContainer.transform);
             Util.Load(AchievementsContainer, AchievementsEntryPrefab, badges, (entry, member) =>
             {
@@ -66,7 +67,7 @@ public class ProfileHelper : MonoBehaviour, LoadableHelper
         }
         else if (tab.name.Equals("Binalar"))
         {
-            var buildings = UserManager.Game.Buildings;
+            var buildings = AchievementsManager.Instance.Buildings;
             Util.ClearChildren(AchievementsContainer.transform);
             Util.Load(AchievementsContainer, AchievementsEntryPrefab, buildings, (entry, member) =>
             {
@@ -91,7 +92,6 @@ public class ProfileHelper : MonoBehaviour, LoadableHelper
                 return;
             _current = LeaderboardStates.General;
             LogUtil.Log("Loading all scores.");
-            UserManager.LoadScores(LoadLeaderboard);
         }
         else
         {
@@ -102,12 +102,6 @@ public class ProfileHelper : MonoBehaviour, LoadableHelper
     private void LoadFriends(IEnumerable<IUserProfile> localUserFriends)
     {
         LogUtil.Log("Loading friend scores.");
-        UserManager.LoadScores(scores =>
-        {
-            var friendScores =
-                scores.Where(score => localUserFriends.Any(friend => friend.userName == score.playerName));
-            LoadLeaderboard(friendScores);
-        });
     }
 
 

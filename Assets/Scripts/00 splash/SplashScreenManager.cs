@@ -17,9 +17,6 @@ public class SplashScreenManager : MonoBehaviour
 
     private void Awake()
     {
-        UserManagement.Instance.Init(callback => StartCoroutine(UserMergeSelection(callback)),
-            (users, callback) => StartCoroutine(SelectUser(users, callback))
-        );
         if (FindObjectOfType<DesertMusicManager>())
             return;
         var component = new GameObject("DesertMusicManager").AddComponent<AudioSource>();
@@ -39,6 +36,13 @@ public class SplashScreenManager : MonoBehaviour
         DontDestroyOnLoad(musicManager.gameObject);
     }
 
+    public void Init()
+    {
+        UserManagement.Instance.Init(callback => StartCoroutine(UserMergeSelection(callback)),
+            (users, callback) => StartCoroutine(SelectUser(users, callback))
+        );
+    }
+
     private IEnumerator SelectUser(List<User> users, UnityAction<User> callback)
     {
         _ready = false;
@@ -52,7 +56,7 @@ public class SplashScreenManager : MonoBehaviour
     {
         return id =>
         {
-            _selectedUser = users.Find(user => user._id.Equals(id));
+            _selectedUser = users.Find(user => user.Id.Equals(id));
             UserSelector.Close();
         };
     }

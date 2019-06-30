@@ -12,12 +12,24 @@ namespace managers
     public class UserManagement : MonoBehaviour, IUserManager
     {
         private static UserManagement _this;
-        private User _user;
+        public User User;
         private UserDb _userDb;
 
         public static UserManagement Instance
         {
-            get { return _this ? _this : (_this = new GameObject("UserManagement").AddComponent<UserManagement>()); }
+            get
+            {
+                if (_this)
+                    return _this;
+                else
+                {
+                    var obj = new GameObject("UserManagement");
+                    obj.AddComponent<ScoreManager>();
+                    obj.AddComponent<AchievementsManager>();
+                    obj.AddComponent<ProgressManager>();
+                    return _this = obj.AddComponent<UserManagement>();
+                }
+            }
         }
 
         private void Awake()
@@ -31,20 +43,20 @@ namespace managers
             _userDb = new UserDb();
             Login(loginSuccessful =>
             {
-                if (false)
+                if (loginSuccessful)
                 {
                     var localUserId = Social.localUser.id;
                     var localUserUserName = Social.localUser.userName;
                     if (_userDb.exists(localUserId))
-                        _user = _userDb.getDataById(Social.localUser.id);
+                        User = _userDb.getDataById(Social.localUser.id);
                     else
                     {
                         shouldMerge(should =>
                         {
                             if (should)
-                                _user = _userDb.merge(localUserId, localUserUserName);
+                                User = _userDb.merge(localUserId, localUserUserName);
                             else
-                                _user = _userDb.CreateUser(new User(localUserId, localUserUserName));
+                                User = _userDb.CreateUser(new User(localUserId, localUserUserName));
                         });
                     }
                 }
@@ -52,9 +64,9 @@ namespace managers
                 {
                     var users = _userDb.currentUsers();
                     if (users.Count == 0)
-                        _user = _userDb.CreateUser(new User());
+                        User = _userDb.CreateUser(new User());
                     else
-                        selectUser(users, selection => _user = selection);
+                        selectUser(users, selection => User = selection);
                 }
             });
         }
@@ -71,5 +83,11 @@ namespace managers
 
             Social.localUser.Authenticate(result => callback(result));
         }
+
+        public void Save()
+        {
+            _userDb.update(User);
+        }
+
     }
 }

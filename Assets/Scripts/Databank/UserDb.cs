@@ -39,11 +39,11 @@ public class UserDb : SqliteHelper<User>
                                            + KEY_ACHIEVEMENTS + ", "
                                            + KEY_LEVEL + " ) "
                                            + "VALUES ( '"
-                                           + user._id + "', '"
-                                           + user._username + "', '"
-                                           + user._score + "', '"
-                                           + user._achievements + "', '"
-                                           + user._level + "' )";
+                                           + user.Id + "', '"
+                                           + user.Username + "', '"
+                                           + user.Score + "', '"
+                                           + user.DbAchievements + "', '"
+                                           + user.Level + "' )";
         dbcmd.ExecuteNonQuery();
         return user;
     }
@@ -75,6 +75,7 @@ public class UserDb : SqliteHelper<User>
             reader[0].ToString(),
             reader[1].ToString(),
             int.Parse(reader[2].ToString()),
+            reader[3].ToString(),
             int.Parse(reader[4].ToString())
         );
     }
@@ -91,8 +92,7 @@ public class UserDb : SqliteHelper<User>
 
     public User CreateUser(User user)
     {
-        addData(user);
-        return user;
+        return addData(user);
     }
 
     public User merge(string userId, string username)
@@ -106,6 +106,21 @@ public class UserDb : SqliteHelper<User>
                                       + " WHERE " + KEY_ID + " = 'guest'";
         dbcmd.ExecuteNonQuery();
         return getDataById(userId);
+    }
+
+    public User update(User user)
+    {
+        Debug.Log("merging with guest.");
+        var dbcmd = getDbCommand();
+        dbcmd.CommandText = "UPDATE " + TABLE_NAME
+                                      + " SET "
+                                      + KEY_USERNAME + " = '" + user.Username + "',"
+                                      + KEY_SCORE + " = '" + user.Score + "',"
+                                      + KEY_ACHIEVEMENTS + " = '" + user.DbAchievements + "',"
+                                      + KEY_LEVEL + " = '" + user.Level + "'"
+                                      + " WHERE " + KEY_ID + " = '" + user.Id + "'";
+        dbcmd.ExecuteNonQuery();
+        return getDataById(user.Id);
     }
 
     public bool exists(string id)

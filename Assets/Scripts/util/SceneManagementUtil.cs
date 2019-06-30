@@ -1,4 +1,5 @@
 ﻿using System;
+using managers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -36,7 +37,7 @@ public class SceneManagementUtil : MonoBehaviour
     {
         if (scene.buildIndex == (int) Scenes.AnaEkran)
         {
-            UserManager.Instance.CheckLocks();
+            AchievementsManager.Instance.CheckLocks();
         }
     }
 
