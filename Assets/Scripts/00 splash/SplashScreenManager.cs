@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using JetBrains.Annotations;
 using managers;
 using UnityEngine;
@@ -14,9 +15,28 @@ public class SplashScreenManager : MonoBehaviour
     private bool _mergeRequestAnswer;
     private User _selectedUser;
     private bool _ready = true;
+    private UserDb _userDb;
 
     private void Awake()
     {
+        _userDb = new UserDb();
+        
+        if (!File.Exists(Util.QuestsFile))
+        {
+            LogUtil.Log("Quests File is missing trying to download...");
+            StartCoroutine(Util.DownloadFile(Util.QuestsReference, www =>
+            {
+                // Save File
+                File.WriteAllBytes(Util.QuestsFile, www.bytes);
+            }));
+        }
+        else
+        {
+            LogUtil.Log("Checking quests file is sync or not!");
+            Util.LoadQuestsFile();
+            StartCoroutine(Util.DownloadFile(Util.QuestsReference, Util.SyncQuests));
+        }
+
         if (FindObjectOfType<DesertMusicManager>())
             return;
         var component = new GameObject("DesertMusicManager").AddComponent<AudioSource>();
@@ -38,9 +58,15 @@ public class SplashScreenManager : MonoBehaviour
 
     public void Init()
     {
+        StartCoroutine(WaitDBInit());
+    }
+
+    private IEnumerator WaitDBInit()
+    {
+        yield return new WaitUntil(() => _userDb != null);
         UserManagement.Instance.Init(callback => StartCoroutine(UserMergeSelection(callback)),
             (users, callback) => StartCoroutine(SelectUser(users, callback))
-        );
+        );        
     }
 
     private IEnumerator SelectUser(List<User> users, UnityAction<User> callback)

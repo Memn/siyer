@@ -51,13 +51,20 @@ namespace managers
                         User = _userDb.getDataById(Social.localUser.id);
                     else
                     {
-                        shouldMerge(should =>
+                        if (_userDb.exists("guest"))
                         {
-                            if (should)
-                                User = _userDb.merge(localUserId, localUserUserName);
-                            else
-                                User = _userDb.CreateUser(new User(localUserId, localUserUserName));
-                        });
+                            shouldMerge(should =>
+                            {
+                                if (should)
+                                    User = _userDb.merge(localUserId, localUserUserName);
+                                else
+                                    User = _userDb.CreateUser(new User(localUserId, localUserUserName));
+                            });
+                        }
+                        else
+                        {
+                            User = _userDb.CreateUser(new User(localUserId, localUserUserName));
+                        }
                     }
                 }
                 else
@@ -88,6 +95,5 @@ namespace managers
         {
             _userDb.update(User);
         }
-
     }
 }

@@ -2,12 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Text;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
-using UnityScript.Steps;
 
 public class Util : MonoBehaviour
 {
@@ -213,7 +211,7 @@ public class Util : MonoBehaviour
 
     public static void SyncQuests(WWW www)
     {
-        var json = System.Text.Encoding.UTF8.GetString(www.bytes).Trim();
+        var json = Encoding.UTF8.GetString(www.bytes).Trim();
         var qw = JsonUtility.FromJson<QuestsWrapper>(json);
         if (_qw.Sync(qw))
         {
